@@ -86,4 +86,35 @@ $ yarn run format
 
 #Generates and/or modifies files based on a schematic
 $ nest g resource resource-name
+
+#ORM
+# 1. typeOrm
+# $ yarn add @nestjs/typeorm typeorm mysql2
+
+# 2. prisma
+$ yarn add prisma --save-dev
+$ yarn prisma init
+$ yarn prisma migrate dev --name init
+
+# 타입스크립트 경로 읽기 위한 패키지
+$ yarn add tsconfig-paths
+
+# Schema validation
+# config에 추가한 환경변수가 유효한지 체크하는 모듈
+$ yarn add class-validator class-transformer joi
+
+# .env 내용물 사용
+$ yarn add @nestjs/config
+
+# env 파일 읽기
+$ yarn add dotenv
+
+# jwt
+$ yarn add @nestjs/jwt
+
+# swagger
+$ yarn add @nestjs/swagger
+
+# swagger 보안
+$ yarn add express-basic-auth
 ```
