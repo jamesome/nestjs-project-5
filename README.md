@@ -89,12 +89,12 @@ $ nest g resource resource-name
 
 #ORM
 # 1. typeOrm
-# $ yarn add @nestjs/typeorm typeorm mysql2
+$ yarn add @nestjs/typeorm typeorm mysql2
 
 # 2. prisma
-$ yarn add prisma --save-dev
-$ yarn prisma init
-$ yarn prisma migrate dev --name init
+# $ yarn add prisma --save-dev
+# $ yarn prisma init
+# $ yarn prisma migrate dev --name init
 
 # 타입스크립트 경로 읽기 위한 패키지
 $ yarn add tsconfig-paths
