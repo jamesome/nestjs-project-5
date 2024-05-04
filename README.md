@@ -117,4 +117,7 @@ $ yarn add @nestjs/swagger
 
 # swagger 보안
 $ yarn add express-basic-auth
+
+#국제화
+$ yarn i nestjs-i18n
 ```
