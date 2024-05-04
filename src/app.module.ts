@@ -4,10 +4,21 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
+import { WarehouseModule } from './modules/warehouse/warehouse.module';
+import Joi from 'joi';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }), // 전역에서 env 사용가능
+    ConfigModule.forRoot({
+      isGlobal: true, // 전역에서 env 사용가능
+      validationSchema: Joi.object({
+        DATABASE_HOST: Joi.string().required(),
+        DATABASE_PORT: Joi.number().required(),
+        DATABASE_USERNAME: Joi.string().required(),
+        DATABASE_PASSWORD: Joi.string().required(),
+        DATABASE_NAME: Joi.string().required(),
+      }),
+    }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
       // imports: [ConfigModule.forRoot()],
@@ -25,6 +36,7 @@ import { TypeOrmConfigService } from './config/typeorm.config';
       // }),
       // inject: [ConfigService],
     }),
+    WarehouseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -120,4 +120,7 @@ $ yarn add express-basic-auth
 
 #국제화
 $ yarn i nestjs-i18n
+
+# ts-node
+# TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
 ```
