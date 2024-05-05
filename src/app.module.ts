@@ -1,11 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { WarehouseModule } from './modules/warehouse/warehouse.module';
 import Joi from 'joi';
+import {
+  AcceptLanguageResolver,
+  HeaderResolver,
+  I18nModule,
+  QueryResolver,
+} from 'nestjs-i18n';
+import path, { join } from 'path';
 
 @Module({
   imports: [
@@ -23,6 +30,7 @@ import Joi from 'joi';
         DATABASE_USERNAME: Joi.string().required(),
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
+        FALLBACK_LANGUAGE: Joi.string().required(),
       }),
       validationOptions: {
         abortEarly: false,
@@ -44,6 +52,28 @@ import Joi from 'joi';
       //   logging: true,
       // }),
       // inject: [ConfigService],
+    }),
+    I18nModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
+        loaderOptions: {
+          path: join(__dirname, '/i18n/'),
+          watch: true,
+        },
+        // typesOutputPath: path.join(
+        //   __dirname,
+        //   '../src/generated/i18n.generated.ts',
+        // ),
+      }),
+      resolvers: [
+        {
+          use: QueryResolver,
+          options: ['lang'],
+        },
+        AcceptLanguageResolver,
+        new HeaderResolver(['x-lang']),
+      ],
+      inject: [ConfigService],
     }),
     WarehouseModule,
   ],

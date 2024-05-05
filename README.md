@@ -112,7 +112,7 @@ $ yarn add @nestjs/swagger
 # swagger 보안
 $ yarn add express-basic-auth
 
-# .env 내용물 사용
+# .env 사용
 $ yarn add @nestjs/config
 
 # env 파일 읽기
