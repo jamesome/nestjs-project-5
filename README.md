@@ -103,6 +103,9 @@ $ yarn add tsconfig-paths
 # config에 추가한 환경변수가 유효한지 체크하는 모듈
 $ yarn add class-validator class-transformer joi
 
+#HMR
+$ yarn add webpack-node-externals run-script-webpack-plugin webpack
+
 # .env 내용물 사용
 $ yarn add @nestjs/config
 

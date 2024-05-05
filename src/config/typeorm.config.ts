@@ -17,7 +17,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       retryAttempts: 2, // DB connection 시도 횟수
       synchronize: false, // 서버가 구동될 떄, 테이블 자동생성
       logging: true,
-      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true, // 스키마 동기화. 테이블을 Drop 하고 Create 하는 방식. 데이터 보존 불가(develop환경에서만 사용!)
       // migrations: ['src/database/migrations/*.ts'],
       // migrations: [__dirname + '/../**/migrations/*.{.ts,.js}'],
