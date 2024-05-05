@@ -121,6 +121,9 @@ $ yarn add dotenv
 #국제화
 $ yarn i nestjs-i18n
 
+#Log
+$ yarn add nest-winston winston winston-daily-rotate-file
+
 # jwt
 $ yarn add @nestjs/jwt
 
