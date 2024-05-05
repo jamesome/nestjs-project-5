@@ -12,12 +12,21 @@ import Joi from 'joi';
     ConfigModule.forRoot({
       isGlobal: true, // 전역에서 env 사용가능
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string().valid(
+          'development',
+          'production',
+          'test',
+          'staging',
+        ),
         DATABASE_HOST: Joi.string().required(),
         DATABASE_PORT: Joi.number().required(),
         DATABASE_USERNAME: Joi.string().required(),
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
       }),
+      validationOptions: {
+        abortEarly: false,
+      },
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
