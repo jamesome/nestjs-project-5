@@ -12,7 +12,7 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import path, { join } from 'path';
+import { join } from 'path';
 
 @Module({
   imports: [
