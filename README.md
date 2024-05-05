@@ -106,23 +106,23 @@ $ yarn add class-validator class-transformer joi
 #HMR
 $ yarn add webpack-node-externals run-script-webpack-plugin webpack
 
-# .env 내용물 사용
-$ yarn add @nestjs/config
-
-# env 파일 읽기
-$ yarn add dotenv
-
-# jwt
-$ yarn add @nestjs/jwt
-
 # swagger
 $ yarn add @nestjs/swagger
 
 # swagger 보안
 $ yarn add express-basic-auth
 
+# .env 내용물 사용
+$ yarn add @nestjs/config
+
+# env 파일 읽기
+$ yarn add dotenv
+
 #국제화
 $ yarn i nestjs-i18n
+
+# jwt
+$ yarn add @nestjs/jwt
 
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
