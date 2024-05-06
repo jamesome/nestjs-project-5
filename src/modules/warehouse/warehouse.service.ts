@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -25,8 +25,10 @@ export class WarehouseService {
     return await this.warehouseRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} warehouse`;
+  async findOne(id: number) {
+    return await this.warehouseRepository.findOne({
+      where: { id },
+    });
   }
 
   update(id: number, updateWarehouseDto: UpdateWarehouseDto) {
