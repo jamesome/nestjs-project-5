@@ -12,7 +12,7 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import { join } from 'path';
+import path, { join } from 'path';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 @Module({
@@ -61,10 +61,10 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
           path: join(__dirname, '/i18n/'),
           watch: true,
         },
-        // typesOutputPath: path.join(
-        //   __dirname,
-        //   '../src/generated/i18n.generated.ts',
-        // ),
+        typesOutputPath: path.join(
+          __dirname,
+          '../src/generated/i18n.generated.ts',
+        ),
       }),
       resolvers: [
         {
