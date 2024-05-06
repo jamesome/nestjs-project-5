@@ -14,7 +14,7 @@ export class EmptyResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         if (data === undefined || data === null) {
-          throw new HttpException('Not', HttpStatus.NOT_FOUND);
+          throw new HttpException('Not', HttpStatus.NO_CONTENT);
         }
 
         return data;
