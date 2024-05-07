@@ -36,8 +36,8 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         FALLBACK_LANGUAGE: Joi.string().required(),
-        THROTTLER_TTL: Joi.number().required(),
-        THROTTLER_LIMIT: Joi.number().required(),
+        THROTTLE_TTL: Joi.number().required(),
+        THROTTLE_LIMIT: Joi.number().required(),
       }),
       validationOptions: {
         abortEarly: false,

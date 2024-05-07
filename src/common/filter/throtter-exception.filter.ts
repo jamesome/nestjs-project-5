@@ -10,6 +10,7 @@ export class ThrottlerExceptionFilter {
       exception instanceof ThrottlerException ? exception.getStatus() : 500;
 
     response.status(status).json({
+      statusCode: status,
       message:
         exception instanceof ThrottlerException
           ? exception.message
