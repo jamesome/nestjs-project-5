@@ -121,6 +121,12 @@ $ yarn add dotenv
 #국제화
 $ yarn i nestjs-i18n
 
+#View Template
+$ yarn i hbs
+
+# Rate Limiting
+$ yarn add @nestjs/throttler
+
 #Log
 $ yarn add nest-winston winston winston-daily-rotate-file
 
