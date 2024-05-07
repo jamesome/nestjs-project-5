@@ -127,6 +127,9 @@ $ yarn i hbs
 # Rate Limiting
 $ yarn add @nestjs/throttler
 
+# compression
+$ yarn add compression
+
 #Log
 $ yarn add nest-winston winston winston-daily-rotate-file
 

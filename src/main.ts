@@ -7,6 +7,7 @@ import { EmptyResponseInterceptor } from './common/interceptor/empty-response.in
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { VersioningType } from '@nestjs/common';
+import * as compression from 'compression';
 declare const module: any;
 
 async function bootstrap() {
@@ -29,6 +30,9 @@ async function bootstrap() {
 
   // Versioning
   app.enableVersioning({ type: VersioningType.URI });
+
+  // Compression => 왜 안되지??
+  // app.use(compression());
 
   // Swagger
   const config = new DocumentBuilder()
