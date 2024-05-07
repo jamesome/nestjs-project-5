@@ -16,7 +16,8 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 
 @Module({
   imports: [
@@ -104,7 +105,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: CustomThrottlerGuard,
     },
   ],
 })
