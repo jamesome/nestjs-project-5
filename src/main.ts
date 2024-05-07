@@ -6,6 +6,7 @@ import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.fil
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { VersioningType } from '@nestjs/common';
 declare const module: any;
 
 async function bootstrap() {
@@ -25,6 +26,9 @@ async function bootstrap() {
 
   // View
   app.setViewEngine('hbs');
+
+  // Versioning
+  app.enableVersioning({ type: VersioningType.URI });
 
   // Swagger
   const config = new DocumentBuilder()
