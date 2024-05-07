@@ -2,10 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
 declare const module: any;
 
 async function bootstrap() {
