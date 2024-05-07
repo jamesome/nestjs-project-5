@@ -14,9 +14,13 @@ import {
 } from 'nestjs-i18n';
 import path, { join } from 'path';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerConfigService } from './config/throttler.config';
 
 @Module({
   imports: [
+    // 환경변수 유효성 검사
     ConfigModule.forRoot({
       isGlobal: true, // 전역에서 env 사용가능
       validationSchema: Joi.object({
@@ -32,10 +36,25 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         FALLBACK_LANGUAGE: Joi.string().required(),
+        THROTTLER_TTL: Joi.number().required(),
+        THROTTLER_LIMIT: Joi.number().required(),
       }),
       validationOptions: {
         abortEarly: false,
       },
+    }),
+    // Rate Limiting
+    ThrottlerModule.forRootAsync({
+      useClass: ThrottlerConfigService,
+      // imports: [ConfigModule],
+      // inject: [ConfigService],
+      // useFactory: (configService: ConfigService) => [
+      //   {
+      //     // ttl초동안 최대 요청 개수 limit개로 제한
+      //     ttl: configService.get<number>('THROTTLER_TTL'),
+      //     limit: configService.get<number>('THROTTLER_LIMIT'),
+      //   },
+      // ],
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
@@ -54,6 +73,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
       // }),
       // inject: [ConfigService],
     }),
+    // 국제화
     I18nModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
@@ -76,10 +96,17 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
       ],
       inject: [ConfigService],
     }),
+    // 추가 모듈들
     WarehouseModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

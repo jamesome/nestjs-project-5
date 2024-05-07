@@ -5,6 +5,7 @@ import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
 declare const module: any;
 
 async function bootstrap() {
@@ -16,6 +17,7 @@ async function bootstrap() {
 
   // Filter
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new ThrottlerExceptionFilter());
 
   // Public
   app.useStaticAssets(join(__dirname, '../src/public'));
