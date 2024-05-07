@@ -1,10 +1,14 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import path, { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
+import { ThrottlerConfigService } from './config/throttler.config';
 import { WarehouseModule } from './modules/warehouse/warehouse.module';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import Joi from 'joi';
 import {
   AcceptLanguageResolver,
@@ -12,11 +16,7 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import path, { join } from 'path';
-import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerConfigService } from './config/throttler.config';
 
 @Module({
   imports: [
