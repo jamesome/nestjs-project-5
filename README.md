@@ -127,6 +127,9 @@ $ yarn add nest-winston winston winston-daily-rotate-file
 # jwt
 $ yarn add @nestjs/jwt
 
+# template engine
+$ yarn add hbs
+
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
 ```
