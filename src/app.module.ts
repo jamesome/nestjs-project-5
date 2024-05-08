@@ -24,10 +24,15 @@ import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-thr
     // 환경변수 유효성 검사
     ConfigModule.forRoot({
       isGlobal: true, // 전역에서 env 사용가능
+      envFilePath:
+        process.env.NODE_ENV === 'development'
+          ? '.env.development'
+          : '.env.production',
       validationSchema: Joi.object({
         NODE_ENV: Joi.string().valid(
           'development',
           'production',
+          'local',
           'test',
           'staging',
         ),

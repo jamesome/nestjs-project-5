@@ -118,6 +118,9 @@ $ yarn add @nestjs/config
 # env 파일 읽기
 $ yarn add dotenv
 
+# .env 환경에 따라 cross
+$ yarn add cross-env
+
 #국제화
 $ yarn i nestjs-i18n
 
