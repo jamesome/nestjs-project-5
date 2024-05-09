@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import path, { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
-import { ThrottlerConfigService } from './config/throttler.config';
+import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
 import { WarehouseModule } from './modules/warehouse/warehouse.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import Joi from 'joi';
@@ -18,7 +19,6 @@ import {
 } from 'nestjs-i18n';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
-import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
 
 @Module({
   imports: [
