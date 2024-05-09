@@ -25,6 +25,11 @@ export class WarehouseController {
     return this.warehouseService.findAll();
   }
 
+  @Get('/stylenanda')
+  findAll2() {
+    return this.warehouseService.findAll2();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.warehouseService.findOne(+id);

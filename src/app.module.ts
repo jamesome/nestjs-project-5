@@ -18,6 +18,7 @@ import {
 } from 'nestjs-i18n';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
+import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
 
 @Module({
   imports: [
@@ -36,11 +37,11 @@ import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-thr
           'test',
           'staging',
         ),
-        DATABASE_HOST: Joi.string().required(),
-        DATABASE_PORT: Joi.number().required(),
-        DATABASE_USERNAME: Joi.string().required(),
-        DATABASE_PASSWORD: Joi.string().required(),
-        DATABASE_NAME: Joi.string().required(),
+        TENANT_DB_HOST: Joi.string().required(),
+        TENANT_DB_PORT: Joi.number().required(),
+        TENANT_DB_USERNAME: Joi.string().required(),
+        TENANT_DB_PASSWORD: Joi.string().required(),
+        TENANT_DB_NAME: Joi.string().required(),
         FALLBACK_LANGUAGE: Joi.string().required(),
         THROTTLE_TTL: Joi.number().required(),
         THROTTLE_LIMIT: Joi.number().required(),
@@ -78,6 +79,10 @@ import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-thr
       //   logging: true,
       // }),
       // inject: [ConfigService],
+    }),
+    TypeOrmModule.forRootAsync({
+      name: 'system',
+      useClass: TypeOrmSystemConfigService,
     }),
     // 국제화
     I18nModule.forRootAsync({

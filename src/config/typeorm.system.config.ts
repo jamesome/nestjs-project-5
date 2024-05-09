@@ -3,17 +3,17 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 
 @Injectable()
-export class TypeOrmConfigService implements TypeOrmOptionsFactory {
+export class TypeOrmSystemConfigService implements TypeOrmOptionsFactory {
   constructor(private readonly configService: ConfigService) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      host: this.configService.get<string>('TENANT_DB_HOST'),
-      port: this.configService.get<number>('TENANT_DB_PORT'),
-      username: this.configService.get<string>('TENANT_DB_USERNAME'),
-      password: this.configService.get<string>('TENANT_DB_PASSWORD'),
-      database: this.configService.get<string>('TENANT_DB_NAME'),
+      host: this.configService.get<string>('SYSTEM_DB_HOST'),
+      port: this.configService.get<number>('SYSTEM_DB_PORT'),
+      username: this.configService.get<string>('SYSTEM_DB_USERNAME'),
+      password: this.configService.get<string>('SYSTEM_DB_PASSWORD'),
+      database: this.configService.get<string>('SYSTEM_DB_NAME'),
       retryAttempts: 2, // DB connection 시도 횟수
       synchronize: false, // 서버가 구동될 떄, 테이블 자동생성
       logging: true,

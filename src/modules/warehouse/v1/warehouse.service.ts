@@ -10,6 +10,8 @@ export class WarehouseService {
   constructor(
     @InjectRepository(Warehouse)
     private warehouseRepository: Repository<Warehouse>,
+    @InjectRepository(Warehouse, 'system')
+    private warehouse2Repository: Repository<Warehouse>,
   ) {}
 
   async create(createWarehouseDto: CreateWarehouseDto) {
@@ -23,6 +25,10 @@ export class WarehouseService {
 
   async findAll() {
     return await this.warehouseRepository.find();
+  }
+
+  async findAll2() {
+    return await this.warehouse2Repository.find();
   }
 
   async findOne(id: number) {
