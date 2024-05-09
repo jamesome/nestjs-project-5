@@ -81,7 +81,7 @@ import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
       // inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
-      name: 'system',
+      name: 'system', // default DB는 name 필요없음
       useClass: TypeOrmSystemConfigService,
     }),
     // 국제화
