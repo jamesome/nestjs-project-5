@@ -8,17 +8,17 @@ import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
-import { WarehouseModule } from './modules/warehouse/warehouse.module';
-import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import Joi from 'joi';
 import {
   AcceptLanguageResolver,
-  HeaderResolver,
   I18nModule,
   QueryResolver,
+  HeaderResolver,
 } from 'nestjs-i18n';
+import { WarehouseModule } from './modules/warehouse/warehouse.module';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
+import Joi from 'joi';
 
 @Module({
   imports: [
@@ -84,7 +84,7 @@ import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-thr
       name: 'system', // default DB는 name 필요없음
       useClass: TypeOrmSystemConfigService,
     }),
-    // 국제화
+    // 국제화 TODO: config로 분리
     I18nModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
@@ -108,7 +108,7 @@ import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-thr
       inject: [ConfigService],
     }),
     // 추가 모듈들
-    WarehouseModule,
+    // WarehouseModule,
   ],
   controllers: [AppController],
   providers: [

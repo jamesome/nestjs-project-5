@@ -12,4 +12,9 @@ export class AppController {
   root() {
     return { message: 'Sellmate WMS API' };
   }
+
+  @Get('i18n')
+  getHello() {
+    return this.appService.getHello();
+  }
 }
