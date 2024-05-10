@@ -108,7 +108,7 @@ import Joi from 'joi';
       inject: [ConfigService],
     }),
     // 추가 모듈들
-    // WarehouseModule,
+    WarehouseModule,
   ],
   controllers: [AppController],
   providers: [
