@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
@@ -6,7 +6,7 @@ import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.fil
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
-import { VersioningType } from '@nestjs/common';
+import { ClassSerializerInterceptor, VersioningType } from '@nestjs/common';
 import * as compression from 'compression';
 declare const module: any;
 
@@ -16,6 +16,7 @@ async function bootstrap() {
 
   // Interceptor
   app.useGlobalInterceptors(new EmptyResponseInterceptor());
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); // Serializer 글로벌 적용
 
   // Filter
   app.useGlobalFilters(new HttpExceptionFilter());

@@ -1,3 +1,4 @@
+import { Exclude, Expose } from 'class-transformer';
 import {
   BaseEntity,
   BeforeInsert,
@@ -13,6 +14,7 @@ export class Warehouse extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Exclude()
   @Column({ name: 'name', comment: '상품명' })
   name: string;
 
