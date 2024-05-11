@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import path, { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD, RouterModule } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
@@ -18,11 +18,8 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 import Joi from 'joi';
-import { TenantModule } from './modules/tenant.module';
-import { ShopModule } from './modules/tenant/shop/shop.module';
-import { WarehouseV1Module } from './modules/tenant/warehouse/v1/warehouse.v1.module';
-import { SystemModule } from './modules/system.module';
-import { TenantInfoModule } from './modules/system/tenant-info/tenant-info.module';
+import { TenantModuleModule } from './common/tenant-module.module';
+import { SystemModuleModule } from './common/system-module.module';
 
 @Module({
   imports: [
@@ -111,26 +108,10 @@ import { TenantInfoModule } from './modules/system/tenant-info/tenant-info.modul
       ],
       inject: [ConfigService],
     }),
-    // add Modules
     // Tenant
-    ShopModule,
-    WarehouseV1Module,
-    RouterModule.register([
-      {
-        path: 'tenant',
-        module: TenantModule,
-        children: [ShopModule, { path: 'v1', module: WarehouseV1Module }],
-      },
-    ]),
+    TenantModuleModule,
     // System
-    TenantInfoModule,
-    RouterModule.register([
-      {
-        path: 'system',
-        module: SystemModule,
-        children: [TenantInfoModule],
-      },
-    ]),
+    SystemModuleModule,
   ],
   controllers: [AppController],
   providers: [
