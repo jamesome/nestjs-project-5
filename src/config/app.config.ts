@@ -16,4 +16,6 @@ export const appConfigValidationSchema = Joi.object({
   FALLBACK_LANGUAGE: Joi.string().required(),
   THROTTLE_TTL: Joi.number().required(),
   THROTTLE_LIMIT: Joi.number().required(),
+  REDIS_HOST: Joi.string().required(),
+  REDIS_PORT: Joi.number().required(),
 });

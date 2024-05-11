@@ -148,6 +148,9 @@ $ yarn add hbs
 # SWC
 $ yarn add @swc/cli @swc/core
 
+# bull
+$ yarn add $nestjs/bull bull
+
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
 ```

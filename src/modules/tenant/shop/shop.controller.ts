@@ -25,6 +25,11 @@ export class ShopController {
     return this.shopService.findAll();
   }
 
+  @Post('/queue')
+  shopQueue(@Body('data') data: number) {
+    return this.shopService.addQueue(data);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.shopService.findOne(+id);

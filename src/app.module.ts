@@ -1,20 +1,22 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import path, { join } from 'path';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { appConfigValidationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
+import { queueFactory } from './config/queue.config';
 import {
   AcceptLanguageResolver,
   I18nModule,
   QueryResolver,
   HeaderResolver,
 } from 'nestjs-i18n';
+import { BullModule } from '@nestjs/bull';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
@@ -90,6 +92,11 @@ import { SystemModuleModule } from './common/system-module.module';
         AcceptLanguageResolver,
         new HeaderResolver(['x-lang']),
       ],
+      inject: [ConfigService],
+    }),
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: queueFactory,
       inject: [ConfigService],
     }),
     // Tenant
