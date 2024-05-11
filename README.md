@@ -145,6 +145,9 @@ $ yarn add @nestjs/jwt
 # template engine
 $ yarn add hbs
 
+# SWC
+$ yarn add @swc/cli @swc/core
+
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
 ```
