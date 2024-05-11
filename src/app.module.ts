@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import path, { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
+import { appConfigValidationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/typeorm.config';
@@ -17,7 +18,6 @@ import {
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
-import Joi from 'joi';
 import { TenantModuleModule } from './common/tenant-module.module';
 import { SystemModuleModule } from './common/system-module.module';
 
@@ -30,23 +30,7 @@ import { SystemModuleModule } from './common/system-module.module';
         process.env.NODE_ENV === 'development'
           ? '.env.development'
           : '.env.production',
-      validationSchema: Joi.object({
-        NODE_ENV: Joi.string().valid(
-          'development',
-          'production',
-          'local',
-          'test',
-          'staging',
-        ),
-        TENANT_DB_HOST: Joi.string().required(),
-        TENANT_DB_PORT: Joi.number().required(),
-        TENANT_DB_USERNAME: Joi.string().required(),
-        TENANT_DB_PASSWORD: Joi.string().required(),
-        TENANT_DB_NAME: Joi.string().required(),
-        FALLBACK_LANGUAGE: Joi.string().required(),
-        THROTTLE_TTL: Joi.number().required(),
-        THROTTLE_LIMIT: Joi.number().required(),
-      }),
+      validationSchema: appConfigValidationSchema,
       validationOptions: {
         abortEarly: false,
       },
