@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import path, { join } from 'path';
-import { appConfigValidationSchema } from './config/app.config';
+import { validationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmConfigService } from './config/typeorm.config';
 import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
@@ -22,17 +22,19 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 import { TenantModuleModule } from './common/tenant-module.module';
 import { SystemModuleModule } from './common/system-module.module';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
     // 환경변수 유효성 검사
     ConfigModule.forRoot({
       isGlobal: true, // 전역에서 env 사용가능
-      envFilePath:
-        process.env.NODE_ENV === 'development'
-          ? '.env.development'
-          : '.env.production',
-      validationSchema: appConfigValidationSchema,
+      // envFilePath:
+      //   process.env.NODE_ENV === 'development'
+      //     ? '.env.development'
+      //     : '.env.production',
+      envFilePath: `.env.${process.env.NODE_ENV}`,
+      validationSchema: validationSchema,
       validationOptions: {
         abortEarly: false,
       },
