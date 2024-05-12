@@ -20,8 +20,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       autoLoadEntities: true, // 스키마 동기화. 테이블을 Drop 하고 Create 하는 방식. 데이터 보존 불가(develop환경에서만 사용!)
       // migrations: ['src/database/migrations/*.ts'],
-      migrations: [__dirname + '/../**/migrations/*.{.ts,.js}'],
-      migrationsTableName: 'migrations',
+      // migrations: [__dirname + '/../**/migrations/*.{.ts,.js}'],
+      // migrationsTableName: 'migrations',
     };
   }
 }
