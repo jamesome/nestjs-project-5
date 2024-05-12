@@ -91,6 +91,13 @@ $ nest g resource resource-name
 # 1. typeOrm
 $ yarn add @nestjs/typeorm typeorm mysql2
 
+# 마이그레이션 파일 생성 script
+# npm만 가능
+$ npm run migration:create --name=<마이그레이션 파일명>
+
+# 마이그레이션 파일 실행
+$
+
 # 2. prisma
 # $ yarn add prisma --save-dev
 # $ yarn prisma init
@@ -103,7 +110,7 @@ $ yarn add tsconfig-paths
 # config에 추가한 환경변수가 유효한지 체크하는 모듈
 $ yarn add class-validator class-transformer joi
 
-#HMR
+#H MR
 $ yarn add webpack-node-externals run-script-webpack-plugin webpack
 
 # swagger
@@ -121,10 +128,10 @@ $ yarn add dotenv
 # .env 환경에 따라 cross
 $ yarn add cross-env
 
-#국제화
+# 국제화
 $ yarn i nestjs-i18n
 
-#View Template
+# View Template
 $ yarn i hbs
 
 # Rate Limiting
