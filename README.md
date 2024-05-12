@@ -84,10 +84,10 @@ $ yarn run lint
 # Format with prettier
 $ yarn run format
 
-#Generates and/or modifies files based on a schematic
+# Generates and/or modifies files based on a schematic
 $ nest g resource resource-name
 
-#ORM
+# ORM
 # 1. typeOrm
 $ yarn add @nestjs/typeorm typeorm mysql2
 
@@ -110,7 +110,7 @@ $ yarn add tsconfig-paths
 # config에 추가한 환경변수가 유효한지 체크하는 모듈
 $ yarn add class-validator class-transformer joi
 
-#H MR
+# HMR
 $ yarn add webpack-node-externals run-script-webpack-plugin webpack
 
 # swagger
@@ -160,4 +160,10 @@ $ yarn add $nestjs/bull bull
 
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
+```
+
+## 참고
+
+```bash
+# https://velog.io/@gkqkehs7/nest.js%EC%99%80-mysql%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0
 ```
