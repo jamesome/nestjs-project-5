@@ -4,7 +4,7 @@ services:
     container_name: mysql
     restart: always
     env_file:
-      - ./.env.development
+      - ./.env
     ports:
       - 3306:3306
     environment:
@@ -19,7 +19,7 @@ services:
     container_name: redis
     restart: always
     env_file:
-      - ./.env.development
+      - .env
     ports:
       - 6379:${REDIS_PORT}
     volumes:
