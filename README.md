@@ -166,4 +166,7 @@ $ yarn add $nestjs/bull bull
 
 ```bash
 # https://velog.io/@gkqkehs7/nest.js%EC%99%80-mysql%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0
+
+# Using TypeORM Migration in NestJS
+# https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
 ```
