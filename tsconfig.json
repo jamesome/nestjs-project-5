@@ -1,30 +1,49 @@
+// https://gist.github.com/SeonHyungJo/f93fd203f7dc5bb3657437a1cad29c48
 {
-  // https://codingapple.com/unit/typescript-tsconfig-json/
   "compilerOptions": {
     "module": "commonjs", // 무슨 import 문법 쓸건지 'commonjs', 'amd', 'es2015', 'esnext'
-    "esModuleInterop": true,
-    "declaration": true,
+    "esModuleInterop": true, // ES6 모듈 사양을 준수하여 CommonJS 모듈을 가져올 수 있게 도와줌
+    "declaration": false, // .d.ts 파일의 생성 여부
+    // "declarationDir": "", // .d.ts 파일이 생성되는 디렉토리 설정 declaration가 true일 때만 설정가능
     "removeComments": true, // 컴파일시 주석제거
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true, // ES Decorator에 대한 실험적 기능 사용 여부
     "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
+    "target": "ES2021", // 코드에서 사용할 ECMAScript 버전 설정
+    "sourceMap": true, // 소스맵(*.map) 파일 생성 여부
     "outDir": "./dist", // js파일 아웃풋 경로바꾸기
-    "baseUrl": "./",
+    "baseUrl": "./", // Non-relativ 모듈 혹은 paths 옵션의 기준 디렉토리
     "incremental": true,
-    "skipLibCheck": true,
-    // "strict": true, // strict 관련, noimplicit 어쩌구 관련 모드 전부 켜기
-    // "strictPropertyInitialization": true, //class constructor 작성시 타입체크 강하게
-    "noImplicitAny": true, // any타입 금지 여부
+    "skipDefaultLibCheck": false, // 사용을 권장하지 않음 skipLibCheck 옵션을 사용
+    "skipLibCheck": false, // 모든 선언파일(*.d.ts)의 유형검사를 건너뛸지 여부
     "strictNullChecks": true, // null, undefined 타입에 이상한 짓 할시 ERROR
-    "strictFunctionTypes": false, // 함수파라미터 타입체크 강하게
-    "noImplicitThis": true, // this 키워드가 any 타입일 경우 ERROR
+    "noImplicitAny": true, // any타입 금지 여부
     "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noUnusedLocals": false, // 쓰지않는 지역변수 있으면 ERROR
-    "noUnusedParameters": false, // 쓰지않는 파라미터 있으면 ERROR
+    "forceConsistentCasingInFileNames": false, // 파일명에 대소문자 구분하지 않아도 되는 기능 사용 여부
+    "noFallthroughCasesInSwitch": true, // switch문 이상하면 ERROR
     "noImplicitReturns": true, // 함수에서 return 빼먹으면 ERROR
-    "noFallthroughCasesInSwitch": true // switch문 이상하면 ERROR
+    // "noUnusedParameters": true, // 쓰지않는 파라미터 있으면 ERROR
+    "noUnusedLocals": true, // 쓰지않는 지역변수 있으면 ERROR
+    "noImplicitThis": true, // this 키워드가 any 타입일 경우 ERROR
+    "strictFunctionTypes": true, // 함수파라미터 타입체크 강하게
+    "strictPropertyInitialization": true, //class constructor 작성시 타입체크 강하게
+    "allowUnreachableCode": false, // 도달 불가능한 코드에 대한 허용 여부.
+    /*
+      function foo() {
+          if (true) {
+            return 42;
+          } else {
+            return "42"; // 도달 불가능
+          }
+      };
+    */
+    "allowUnusedLabels": false // 사용하지 않는 라벨에 대한 허용 여부
+    /*
+      target1:
+      target2: // 사용하지 않는 라벨
+      while (true) {
+        break target1;
+      }
+    */
   }
 }

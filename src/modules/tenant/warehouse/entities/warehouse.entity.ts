@@ -12,18 +12,18 @@ import {
 @Entity()
 export class Warehouse extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Exclude()
   @Column({ name: 'name', comment: '상품명' })
-  name: string;
+  name!: string;
 
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  created_at: Date;
+  created_at!: Date;
 
   @BeforeInsert()
   updatedDates() {
@@ -31,5 +31,5 @@ export class Warehouse extends BaseEntity {
   }
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updated_at: Date;
+  updated_at?: Date;
 }
