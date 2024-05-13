@@ -31,5 +31,5 @@ export class Warehouse extends BaseEntity {
   }
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updated_at?: Date;
+  updated_at?: Date | null = null;
 }
