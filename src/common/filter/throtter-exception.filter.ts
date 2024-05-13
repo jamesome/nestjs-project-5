@@ -6,8 +6,13 @@ export class ThrottlerExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    const status =
-      exception instanceof ThrottlerException ? exception.getStatus() : 500;
+
+    if (!(exception instanceof ThrottlerException)) {
+      // ThrottlerException은 재 throw하여 처리하지 않고 그대로 통과시킴
+      throw exception;
+    }
+
+    const status = exception.getStatus();
 
     response.status(status).json({
       statusCode: status,

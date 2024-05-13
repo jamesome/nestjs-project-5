@@ -19,8 +19,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); // Serializer 글로벌 적용
 
   // Filter
-  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalFilters(new ThrottlerExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // Public
   app.useStaticAssets(join(__dirname, '../src/public'));
