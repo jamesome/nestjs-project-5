@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ShopModule } from 'src/modules/tenant/shop/shop.module';
-import { WarehouseV1Module } from 'src/modules/tenant/warehouse/v1/warehouse.v1.module';
 import { RouterModule } from '@nestjs/core';
 import { TenantModule } from 'src/modules/tenant.module';
+import { ShopModule } from 'src/modules/tenant/shop/shop.module';
+import { WarehouseV1Module } from 'src/modules/tenant/warehouse/v1/warehouse.v1.module';
 
 @Module({
   imports: [

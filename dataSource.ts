@@ -7,7 +7,7 @@ import { config as dotenvConfig } from 'dotenv';
 dotenvConfig({ path: `.env.development` });
 
 const configService = new ConfigService();
-console.log(`.env.${process.env.NODE_ENV}`);
+
 export default new DataSource({
   type: 'mysql',
   host: configService.getOrThrow<string>('TENANT_DB_HOST'),
@@ -15,9 +15,10 @@ export default new DataSource({
   database: configService.getOrThrow<string>('TENANT_DB_NAME'),
   username: configService.getOrThrow<string>('TENANT_DB_USERNAME'),
   password: configService.getOrThrow<string>('TENANT_DB_PASSWORD'),
-  // synchronize: true, // 서버가 구동될 떄, 테이블 자동생성
-  // logging: true,
+  synchronize: configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 떄, 테이블 자동생성
+  logging: configService.get<string>('NODE_ENV') === 'development',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/../**/migrations/*.js'], // '/../**/migrations/**' => (설정 시) Duplicate migrations 오류(두 번 돌아서 중복 오류)
+  migrations: [__dirname + '/../**/migration/*{.ts,.js}'], // '/../**/migrations/**' => (설정 시) Duplicate migrations 오류(두 번 돌아서 중복 오류)
+  // migrations: ['/src/database/migration/*.ts'],
   migrationsTableName: 'migrations',
 });

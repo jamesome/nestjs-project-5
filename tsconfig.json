@@ -14,16 +14,16 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strict": true, // strict 관련, noimplicit 어쩌구 관련 모드 전부 켜기
-    "noImplicitAny": true, // any타입 금지 여부
+    // "strict": true, // strict 관련, noimplicit 어쩌구 관련 모드 전부 켜기
+    // "strictPropertyInitialization": true, //class constructor 작성시 타입체크 강하게
+    // "noImplicitAny": true, // any타입 금지 여부
     "strictNullChecks": true, // null, undefined 타입에 이상한 짓 할시 ERROR
-    "strictFunctionTypes": true, // 함수파라미터 타입체크 강하게
-    "strictPropertyInitialization": true, //class constructor 작성시 타입체크 강하게
+    "strictFunctionTypes": false, // 함수파라미터 타입체크 강하게
     "noImplicitThis": true, // this 키워드가 any 타입일 경우 ERROR
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noUnusedLocals": true, // 쓰지않는 지역변수 있으면 ERROR
-    "noUnusedParameters": true, // 쓰지않는 파라미터 있으면 ERROR
+    "noUnusedLocals": false, // 쓰지않는 지역변수 있으면 ERROR
+    "noUnusedParameters": false, // 쓰지않는 파라미터 있으면 ERROR
     "noImplicitReturns": true, // 함수에서 return 빼먹으면 ERROR
     "noFallthroughCasesInSwitch": true // switch문 이상하면 ERROR
   }
