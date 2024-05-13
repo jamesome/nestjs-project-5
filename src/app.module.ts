@@ -22,7 +22,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 import { TenantModuleModule } from './common/tenant-module.module';
 import { SystemModuleModule } from './common/system-module.module';
-import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
