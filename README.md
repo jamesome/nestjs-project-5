@@ -168,5 +168,9 @@ $ yarn add $nestjs/bull bull
 # https://velog.io/@gkqkehs7/nest.js%EC%99%80-mysql%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0
 
 # Using TypeORM Migration in NestJS
-# https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
+## https://dev.to/amirfakour/using-typeorm-migration-in-nestjs-with-postgres-database-3c75
+
+# 오류
+# Property '어쩌구' has no initializer and is not definitely assigned in the constructor.
+## https://velog.io/@gingaminga/%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-has-no-initializer-and-is-not-definitely-assigned-in-the-constructor
 ```
