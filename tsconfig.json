@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     // "strict": true, // strict 관련, noimplicit 어쩌구 관련 모드 전부 켜기
     // "strictPropertyInitialization": true, //class constructor 작성시 타입체크 강하게
-    // "noImplicitAny": true, // any타입 금지 여부
+    "noImplicitAny": true, // any타입 금지 여부
     "strictNullChecks": true, // null, undefined 타입에 이상한 짓 할시 ERROR
     "strictFunctionTypes": false, // 함수파라미터 타입체크 강하게
     "noImplicitThis": true, // this 키워드가 any 타입일 경우 ERROR

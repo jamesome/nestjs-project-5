@@ -13,8 +13,8 @@ export class ThrottlerConfigService implements ThrottlerOptionsFactory {
   createThrottlerOptions(): ThrottlerModuleOptions {
     // 쓰로틀러 설정 생성
     const throttlerOptions: ThrottlerOptions = {
-      ttl: this.configService.get<number>('THROTTLE_TTL'),
-      limit: this.configService.get<number>('THROTTLE_LIMIT'),
+      ttl: this.configService.get<number>('THROTTLE_TTL') as number,
+      limit: this.configService.get<number>('THROTTLE_LIMIT') as number,
     };
 
     // 쓰로틀러 모듈 옵션 설정

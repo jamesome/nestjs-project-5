@@ -7,7 +7,7 @@ import { EmptyResponseInterceptor } from './common/interceptor/empty-response.in
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ClassSerializerInterceptor, VersioningType } from '@nestjs/common';
-import * as compression from 'compression';
+// import * as compression from 'compression';
 declare const module: any;
 
 async function bootstrap() {
@@ -52,6 +52,6 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

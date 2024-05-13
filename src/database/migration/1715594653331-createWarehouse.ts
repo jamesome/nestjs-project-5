@@ -5,8 +5,46 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateShop1715559281189 implements MigrationInterface {
+export class CreateWarehouse1715594653331 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.createTable(
+      new Table({
+        name: 'warehouse',
+        columns: [
+          {
+            name: 'id',
+            type: 'integer',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
+            isNullable: false,
+          },
+          {
+            name: 'name',
+            type: 'varchar(50)',
+            isNullable: false,
+          },
+          {
+            name: 'created_at',
+            type: 'datetime',
+            default: 'now()',
+            isNullable: false,
+          },
+          {
+            name: 'updated_at',
+            type: 'datetime',
+            default: 'now()',
+            isNullable: true,
+          },
+          {
+            name: 'deleted_at',
+            type: 'datetime',
+            isNullable: true,
+          },
+        ],
+      }),
+    );
+
     queryRunner.createTable(
       new Table({
         name: 'shop',
@@ -63,5 +101,6 @@ export class CreateShop1715559281189 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable('shop');
+    await queryRunner.dropTable('warehouse');
   }
 }
