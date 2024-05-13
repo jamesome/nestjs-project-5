@@ -129,10 +129,10 @@ $ yarn add dotenv
 $ yarn add cross-env
 
 # 국제화
-$ yarn i nestjs-i18n
+$ yarn add nestjs-i18n
 
 # View Template
-$ yarn i hbs
+$ yarn add hbs
 
 # Rate Limiting
 $ yarn add @nestjs/throttler
