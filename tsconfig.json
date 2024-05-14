@@ -22,7 +22,7 @@
     "forceConsistentCasingInFileNames": false, // 파일명에 대소문자 구분하지 않아도 되는 기능 사용 여부
     "noFallthroughCasesInSwitch": true, // switch문 이상하면 ERROR
     "noImplicitReturns": true, // 함수에서 return 빼먹으면 ERROR
-    // "noUnusedParameters": true, // 쓰지않는 파라미터 있으면 ERROR
+    "noUnusedParameters": true, // 쓰지않는 파라미터 있으면 ERROR
     "noUnusedLocals": true, // 쓰지않는 지역변수 있으면 ERROR
     "noImplicitThis": true, // this 키워드가 any 타입일 경우 ERROR
     "strictFunctionTypes": true, // 함수파라미터 타입체크 강하게

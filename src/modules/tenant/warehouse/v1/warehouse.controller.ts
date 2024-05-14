@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { WarehouseService } from '../v1/warehouse.service';
 import { CreateWarehouseDto } from '../dto/create-warehouse.dto';
-import { UpdateWarehouseDto } from '../dto/update-warehouse.dto';
+// import { UpdateWarehouseDto } from '../dto/update-warehouse.dto';
 
 @Controller('warehouse')
 export class WarehouseController {
@@ -36,11 +36,8 @@ export class WarehouseController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateWarehouseDto: UpdateWarehouseDto,
-  ) {
-    return this.warehouseService.update(+id, updateWarehouseDto);
+  update(@Param('id') id: string) {
+    return this.warehouseService.update(+id);
   }
 
   @Delete(':id')

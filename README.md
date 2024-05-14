@@ -149,9 +149,6 @@ $ yarn add nest-winston winston winston-daily-rotate-file
 # jwt
 $ yarn add @nestjs/jwt
 
-# template engine
-$ yarn add hbs
-
 # SWC
 $ yarn add @swc/cli @swc/core
 

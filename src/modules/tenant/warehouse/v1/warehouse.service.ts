@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWarehouseDto } from '../dto/create-warehouse.dto';
-import { UpdateWarehouseDto } from '../dto/update-warehouse.dto';
+// import { UpdateWarehouseDto } from '../dto/update-warehouse.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Warehouse } from '../entities/warehouse.entity';
 import { Repository } from 'typeorm';
@@ -37,7 +37,7 @@ export class WarehouseService {
     });
   }
 
-  update(id: number, updateWarehouseDto: UpdateWarehouseDto) {
+  update(id: number) {
     return `This action updates a #${id} warehouse`;
   }
 

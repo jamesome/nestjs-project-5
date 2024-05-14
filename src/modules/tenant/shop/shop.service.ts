@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateShopDto } from './dto/create-shop.dto';
-import { UpdateShopDto } from './dto/update-shop.dto';
+// import { CreateShopDto } from './dto/create-shop.dto';
+// import { UpdateShopDto } from './dto/update-shop.dto';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 
@@ -8,7 +8,7 @@ import { Queue } from 'bull';
 export class ShopService {
   constructor(@InjectQueue('shops') private testQueue: Queue) {}
 
-  create(createShopDto: CreateShopDto) {
+  create() {
     return 'This action adds a new shop';
   }
 
@@ -32,7 +32,7 @@ export class ShopService {
     return `This action returns a #${id} shop`;
   }
 
-  update(id: number, updateShopDto: UpdateShopDto) {
+  update(id: number) {
     return `This action updates a #${id} shop`;
   }
 

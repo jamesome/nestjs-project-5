@@ -14,8 +14,6 @@ export class LoggingInterceptor implements NestInterceptor {
     console.log('before loging intercept');
     console.log(method, url, body);
 
-    return next
-      .handle()
-      .pipe(tap((data) => console.log('after loging intercept')));
+    return next.handle().pipe(tap(() => console.log('after loging intercept')));
   }
 }

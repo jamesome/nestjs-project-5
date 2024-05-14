@@ -1,15 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common';
 import { TenantInfoService } from './tenant-info.service';
-import { CreateTenantInfoDto } from './dto/create-tenant-info.dto';
-import { UpdateTenantInfoDto } from './dto/update-tenant-info.dto';
+// import { CreateTenantInfoDto } from './dto/create-tenant-info.dto';
+// import { UpdateTenantInfoDto } from './dto/update-tenant-info.dto';
 
 @Controller('tenant-info')
 export class TenantInfoController {
   constructor(private readonly tenantInfoService: TenantInfoService) {}
 
   @Post()
-  create(@Body() createTenantInfoDto: CreateTenantInfoDto) {
-    return this.tenantInfoService.create(createTenantInfoDto);
+  create() {
+    return this.tenantInfoService.create();
   }
 
   @Get()
@@ -23,8 +23,8 @@ export class TenantInfoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTenantInfoDto: UpdateTenantInfoDto) {
-    return this.tenantInfoService.update(+id, updateTenantInfoDto);
+  update(@Param('id') id: string) {
+    return this.tenantInfoService.update(+id);
   }
 
   @Delete(':id')
