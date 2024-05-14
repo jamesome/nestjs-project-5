@@ -17,7 +17,6 @@ export class EmptyResponseInterceptor implements NestInterceptor {
       map((data) => {
         console.log('EmptyResponseInterceptor :: ' + data);
         if (!data || data.length === 0) {
-          console.log('EmptyResponseInterceptor :: herrrrrrre');
           throw new HttpException('Not', HttpStatus.NO_CONTENT);
         }
 
