@@ -4,7 +4,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import path, { join } from 'path';
 import { validationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmConfigService } from './config/typeorm.config';
@@ -22,6 +21,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 import { TenantModuleModule } from './common/tenant-module.module';
 import { SystemModuleModule } from './common/system-module.module';
+import { i18nConfig } from './config/i18n.config';
 
 @Module({
   imports: [
@@ -72,19 +72,8 @@ import { SystemModuleModule } from './common/system-module.module';
       name: 'system', // default DB는 name 필요없음
       useClass: TypeOrmSystemConfigService,
     }),
-    // 국제화 TODO: config로 분리
+    // 국제화
     I18nModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
-        loaderOptions: {
-          path: join(__dirname, '/i18n/'),
-          watch: true,
-        },
-        typesOutputPath: path.join(
-          __dirname,
-          '../src/generated/i18n.generated.ts',
-        ),
-      }),
       resolvers: [
         {
           use: QueryResolver,
@@ -93,6 +82,7 @@ import { SystemModuleModule } from './common/system-module.module';
         AcceptLanguageResolver,
         new HeaderResolver(['x-lang']),
       ],
+      useFactory: i18nConfig,
       inject: [ConfigService],
     }),
     BullModule.forRootAsync({

@@ -173,4 +173,7 @@ $ yarn add @nestjs/bull bull
 # 오류
 # Property '어쩌구' has no initializer and is not definitely assigned in the constructor.
 ## https://velog.io/@gingaminga/%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-has-no-initializer-and-is-not-definitely-assigned-in-the-constructor
+
+# [I18n] No resolvers provided! nestjs-i18n won't work properly
+## resolver를 app.module useFactory 위로 설정해야됨
 ```
