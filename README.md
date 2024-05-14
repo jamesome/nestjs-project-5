@@ -173,4 +173,10 @@ $ yarn add @nestjs/bull bull
 
 # [I18n] No resolvers provided! nestjs-i18n won't work properly
 ## resolver를 app.module useFactory 위로 설정해야됨
+
+# 코딩 컨벤션
+## https://blog.webudding.com/typeorm-0-3-%EC%A0%81%EC%9A%A9%EA%B8%B0-feat-refactoring-dc86e53619d3
+
+# 도움
+## https://blockmonkeys.tistory.com/192
 ```
