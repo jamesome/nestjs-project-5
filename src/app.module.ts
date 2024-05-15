@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 import { validationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
 import { TypeOrmConfigService } from './config/typeorm.config';
-import { TypeOrmSystemConfigService } from './config/typeorm.system.config';
+// import { TypeOrmSystemConfigService } from  './config/typeorm.system.config';
 import { queueFactory } from './config/queue.config';
 import {
   AcceptLanguageResolver,
@@ -68,10 +68,10 @@ import { SystemModule } from './modules/system/system.module';
       // }),
       // inject: [ConfigService],
     }),
-    TypeOrmModule.forRootAsync({
-      name: 'system', // default DB는 name 필요없음
-      useClass: TypeOrmSystemConfigService,
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   name: 'system', // default DB는 name 필요없음
+    //   useClass: TypeOrmSystemConfigService,
+    // }),
     // 국제화
     I18nModule.forRootAsync({
       resolvers: [
