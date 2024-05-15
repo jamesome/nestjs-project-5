@@ -179,4 +179,7 @@ $ yarn add @nestjs/bull bull
 
 # 도움
 ## https://blockmonkeys.tistory.com/192
+
+# 스웨거 설정
+## https://wooserk.tistory.com/105
 ```
