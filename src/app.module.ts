@@ -15,13 +15,13 @@ import {
   QueryResolver,
   HeaderResolver,
 } from 'nestjs-i18n';
+import { i18nConfig } from './config/i18n.config';
 import { BullModule } from '@nestjs/bull';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
-import { TenantModuleModule } from './common/tenant-module.module';
-import { SystemModuleModule } from './common/system-module.module';
-import { i18nConfig } from './config/i18n.config';
+import { TenantModule } from './modules/tenant/tenant.module';
+import { SystemModule } from './modules/system/system.module';
 
 @Module({
   imports: [
@@ -91,9 +91,9 @@ import { i18nConfig } from './config/i18n.config';
       inject: [ConfigService],
     }),
     // Tenant
-    TenantModuleModule,
+    TenantModule,
     // System
-    SystemModuleModule,
+    SystemModule,
   ],
   controllers: [AppController],
   providers: [
