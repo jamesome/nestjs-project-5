@@ -1,12 +1,12 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ClassSerializerInterceptor, VersioningType } from '@nestjs/common';
+import { setupSwagger } from './config/swagger.config';
 // import * as compression from 'compression';
 declare const module: any;
 
@@ -36,15 +36,7 @@ async function bootstrap() {
   // app.use(compression());
 
   // Swagger
-  const config = new DocumentBuilder()
-    .setTitle('WMS Application')
-    .setDescription('The WMS API description')
-    .setVersion('1.0')
-    .addTag('wms')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  setupSwagger(app);
 
   // HMR
   if (module.hot) {
