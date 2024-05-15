@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from 'src/modules/base-entity';
-import { Entity, Column } from 'typeorm';
+import { ProductV1 } from 'src/modules/tenant/product/v1/entities/productV1.entity';
+import { Entity, Column, ManyToOne, JoinColumn, Relation } from 'typeorm';
 
 @Entity({ name: 'options' })
 export class OptionV1 extends BaseEntity {
@@ -13,4 +14,11 @@ export class OptionV1 extends BaseEntity {
 
   @Column({ name: 'color', comment: '색상' })
   color?: string;
+
+  @Column({ name: 'product_id' })
+  productId!: number;
+
+  @ManyToOne(() => ProductV1)
+  @JoinColumn({ name: 'product_id' })
+  productV1!: Relation<ProductV1>;
 }

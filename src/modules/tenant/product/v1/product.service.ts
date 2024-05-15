@@ -12,7 +12,6 @@ export class ProductService {
   }
 
   async findAll() {
-    console.log('sevice');
     return await this.productV1Repository.find();
   }
 
