@@ -5,6 +5,6 @@ import { Entity, Column } from 'typeorm';
 @Entity()
 export class WarehouseV1 extends BaseEntity {
   @Exclude()
-  @Column({ name: 'name', comment: '상품명' })
+  @Column({ name: 'name', comment: '창고명' })
   name!: string;
 }
