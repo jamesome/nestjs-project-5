@@ -7,7 +7,7 @@ import { config as dotenvConfig } from 'dotenv';
 dotenvConfig({ path: `.env.development` });
 
 const configService = new ConfigService();
-console.log(__dirname + '/src/modules/../../**/');
+
 export default new DataSource({
   type: 'mysql',
   host: configService.getOrThrow<string>('TENANT_DB_HOST'),
@@ -15,7 +15,7 @@ export default new DataSource({
   database: configService.getOrThrow<string>('TENANT_DB_NAME'),
   entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
   password: configService.getOrThrow<string>('TENANT_DB_PASSWORD'),
-  // synchronize: configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 떄, 테이블 자동생성
+  // synchronize: configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
   synchronize: false,
   logging: configService.get<string>('NODE_ENV') === 'development',
   // entities: [__dirname + '/src/modules/../../**/*.entity{.ts,.js}'],
