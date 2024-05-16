@@ -129,7 +129,7 @@ export class Init1715753180657 implements MigrationInterface {
 
     // 테이블 삭제
     await queryRunner.dropTable('warehouse');
-    await queryRunner.dropTable('option');
+    await queryRunner.dropTable('options');
     await queryRunner.dropTable('product');
   }
 }
