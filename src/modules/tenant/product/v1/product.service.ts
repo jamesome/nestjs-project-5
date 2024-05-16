@@ -12,7 +12,7 @@ export class ProductService {
   }
 
   async findAll() {
-    return await this.productV1Repository.find();
+    return await this.productV1Repository.findAll();
   }
 
   findOne(id: number) {
