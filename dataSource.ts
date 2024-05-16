@@ -14,6 +14,7 @@ export default new DataSource({
   port: configService.getOrThrow<number>('TENANT_DB_PORT'),
   database: configService.getOrThrow<string>('TENANT_DB_NAME'),
   entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
+  username: configService.getOrThrow<string>('TENANT_DB_USERNAME'),
   password: configService.getOrThrow<string>('TENANT_DB_PASSWORD'),
   // synchronize: configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
   synchronize: false,

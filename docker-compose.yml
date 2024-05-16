@@ -6,7 +6,7 @@ services:
     env_file:
       - .env.development
     ports:
-      - 3306:3306
+      - 3310:3306
     environment:
       # MYSQL_DATABASE: test
       MYSQL_ROOT_PASSWORD: 1q2w3e
@@ -21,6 +21,6 @@ services:
     env_file:
       - .env.development
     ports:
-      - 6379:6379
+      - 6380:6379
     volumes:
       - ./db/redis/data:/data
