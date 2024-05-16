@@ -1,8 +1,15 @@
 // import { Exclude } from 'class-transformer';
 import { IsString } from 'class-validator';
 import { BaseEntity } from 'src/modules/base-entity';
-import { OptionV1 } from 'src/modules/tenant/option/v1/entities/option-v1.entity';
-import { Entity, Column, OneToMany, Relation } from 'typeorm';
+// import { WarehouseV1 } from 'src/modules/tenant/warehouse/v1/entities/warehouse-v1.entity';
+import {
+  Entity,
+  Column,
+  // Relation,
+  AfterInsert,
+  // OneToOne,
+  // JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'product' })
 export class ProductV1 extends BaseEntity {
@@ -10,8 +17,21 @@ export class ProductV1 extends BaseEntity {
   @IsString()
   name!: string;
 
-  @OneToMany(() => OptionV1, (optionV1) => optionV1.productV1, {
-    cascade: true,
-  })
-  options!: Relation<OptionV1>[];
+  // @OneToMany(() => OptionV1, (option) => option.product, {
+  //   cascade: true,
+  //   eager: true,
+  // })
+  // options!: Relation<OptionV1>[];
+
+  // @JoinColumn()
+  // @OneToOne(() => WarehouseV1, '', {
+  //   cascade: true,
+  //   eager: true,
+  // })
+  // warehouse!: Relation<WarehouseV1>[];
+
+  @AfterInsert()
+  logInsert() {
+    console.log('Product에 insert가 완료되었습니다.');
+  }
 }
