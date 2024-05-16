@@ -2,15 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { ProductV1 } from './entities/productV1.entity';
 import { CreateProductDto } from './dto/create-product.dto';
+import { WarehouseV1 } from '../../warehouse/v1/entities/warehouse-v1.entity';
 // import { OptionV1 } from '../../option/v1/entities/option-v1.entity';
 // import { WarehouseV1 } from '../../warehouse/v1/entities/warehouse-v1.entity';
 
 @Injectable()
 export class ProductV1Repository {
   private productV1Repository: Repository<ProductV1>;
+  private warehouseV1Repository: Repository<WarehouseV1>;
 
   constructor(private readonly dataSource: DataSource) {
     this.productV1Repository = this.dataSource.getRepository(ProductV1);
+    this.warehouseV1Repository = this.dataSource.getRepository(WarehouseV1);
   }
 
   async create(createProductDto: CreateProductDto) {
@@ -26,6 +29,17 @@ export class ProductV1Repository {
     //       "name": "아이2",
     //       "size": "middle",
     //       "color": "blue"
+    //     }
+    //   ]
+    // }
+    // {
+    //   "name": "아이폰 14123123123",
+    //   "warehouse": [
+    //     {
+    //       "name": "창고1"
+    //     },
+    //     {
+    //       "name": "창고2"
     //     }
     //   ]
     // }
@@ -71,7 +85,15 @@ export class ProductV1Repository {
 
     // product.name = name;
 
-    return await this.productV1Repository.save(createProductDto);
+    const { name, warehouse } = createProductDto;
+
+    const newProduct = this.productV1Repository.create({ name });
+    await this.productV1Repository.save(newProduct);
+
+    const newWarehouse = this.productV1Repository.create({ warehouse });
+    await this.warehouseV1Repository.save(newWarehouse);
+
+    return true;
   }
 
   async findAll() {
