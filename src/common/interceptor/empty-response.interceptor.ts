@@ -15,12 +15,12 @@ export class EmptyResponseInterceptor implements NestInterceptor {
 
     return next.handle().pipe(
       map((data) => {
-        console.log('EmptyResponseInterceptor :: ' + data);
+        // console.log('EmptyResponseInterceptor :: ' + data);
         if (!data || data.length === 0) {
           throw new HttpException('Not', HttpStatus.NO_CONTENT);
         }
 
-        console.log('after EmptyResponseInterceptor');
+        // console.log('after EmptyResponseInterceptor');
 
         return data;
       }),
