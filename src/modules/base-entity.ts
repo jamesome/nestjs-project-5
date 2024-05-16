@@ -1,12 +1,13 @@
 import {
-  BaseEntity as TypeORMBaseEntity,
+  // BaseEntity as TypeORMBaseEntity,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-export abstract class BaseEntity extends TypeORMBaseEntity {
+// export abstract class BaseEntity extends TypeORMBaseEntity {
+export abstract class BaseEntity<T> {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -23,15 +24,15 @@ export abstract class BaseEntity extends TypeORMBaseEntity {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deleted_at?: Date | null = null;
 
-  constructor() {
-    super();
-  }
-
-  // constructor(entity?: Partial<BaseEntity>) {
+  // constructor() {
   //   super();
-
-  //   if (entity) {
-  //     Object.assign(this, entity);
-  //   }
   // }
+
+  constructor(entity?: Partial<T>) {
+    // super();
+
+    // if (entity) {
+    Object.assign(this, entity);
+    // }
+  }
 }

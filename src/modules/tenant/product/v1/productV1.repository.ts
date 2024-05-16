@@ -2,18 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { ProductV1 } from './entities/productV1.entity';
 import { CreateProductDto } from './dto/create-product.dto';
-import { WarehouseV1 } from '../../warehouse/v1/entities/warehouse-v1.entity';
+// import { WarehouseV1 } from '../../warehouse/v1/entities/warehouse-v1.entity';
 // import { OptionV1 } from '../../option/v1/entities/option-v1.entity';
 // import { WarehouseV1 } from '../../warehouse/v1/entities/warehouse-v1.entity';
 
 @Injectable()
 export class ProductV1Repository {
   private productV1Repository: Repository<ProductV1>;
-  private warehouseV1Repository: Repository<WarehouseV1>;
+  // private warehouseV1Repository: Repository<WarehouseV1>;
 
   constructor(private readonly dataSource: DataSource) {
     this.productV1Repository = this.dataSource.getRepository(ProductV1);
-    this.warehouseV1Repository = this.dataSource.getRepository(WarehouseV1);
+    // this.warehouseV1Repository = this.dataSource.getRepository(WarehouseV1);
   }
 
   async create(createProductDto: CreateProductDto) {
@@ -85,15 +85,34 @@ export class ProductV1Repository {
 
     // product.name = name;
 
-    const { name, warehouse } = createProductDto;
+    // const warehouse = new WarehouseV1({
+    //   ...createProductDto.warehouse,
+    // });
+    // const product = new ProductV1({
+    //   ...createProductDto,
+    //   warehouse,
+    // });
 
-    const newProduct = this.productV1Repository.create({ name });
-    await this.productV1Repository.save(newProduct);
+    // // warehouse.product = product; // 명확한 관계 설정
 
-    const newWarehouse = this.productV1Repository.create({ warehouse });
-    await this.warehouseV1Repository.save(newWarehouse);
+    // return await this.productV1Repository.save(product);
 
-    return true;
+    // WarehouseV1 엔티티 생성
+    // const warehouse = this.warehouseV1Repository.create({
+    //   name: createProductDto.warehouse.name,
+    //   product_id: null, // 기본값으로 설정
+    // });
+
+    // // ProductV1 엔티티 생성 및 관계 설정
+    // const product = this.productV1Repository.create({
+    //   name: createProductDto.name,
+    //   warehouse: warehouse,
+    // });
+
+    // 저장
+    // await this.warehouseV1Repository.save(warehouse);
+    // return await this.productV1Repository.save(product);
+    return createProductDto;
   }
 
   async findAll() {

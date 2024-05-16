@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
+import { WarehouseV1Repository } from './warehouse-v1-repository';
 
 @Injectable()
 export class WarehouseV1Service {
-  create(createWarehouseV1Dto: CreateWarehouseV1Dto) {
-    return 'This action adds a new warehouseV1' + createWarehouseV1Dto;
+  constructor(private readonly warehouseV1Repository: WarehouseV1Repository) {}
+
+  async create(createWarehouseV1Dto: CreateWarehouseV1Dto) {
+    return await this.warehouseV1Repository.create(createWarehouseV1Dto);
   }
 
-  findAll() {
-    return `This action returns all warehouseV1`;
+  async findAll() {
+    return await this.warehouseV1Repository.findAll();
   }
 
   findOne(id: number) {

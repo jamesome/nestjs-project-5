@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'options' })
-export class OptionV1 extends BaseEntity {
+export class OptionV1 extends BaseEntity<OptionV1> {
   @Exclude()
   @Column({ name: 'name', comment: '옵션명' })
   name!: string;
