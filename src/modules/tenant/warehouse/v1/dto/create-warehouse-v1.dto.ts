@@ -1,1 +1,3 @@
-export class CreateWarehouseV1Dto {}
+export class CreateWarehouseV1Dto {
+  name!: string;
+}
