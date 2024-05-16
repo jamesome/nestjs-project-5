@@ -23,11 +23,15 @@ export abstract class BaseEntity extends TypeORMBaseEntity {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deleted_at?: Date | null = null;
 
-  constructor(entity?: Partial<BaseEntity>) {
+  constructor() {
     super();
-
-    if (entity) {
-      Object.assign(this, entity);
-    }
   }
+
+  // constructor(entity?: Partial<BaseEntity>) {
+  //   super();
+
+  //   if (entity) {
+  //     Object.assign(this, entity);
+  //   }
+  // }
 }
