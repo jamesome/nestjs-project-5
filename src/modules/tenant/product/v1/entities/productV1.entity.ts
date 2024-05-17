@@ -1,7 +1,8 @@
 // import { Exclude } from 'class-transformer';
 import { IsString } from 'class-validator';
 import { BaseEntity } from 'src/modules/base-entity';
-import { Entity, Column, AfterInsert } from 'typeorm';
+import { OptionV1 } from 'src/modules/tenant/option/v1/entities/option-v1.entity';
+import { Entity, Column, AfterInsert, OneToMany, Relation } from 'typeorm';
 
 @Entity({ name: 'product' })
 export class ProductV1 extends BaseEntity<ProductV1> {
@@ -9,11 +10,10 @@ export class ProductV1 extends BaseEntity<ProductV1> {
   @IsString()
   name!: string;
 
-  // @OneToMany(() => OptionV1, (option) => option.product, {
-  //   cascade: true,
-  //   eager: true,
-  // })
-  // options!: Relation<OptionV1>[];
+  @OneToMany(() => OptionV1, (option) => option.product, {
+    cascade: true,
+  })
+  options!: Relation<OptionV1>[];
 
   @AfterInsert()
   logInsert() {

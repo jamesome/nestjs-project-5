@@ -1,14 +1,13 @@
 import { Exclude } from 'class-transformer';
 import { BaseEntity } from 'src/modules/base-entity';
-// import { ProductV1 } from 'src/modules/tenant/product/v1/entities/productV1.entity';
+import { ProductV1 } from 'src/modules/tenant/product/v1/entities/productV1.entity';
 import {
   Entity,
   Column,
-  // ManyToOne,
-  // JoinColumn,
-  // Relation,
+  ManyToOne,
+  JoinColumn,
+  Relation,
   AfterInsert,
-  // PrimaryColumn,
 } from 'typeorm';
 
 @Entity({ name: 'options' })
@@ -23,13 +22,9 @@ export class OptionV1 extends BaseEntity<OptionV1> {
   @Column({ name: 'color', comment: '색상' })
   color?: string;
 
-  // @ManyToOne(() => ProductV1, (product) => product.options, { nullable: true })
-  // @JoinColumn({ name: 'product_id' })
-  // product!: Relation<ProductV1>;
-
-  // @PrimaryColumn()
-  // @Column({ name: 'product_id' })
-  // productId!: number;
+  @ManyToOne(() => ProductV1, (product) => product.options, { nullable: true })
+  @JoinColumn({ name: 'product_id' })
+  product!: Relation<ProductV1>;
 
   @AfterInsert()
   logInsert() {
