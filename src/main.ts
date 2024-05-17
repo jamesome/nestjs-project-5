@@ -7,6 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ClassSerializerInterceptor, VersioningType } from '@nestjs/common';
 import { setupSwagger } from './config/swagger.config';
+import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
 // import * as compression from 'compression';
 declare const module: any;
 
@@ -15,18 +16,27 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Interceptor
-  app.useGlobalInterceptors(new EmptyResponseInterceptor());
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); // Serializer 글로벌 적용
+  app.useGlobalInterceptors(
+    new EmptyResponseInterceptor(),
+    new ClassSerializerInterceptor(app.get(Reflector)), // Serializer 글로벌 적용
+  );
+
+  // Pipe
+  app.useGlobalPipes(new CustomValidationPipe());
 
   // Filter
-  app.useGlobalFilters(new ThrottlerExceptionFilter());
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(
+    new ThrottlerExceptionFilter(),
+    new HttpExceptionFilter(),
+  );
 
   // Public
-  app.useStaticAssets(join(__dirname, '../src/public'));
-  app.setBaseViewsDir(join(__dirname, '../src/views'));
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   // View
+  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+
+  // Template engine
   app.setViewEngine('hbs');
 
   // Versioning
