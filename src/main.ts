@@ -1,6 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+// import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -27,7 +27,7 @@ async function bootstrap() {
   // Filter
   app.useGlobalFilters(
     new ThrottlerExceptionFilter(),
-    new HttpExceptionFilter(),
+    // new HttpExceptionFilter(),
   );
 
   // Public

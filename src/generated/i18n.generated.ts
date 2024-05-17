@@ -7,6 +7,7 @@ import { Path } from "nestjs-i18n";
 export type I18nTranslations = {
     "test": {
         "HELLO": string;
+        "LENGTH": string;
         "PRODUCT": {
             "NEW": string;
         };
@@ -29,6 +30,10 @@ export type I18nTranslations = {
             "zero": string;
         };
         "nested": string;
+        "MIN": string;
+        "validation": {
+            "Length": string;
+        };
     };
 };
 /* prettier-ignore */

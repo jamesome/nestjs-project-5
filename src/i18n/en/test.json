@@ -1,5 +1,6 @@
 {
   "HELLO": "Hello",
+  "LENGTH": "{property} must be between {min} and {$max} characters long",
   "PRODUCT": {
     "NEW": "New Product: {name}"
   },
