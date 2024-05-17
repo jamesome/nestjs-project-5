@@ -35,6 +35,10 @@ export type I18nTranslations = {
             "Length": string;
         };
     };
+    "validation": {
+        "LENGTH": string;
+        "INVALID_EMAIL": string;
+    };
 };
 /* prettier-ignore */
 export type I18nPath = Path<I18nTranslations>;

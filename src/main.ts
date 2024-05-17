@@ -1,14 +1,15 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-// import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
+// import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { EmptyResponseInterceptor } from './common/interceptor/empty-response.interceptor';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ClassSerializerInterceptor, VersioningType } from '@nestjs/common';
 import { setupSwagger } from './config/swagger.config';
-import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
 // import * as compression from 'compression';
+import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
+import { ValidationError } from 'class-validator';
 declare const module: any;
 
 async function bootstrap() {
@@ -22,12 +23,28 @@ async function bootstrap() {
   );
 
   // Pipe
-  app.useGlobalPipes(new CustomValidationPipe());
+  app.useGlobalPipes(new I18nValidationPipe());
 
   // Filter
   app.useGlobalFilters(
     new ThrottlerExceptionFilter(),
-    // new HttpExceptionFilter(),
+    new I18nValidationExceptionFilter({
+      errorFormatter(data: ValidationError[]) {
+        const customErrors: any[] = [];
+        data.forEach((error) => {
+          console.log(error);
+          const element = {} as any;
+          element.field = error.property;
+          const errorStringJoin: Array<string> = [];
+          for (const type in error.constraints) {
+            errorStringJoin.push(error.constraints[type]);
+          }
+          element.error = errorStringJoin;
+          customErrors.push(element);
+        });
+        return customErrors;
+      },
+    }),
   );
 
   // Public
