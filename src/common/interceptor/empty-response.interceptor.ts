@@ -1,7 +1,6 @@
 import {
   CallHandler,
   ExecutionContext,
-  HttpException,
   HttpStatus,
   Injectable,
   NestInterceptor,
@@ -10,17 +9,17 @@ import { Observable, map } from 'rxjs';
 
 @Injectable()
 export class EmptyResponseInterceptor implements NestInterceptor {
-  intercept(_context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('before EmptyResponseInterceptor');
-
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        // console.log('EmptyResponseInterceptor :: ' + data);
+        console.log('before EmptyResponseInterceptor');
+
         if (!data || data.length === 0) {
-          throw new HttpException('Not', HttpStatus.NO_CONTENT);
+          const response = context.switchToHttp().getResponse();
+          response.status(HttpStatus.NO_CONTENT);
         }
 
-        // console.log('after EmptyResponseInterceptor');
+        console.log('after EmptyResponseInterceptor');
 
         return data;
       }),
