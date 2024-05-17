@@ -15,8 +15,8 @@ export class WarehouseV1Service {
     return await this.warehouseV1Repository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} warehouseV1`;
+  async findOne(id: number) {
+    return await this.warehouseV1Repository.findOne(id);
   }
 
   update(id: number, updateWarehouseV1Dto: UpdateWarehouseV1Dto) {

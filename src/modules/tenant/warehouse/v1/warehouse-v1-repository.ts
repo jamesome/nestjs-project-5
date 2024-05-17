@@ -23,4 +23,13 @@ export class WarehouseV1Repository {
       },
     });
   }
+
+  async findOne(id: number) {
+    return await this.warehouseV1Repository.find({
+      relations: {
+        product: true,
+      },
+      where: { id },
+    });
+  }
 }
