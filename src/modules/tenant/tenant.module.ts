@@ -13,19 +13,11 @@ import { ProductV2Module } from './product/v2/product-v2.module';
         children: [
           {
             path: 'v1',
-            module: ProductV1Module,
+            children: [ProductV1Module, OptionV1Module, WarehouseV1Module],
           },
           {
             path: 'v2',
-            module: ProductV2Module,
-          },
-          {
-            path: 'v1',
-            module: OptionV1Module,
-          },
-          {
-            path: 'v1',
-            module: WarehouseV1Module,
+            children: [ProductV2Module],
           },
         ],
       },
