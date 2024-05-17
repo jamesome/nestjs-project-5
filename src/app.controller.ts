@@ -17,4 +17,9 @@ export class AppController {
   getHello() {
     return this.appService.getHello();
   }
+
+  @Get('empty')
+  getEmpty(): object | null {
+    return this.appService.getEmpty();
+  }
 }

@@ -9,4 +9,8 @@ export class AppService {
   async getHello(): Promise<string> {
     return await this.i18n.t('test.HELLO');
   }
+
+  async getEmpty(): Promise<string | null> {
+    return await null;
+  }
 }
