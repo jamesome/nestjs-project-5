@@ -1,8 +1,8 @@
-import { ArgumentsHost, Catch } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
 import { ThrottlerException } from '@nestjs/throttler';
 
-@Catch()
-export class ThrottlerExceptionFilter {
+@Catch(ThrottlerException)
+export class ThrottlerExceptionFilter implements ExceptionFilter {
   catch(exception: ThrottlerException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
