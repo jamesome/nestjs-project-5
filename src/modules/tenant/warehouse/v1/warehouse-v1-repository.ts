@@ -6,11 +6,9 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class WarehouseV1Repository {
   private warehouseV1Repository: Repository<WarehouseV1>;
-  //   private productV1Repository: Repository<ProductV1>;
 
   constructor(private readonly dataSource: DataSource) {
     this.warehouseV1Repository = this.dataSource.getRepository(WarehouseV1);
-    // this.productV1Repository = this.dataSource.getRepository(ProductV1);
   }
 
   async create(createWarehouseV1Dto: CreateWarehouseV1Dto) {
