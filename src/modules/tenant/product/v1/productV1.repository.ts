@@ -19,7 +19,7 @@ export class ProductV1Repository {
   async findAll() {
     return await this.productV1Repository.find({
       relations: {
-        // options: true,
+        options: true,
         // warehouse: true,
       },
     });
