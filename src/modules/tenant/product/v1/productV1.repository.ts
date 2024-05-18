@@ -24,4 +24,14 @@ export class ProductV1Repository {
       },
     });
   }
+
+  async checkProductNameExists(name: string): Promise<boolean> {
+    console.log(name);
+    const result = await this.productV1Repository.find({
+      where: { name },
+    });
+
+    if (result.length) return true;
+    return false;
+  }
 }
