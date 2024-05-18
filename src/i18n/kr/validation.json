@@ -1,4 +1,4 @@
 {
-  "LENGTH": "{attribute}({property})은(는) '{value}' {constraints.0}자 이상 {constraints.1}자 이하만 입력이 가능합니다. {message}",
+  "LENGTH": "{property}({attribute})은(는) '{value}' {constraints.0}자 이상 {constraints.1}자 이하만 입력이 가능합니다. {message}",
   "INVALID_EMAIL": "asd"
 }

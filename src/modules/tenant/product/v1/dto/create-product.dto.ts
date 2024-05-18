@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, Length, ValidateNested } from 'class-validator';
 import { CreateOptionV1Dto } from 'src/modules/tenant/option/v1/dto/create-option-v1.dto';
 import { i18nValidationMessage } from 'nestjs-i18n';
 
@@ -15,6 +15,7 @@ export class CreateProductDto {
   })
   name!: string;
 
+  @ValidateNested()
   @Type(() => CreateOptionV1Dto)
   options!: CreateOptionV1Dto[];
 }
