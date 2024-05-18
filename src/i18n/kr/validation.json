@@ -1,4 +1,5 @@
 {
   "LENGTH": "{property}({attribute})은(는) '{value}' {constraints.0}자 이상 {constraints.1}자 이하만 입력이 가능합니다. {message}",
-  "INVALID_EMAIL": "asd"
+  "INVALID_EMAIL": "asd",
+  "UNIQUE_PRODUCT": "'{value}' 은(는) 이미 사용중인 {property}({attribute}) 입니다."
 }
