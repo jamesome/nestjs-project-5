@@ -10,12 +10,16 @@ import { setupSwagger } from './config/swagger.config';
 import { I18nValidationPipe } from 'nestjs-i18n';
 // import * as compression from 'compression';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
+import { useContainer } from 'class-validator';
 // import { ValidationError } from 'class-validator';
 declare const module: any;
 
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // 써드파티 앱의 의존성을 Nest 컨테이너가 하도록
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   // Interceptor
   app.useGlobalInterceptors(
