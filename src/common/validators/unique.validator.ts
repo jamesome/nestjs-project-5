@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import {
   ValidationArguments,
   ValidatorConstraint,
@@ -6,18 +6,20 @@ import {
 } from 'class-validator';
 
 @ValidatorConstraint({ async: true })
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class UniqueValidator implements ValidatorConstraintInterface {
   constructor(
     @Inject('REPOSITORY') private readonly repositories: Record<string, any>,
   ) {}
 
   async validate(value: any, args: ValidationArguments): Promise<boolean> {
-    const [domain] = args.constraints;
-    const repository = this.repositories[domain];
-
+    console.log('-------------222');
+    console.log(this.repositories);
+    console.log('-------------333');
+    const entity = args.constraints[0];
+    const repository = this.repositories[entity];
     if (!repository) {
-      throw new Error(`Repository for domain ${domain} not found`);
+      throw new Error(`Repository for entity ${entity} not found`);
     }
 
     const result = await repository.checkExists(value);
