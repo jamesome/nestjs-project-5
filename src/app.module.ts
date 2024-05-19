@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -22,6 +27,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { SystemModule } from './modules/system/system.module';
+import { DomainMiddleware } from './common/middleware/domain.middleware';
 
 @Module({
   imports: [
@@ -106,6 +112,10 @@ import { SystemModule } from './modules/system/system.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes('*')
+      .apply(DomainMiddleware)
+      .forRoutes({ path: 'tenant/:domain/*', method: RequestMethod.ALL });
   }
 }
