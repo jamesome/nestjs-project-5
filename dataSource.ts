@@ -12,7 +12,7 @@ export default new DataSource({
   type: 'mysql',
   host: configService.getOrThrow<string>('TENANT_DB_HOST'),
   port: configService.getOrThrow<number>('TENANT_DB_PORT'),
-  database: configService.getOrThrow<string>('TENANT_DB_NAME'),
+  database: configService.getOrThrow<string>('TENANT_DB_NAME'), // TODO: How..?
   entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
   username: configService.getOrThrow<string>('TENANT_DB_USERNAME'),
   password: configService.getOrThrow<string>('TENANT_DB_PASSWORD'),
