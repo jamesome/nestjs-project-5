@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import { IsNotEmpty, Length, Validate, ValidateNested } from 'class-validator';
 import { CreateOptionV1Dto } from 'src/modules/tenant/option/v1/dto/create-option-v1.dto';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { UniqueProductNameValidator } from 'src/validators/unique-product-name.validator';
+import { UniqueProductNameValidator } from 'src/common/validators/unique-product-name.validator';
 
 export class CreateProductDto {
   @ApiProperty()

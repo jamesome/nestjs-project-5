@@ -21,6 +21,6 @@ export class UniqueProductNameValidator
 
   defaultMessage(args: ValidationArguments): string {
     console.log(args);
-    return 'Product name ($value) already exists. Choose another name.' + args;
+    return 'Product name ($value) already exists. Choose another name.';
   }
 }
