@@ -1,19 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { REQUEST } from '@nestjs/core';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import { Request } from 'express';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    @Inject(REQUEST) private readonly request: Request,
+  ) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
+    console.log('domain ::: ' + this.request.domain);
+
     return {
       type: 'mysql',
       host: this.configService.get<string>('TENANT_DB_HOST'),
       port: this.configService.get<number>('TENANT_DB_PORT'),
       username: this.configService.get<string>('TENANT_DB_USERNAME'),
       password: this.configService.get<string>('TENANT_DB_PASSWORD'),
-      database: this.configService.get<string>('TENANT_DB_NAME'),
+      // database: this.configService.get<string>('TENANT_DB_NAME'),
+      database: this.request.domain,
       retryAttempts: 2, // DB connection 시도 횟수
       // synchronize: this.configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 떄, 테이블 자동생성
       synchronize: false,
