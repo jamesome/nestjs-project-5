@@ -2,7 +2,7 @@ import { registerDecorator, ValidationOptions } from 'class-validator';
 import { UniqueValidator } from '../validators/unique.validator';
 
 export function IsUnique(
-  domain: string,
+  repository: string,
   validationOptions?: ValidationOptions,
 ) {
   return function (object: Record<string, any>, propertyName: string) {
@@ -11,7 +11,7 @@ export function IsUnique(
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [domain],
+      constraints: [repository],
       validator: UniqueValidator,
     });
   };
