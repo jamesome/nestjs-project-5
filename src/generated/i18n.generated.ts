@@ -38,7 +38,7 @@ export type I18nTranslations = {
     "validation": {
         "LENGTH": string;
         "INVALID_EMAIL": string;
-        "UNIQUE_PRODUCT": string;
+        "UNIQUE": string;
     };
 };
 /* prettier-ignore */

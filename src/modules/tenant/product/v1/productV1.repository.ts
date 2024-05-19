@@ -25,8 +25,7 @@ export class ProductV1Repository {
     });
   }
 
-  async checkProductNameExists(name: string): Promise<boolean> {
-    console.log(name);
+  async checkExists(name: string): Promise<boolean> {
     const result = await this.productV1Repository.find({
       where: { name },
     });

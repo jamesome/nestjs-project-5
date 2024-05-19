@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, Length, Validate, ValidateNested } from 'class-validator';
+import { IsNotEmpty, Length, ValidateNested } from 'class-validator';
 import { CreateOptionV1Dto } from 'src/modules/tenant/option/v1/dto/create-option-v1.dto';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { UniqueProductNameValidator } from 'src/common/validators/unique-product-name.validator';
+// import { UniqueValidator } from 'src/common/validators/unique.validator';
+import { IsUnique } from 'src/common/decorators/is-unique.decorator';
 
 export class CreateProductDto {
   @ApiProperty()
@@ -14,8 +15,13 @@ export class CreateProductDto {
       attribute: 'PRODUCT_NAME',
     }),
   })
-  @Validate(UniqueProductNameValidator, {
-    message: i18nValidationMessage('validation.UNIQUE_PRODUCT', {
+  // @Validate(UniqueValidator, {
+  //   message: i18nValidationMessage('validation.UNIQUE_PRODUCT', {
+  //     attribute: 'PRODUCT_NAME',
+  //   }),
+  // })
+  @IsUnique('ProductV1Repository', {
+    message: i18nValidationMessage('validation.UNIQUE', {
       attribute: 'PRODUCT_NAME',
     }),
   })
