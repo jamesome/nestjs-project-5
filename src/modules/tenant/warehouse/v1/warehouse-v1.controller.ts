@@ -6,12 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Scope,
 } from '@nestjs/common';
 import { WarehouseV1Service } from './warehouse-v1.service';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
 
-@Controller('warehouse')
+@Controller({ path: 'warehouse', scope: Scope.REQUEST })
 export class WarehouseV1Controller {
   constructor(private readonly warehouseV1Service: WarehouseV1Service) {}
 
@@ -26,7 +27,7 @@ export class WarehouseV1Controller {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.warehouseV1Service.findOne(+id);
   }
 

@@ -1,22 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
-import { WarehouseV1Repository } from './warehouse-v1-repository';
+import { DataSource, Repository } from 'typeorm';
+import { WarehouseV1 } from './entities/warehouse-v1.entity';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class WarehouseV1Service {
-  constructor(private readonly warehouseV1Repository: WarehouseV1Repository) {}
+  private warehouseV1Repository: Repository<WarehouseV1>;
+
+  constructor(@Inject('CONNECTION') private readonly dataSource: DataSource) {
+    this.warehouseV1Repository = this.dataSource.getRepository(WarehouseV1);
+  }
 
   async create(createWarehouseV1Dto: CreateWarehouseV1Dto) {
     return await this.warehouseV1Repository.create(createWarehouseV1Dto);
   }
 
   async findAll() {
-    return await this.warehouseV1Repository.findAll();
+    return await this.warehouseV1Repository.find();
   }
 
   async findOne(id: number) {
-    return await this.warehouseV1Repository.findOne(id);
+    return await this.warehouseV1Repository.find({
+      relations: {
+        product: true,
+      },
+      where: { id },
+    });
   }
 
   update(id: number, updateWarehouseV1Dto: UpdateWarehouseV1Dto) {
