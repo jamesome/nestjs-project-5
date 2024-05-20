@@ -191,4 +191,5 @@ $ yarn add @nestjs/bull bull
 # Multi Tenancy
 # https://medium.com/@yangcar/multi-tenancy-implementation-with-nestjs-and-postgresql-507c6340269
 # https://resilient-923.tistory.com/409#google_vignette
+# https://gist.github.com/miyu4u/ebbe59e4ed173280ab14d26169242150
 ```
