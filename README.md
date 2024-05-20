@@ -189,5 +189,6 @@ $ yarn add @nestjs/bull bull
 # 트랜잭션 관리: create()와 save()는 트랜잭션을 명시적으로 분리하여 관리할 수 있습니다. 예를 들어, 여러 개의 엔티티를 한 번에 생성한 후 일괄적으로 저장하는 경우에 유용합니다.
 
 # Multi Tenancy
+# https://medium.com/@yangcar/multi-tenancy-implementation-with-nestjs-and-postgresql-507c6340269
 # https://resilient-923.tistory.com/409#google_vignette
 ```
