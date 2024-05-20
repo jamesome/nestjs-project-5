@@ -1,15 +1,16 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   ValidationArguments,
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
 
+@Injectable()
 @ValidatorConstraint({ async: true })
-@Injectable({ scope: Scope.REQUEST })
 export class UniqueValidator implements ValidatorConstraintInterface {
   constructor(
-    @Inject('REPOSITORY') private readonly repositories: Record<string, any>,
+    @Inject('REPOSITORY')
+    private readonly repositories: Record<string, any>,
   ) {}
 
   async validate(value: any, args: ValidationArguments): Promise<boolean> {
