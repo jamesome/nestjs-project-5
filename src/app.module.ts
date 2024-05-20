@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { TypeOrmModule } from '@nestjs/typeorm';
+// import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { validationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
-import { TypeOrmConfigService } from './config/typeorm.config';
+// import { TypeOrmConfigService } from './config/typeorm.config';
 // import { TypeOrmSystemConfigService } from  './config/typeorm.system.config';
 import { queueFactory } from './config/queue.config';
 import {
@@ -28,6 +28,7 @@ import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-thr
 import { TenantModule } from './modules/tenant/tenant.module';
 import { SystemModule } from './modules/system/system.module';
 import { DomainMiddleware } from './common/middleware/domain.middleware';
+import { TenancyModule } from './modules/tenant/tenancy.module';
 
 @Module({
   imports: [
@@ -57,23 +58,23 @@ import { DomainMiddleware } from './common/middleware/domain.middleware';
       //   },
       // ],
     }),
-    TypeOrmModule.forRootAsync({
-      useClass: TypeOrmConfigService,
-      // imports: [ConfigModule.forRoot()],
-      // useFactory: (configService: ConfigService) => ({
-      //   type: 'mysql',
-      //   host: configService.get<string>('DATABASE_HOST'),
-      //   port: configService.get<number>('DATABASE_PORT'),
-      //   username: configService.get<string>('DATABASE_USERNAME'),
-      //   password: configService.get<string>('DATABASE_PASSWORD'),
-      //   database: configService.get<string>('DATABASE_NAME'),
-      //   retryAttempts: 2, // DB connection 시도 횟수
-      //   entities: [],
-      //   synchronize: false, // 서버가 구동될 떄, 테이블 자동생성
-      //   logging: true,
-      // }),
-      // inject: [ConfigService],
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   useClass: TypeOrmConfigService,
+    //   // imports: [ConfigModule.forRoot()],
+    //   // useFactory: (configService: ConfigService) => ({
+    //   //   type: 'mysql',
+    //   //   host: configService.get<string>('DATABASE_HOST'),
+    //   //   port: configService.get<number>('DATABASE_PORT'),
+    //   //   username: configService.get<string>('DATABASE_USERNAME'),
+    //   //   password: configService.get<string>('DATABASE_PASSWORD'),
+    //   //   database: configService.get<string>('DATABASE_NAME'),
+    //   //   retryAttempts: 2, // DB connection 시도 횟수
+    //   //   entities: [],
+    //   //   synchronize: false, // 서버가 구동될 떄, 테이블 자동생성
+    //   //   logging: true,
+    //   // }),
+    //   // inject: [ConfigService],
+    // }),
     // TypeOrmModule.forRootAsync({
     //   name: 'system', // default DB는 name 필요없음
     //   useClass: TypeOrmSystemConfigService,
@@ -96,6 +97,7 @@ import { DomainMiddleware } from './common/middleware/domain.middleware';
       useFactory: queueFactory,
       inject: [ConfigService],
     }),
+    TenancyModule,
     // Tenant
     TenantModule,
     // System
