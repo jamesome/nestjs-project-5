@@ -10,7 +10,9 @@ import {
 import { ProductV2Service } from './product-v2.service';
 import { CreateProductV2Dto } from './dto/create-product-v2.dto';
 import { UpdateProductV2Dto } from './dto/update-product-v2.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('상품v2')
 @Controller('product')
 export class ProductV2Controller {
   constructor(private readonly productV2Service: ProductV2Service) {}

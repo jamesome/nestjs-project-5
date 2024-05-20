@@ -10,7 +10,17 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import {
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+
 @Controller('product')
+@ApiTags('상품v1')
+@ApiBadRequestResponse({ description: '잘못된 요청입니다' })
+@ApiUnauthorizedResponse()
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -25,6 +35,9 @@ export class ProductController {
   }
 
   @Get(':id')
+  @ApiNotFoundResponse({
+    description: '해당 상품이 존재하지 않습니다.',
+  })
   findOne(@Param('id') id: string) {
     return this.productService.findOne(+id);
   }
