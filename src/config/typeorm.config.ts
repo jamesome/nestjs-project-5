@@ -23,7 +23,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       // database: this.configService.get<string>('TENANT_DB_NAME'),
       database: this.request.domain,
       retryAttempts: 2, // DB connection 시도 횟수
-      // synchronize: this.configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 떄, 테이블 자동생성
+      // synchronize: this.configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
       synchronize: false,
       logging: this.configService.get<string>('NODE_ENV') === 'development',
       entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
