@@ -2,7 +2,7 @@ import { Type } from 'class-transformer';
 import { IsNotEmpty, Length, ValidateNested } from 'class-validator';
 import { CreateOptionV1Dto } from 'src/modules/tenant/option/v1/dto/create-option-v1.dto';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { IsUnique } from 'src/common/decorators/is-unique.decorator';
+// import { IsUnique } from 'src/common/decorators/is-unique.decorator';
 
 export class CreateProductDto {
   /**
@@ -21,11 +21,11 @@ export class CreateProductDto {
   //     attribute: 'PRODUCT_NAME',
   //   }),
   // })
-  @IsUnique('ProductV1Repository', {
-    message: i18nValidationMessage('validation.UNIQUE', {
-      attribute: 'PRODUCT_NAME',
-    }),
-  })
+  // @IsUnique('ProductV1Repository', {
+  //   message: i18nValidationMessage('validation.UNIQUE', {
+  //     attribute: 'PRODUCT_NAME',
+  //   }),
+  // })
   name!: string;
 
   @ValidateNested()
