@@ -1,4 +1,4 @@
-import { Module, Scope } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { RouterModule } from '@nestjs/core';
 import { ProductV1Module } from './product/v1/product-v1.module';
 import { OptionV1Module } from './option/v1/option-v1.module';
@@ -33,7 +33,6 @@ import { UniqueValidator } from 'src/common/validators/unique.validator';
     ProductV1Repository,
     {
       provide: 'REPOSITORY',
-      scope: Scope.REQUEST,
       useFactory: (productV1Repository: ProductV1Repository) => ({
         ProductV1Repository: productV1Repository,
       }),
