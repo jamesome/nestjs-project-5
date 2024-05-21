@@ -11,6 +11,7 @@ import { I18nValidationPipe } from 'nestjs-i18n';
 // import * as compression from 'compression';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 import { useContainer } from 'class-validator';
+import { DatabaseExceptionFilter } from './common/filter/database-exception.filter';
 // import { ValidationError } from 'class-validator';
 declare const module: any;
 
@@ -33,6 +34,7 @@ async function bootstrap() {
   // Filter
   app.useGlobalFilters(
     new ThrottlerExceptionFilter(),
+    new DatabaseExceptionFilter(),
     new I18nValidationExceptionFilter({
       // errorFormatter(data: ValidationError[]) {
       //   const customErrors: any[] = [];
