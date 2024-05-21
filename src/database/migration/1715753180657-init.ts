@@ -1,15 +1,10 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
-import { TimestampColumnHelper } from 'src/common/helpers/timestamp-columns.helper';
+import { MigrationInterface, QueryRunner, TableForeignKey } from 'typeorm';
+import { BaseTable } from '../base-table';
 
 export class Init1715753180657 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
-      new Table({
+      new BaseTable({
         name: 'product',
         columns: [
           {
@@ -27,13 +22,12 @@ export class Init1715753180657 implements MigrationInterface {
             isNullable: false,
             isUnique: true,
           },
-          ...TimestampColumnHelper.createTimestampColumns(),
         ],
       }),
     );
 
     await queryRunner.createTable(
-      new Table({
+      new BaseTable({
         name: 'options',
         columns: [
           {
@@ -67,13 +61,12 @@ export class Init1715753180657 implements MigrationInterface {
             length: '1000',
             isNullable: true,
           },
-          ...TimestampColumnHelper.createTimestampColumns(),
         ],
       }),
     );
 
     await queryRunner.createTable(
-      new Table({
+      new BaseTable({
         name: 'warehouse',
         columns: [
           {
@@ -95,7 +88,6 @@ export class Init1715753180657 implements MigrationInterface {
             length: '50',
             isNullable: false,
           },
-          ...TimestampColumnHelper.createTimestampColumns(),
         ],
       }),
     );

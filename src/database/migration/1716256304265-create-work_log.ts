@@ -1,10 +1,10 @@
-import { TimestampColumnHelper } from 'src/common/helpers/timestamp-columns.helper';
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
+import { BaseTable } from '../base-table';
 
 export class CreateWorkLog1716256304265 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
-      new Table({
+      new BaseTable({
         name: 'work_log',
         columns: [
           {
@@ -32,7 +32,6 @@ export class CreateWorkLog1716256304265 implements MigrationInterface {
             type: 'text',
             isNullable: true,
           },
-          ...TimestampColumnHelper.createTimestampColumns(),
         ],
       }),
     );
