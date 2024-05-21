@@ -16,12 +16,11 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
 
-    // Public
-    app.useStaticAssets(join(__dirname, '../src/public'));
-    app.setBaseViewsDir(join(__dirname, '../src/views'));
-
-    // View
+    // add template engine-------------------
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
     app.setViewEngine('hbs');
+    // add template engine-------------------
 
     await app.init();
   });
@@ -30,7 +29,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect(/Sellmate WMS API/);
   });
 
   afterAll(async () => {
