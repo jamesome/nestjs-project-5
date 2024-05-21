@@ -35,6 +35,9 @@ export type I18nTranslations = {
             "Length": string;
         };
     };
+    "database": {
+        "DUPLICATE_ENTRY": string;
+    };
     "validation": {
         "LENGTH": string;
         "INVALID_EMAIL": string;
