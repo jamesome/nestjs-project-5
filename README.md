@@ -156,7 +156,7 @@ $ yarn add @swc/cli @swc/core
 $ yarn add @nestjs/bull bull
 
 # seeder
-$ yarn add nestjs-seeder
+$ yarn add typeorm-extension
 
 # faker
 $ yarn add @faker-js/faker
@@ -188,6 +188,9 @@ $ yarn add @faker-js/faker
 
 # 스웨거 설정
 ## https://wooserk.tistory.com/105
+
+# seeder
+## https://whyhard.tistory.com/60
 
 # create()와 save()를 분리하여 사용하는 이유는 다음과 같습니다.
 # 분리된 생성과 저장 과정: create()는 엔티티 객체를 생성하는 단계이고, save()는 데이터베이스에 엔티티를 저장하는 단계입니다. 이 두 과정을 명확히 분리함으로써 코드의 의도를 명확히 할 수 있습니다.
