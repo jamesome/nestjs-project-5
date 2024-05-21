@@ -49,6 +49,7 @@
     "joi": "^17.13.1",
     "mysql2": "^3.9.7",
     "nestjs-i18n": "^10.4.5",
+    "nestjs-seeder": "^0.3.2",
     "reflect-metadata": "^0.2.0",
     "run-script-webpack-plugin": "^0.2.0",
     "rxjs": "^7.8.1",
