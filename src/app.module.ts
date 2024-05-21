@@ -5,7 +5,7 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -29,6 +29,7 @@ import { TenantModule } from './modules/tenant/tenant.module';
 import { SystemModule } from './modules/system/system.module';
 import { DomainMiddleware } from './common/middleware/domain.middleware';
 import { TenancyModule } from './modules/tenant/tenancy.module';
+import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
 
 @Module({
   imports: [
@@ -106,6 +107,10 @@ import { TenancyModule } from './modules/tenant/tenancy.module';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
     {
       provide: APP_GUARD,
       useClass: CustomThrottlerGuard,

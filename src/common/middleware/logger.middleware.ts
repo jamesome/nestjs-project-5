@@ -8,7 +8,7 @@ export class LoggerMiddleware implements NestMiddleware {
 
     console.log('Start LoggerMiddleware');
     console.log('ip :: ' + ip);
-    console.log('End LoggerMiddleware');
+    console.log('End LoggerMiddleware\n');
 
     // res.on('finish', () => {
     //   console.log('after middleware finished');
