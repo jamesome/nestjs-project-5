@@ -9,6 +9,7 @@ export class WarehouseV1Service {
   private warehouseV1Repository: Repository<WarehouseV1>;
 
   constructor(@Inject('CONNECTION') private readonly dataSource: DataSource) {
+    console.log(123);
     this.warehouseV1Repository = this.dataSource.getRepository(WarehouseV1);
   }
 
