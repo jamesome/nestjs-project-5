@@ -158,6 +158,9 @@ $ yarn add @nestjs/bull bull
 # seeder
 $ yarn add nestjs-seeder
 
+# faker
+$ yarn add @faker-js/faker
+
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
 ```
