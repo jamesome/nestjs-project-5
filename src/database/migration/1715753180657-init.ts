@@ -25,6 +25,7 @@ export class Init1715753180657 implements MigrationInterface {
             type: 'varchar',
             length: '50',
             isNullable: false,
+            isUnique: true,
           },
           ...TimestampColumnHelper.createTimestampColumns(),
         ],
