@@ -21,7 +21,7 @@ const options: DataSourceOptions & SeederOptions = {
   logging: configService.get<string>('NODE_ENV') === 'development',
   seeds: ['src/database/seeds/*{.ts,.js}'],
   seedTracking: true,
-  factories: ['dist/database/factories/*{.ts,.js}'],
+  factories: ['src/database/factories/*{.ts,.js}'],
 };
 
 createDatabase({ options });
