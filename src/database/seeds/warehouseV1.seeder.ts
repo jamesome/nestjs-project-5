@@ -5,25 +5,25 @@ import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 
 export default class WarehouseV1Seeder implements Seeder {
   async run(
-    _dataSource: DataSource,
+    dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     console.log('\nStart WarehouseV1Seeder------------------------\n');
-    // const productV1Repository = dataSource.getRepository(ProductV1);
-    const productV1Factory = factoryManager.get(ProductV1);
-    const newId = await productV1Factory.save();
-    console.log(newId);
+    const productV1Repository = dataSource.getRepository(ProductV1);
+    await productV1Repository.save([
+      {
+        name: 'cat1',
+      },
+    ]);
+    console.log(productV1Repository.findOne);
     console.log('\nEnd WarehouseV1Seeder------------------------\n');
+    const productV1Factory = factoryManager.get(ProductV1);
+    await productV1Factory.save();
     // await productV1Repository.find();
 
     // const warehouseV1Repository = dataSource.getRepository(WarehouseV1);
 
     // warehouseV1Repository.make({ ProductV1 });
-    // // await repository.insert([
-    // //   {
-    // //     name: 'cat1',
-    // //   },
-    // // ]);
 
     // const warehouseV1Factory = factoryManager.get(WarehouseV1);
     // const productV1Factory = factoryManager.get(ProductV1);
