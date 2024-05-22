@@ -117,8 +117,8 @@ export class Init1715753180657 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     // 외래 키 제약 조건 삭제
-    await queryRunner.dropForeignKey('warehouse', 'FK_warehouse_product_id');
-    await queryRunner.dropForeignKey('options', 'FK_options_product_id');
+    // await queryRunner.dropForeignKey('warehouse', 'FK_warehouse_product_id');
+    // await queryRunner.dropForeignKey('options', 'FK_options_product_id');
 
     // 테이블 삭제
     await queryRunner.dropTable('warehouse');
