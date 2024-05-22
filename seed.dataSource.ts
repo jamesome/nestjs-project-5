@@ -27,7 +27,7 @@ const options: DataSourceOptions & SeederOptions = {
 createDatabase({ options });
 
 const dataSource = new DataSource(options);
-dataSource.initialize();
+
 runSeeders(dataSource);
 
 export default dataSource;

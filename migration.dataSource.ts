@@ -1,7 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
-import { SeederOptions } from 'typeorm-extension';
 
 // package.json에 작성 된 typeorm-extension이 appConfigValidationSchema.module을 읽지 못하기 때문에 최상단에 작성 추가.
 // dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -9,7 +8,7 @@ dotenvConfig({ path: `.env.development` });
 
 const configService = new ConfigService();
 
-const options: DataSourceOptions & SeederOptions = {
+const options: DataSourceOptions = {
   type: 'mysql',
   host: configService.getOrThrow<string>('TENANT_DB_HOST'),
   port: configService.getOrThrow<number>('TENANT_DB_PORT'),
