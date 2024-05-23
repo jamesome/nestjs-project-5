@@ -9,7 +9,7 @@ export default class OptionV1Seeder implements Seeder {
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
     console.log('\n\nOptionV1Seeder\n\n');
-    const optionV1Repository = dataSource.getRepository(ProductV1);
+    const optionV1Repository = dataSource.getRepository(OptionV1);
 
     const productV1Factory = factoryManager.get(ProductV1);
     const optionV1Factory = factoryManager.get(OptionV1);
