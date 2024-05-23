@@ -23,7 +23,7 @@
     "migration:generate": "npm run typeorm -- -d ./migration.dataSource.ts migration:generate ./src/database/migration/$npm_config_name",
     "migration:run": "npm run typeorm migration:run -- -d ./migration.dataSource.ts",
     "migration:revert": "npm run typeorm migration:revert -- -d ./migration.dataSource.ts",
-    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d /seed.dataSource.ts"
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d /seed.dataSource.ts -n $npm_config_name"
   },
   "dependencies": {
     "@nestjs/bull": "^10.1.1",
