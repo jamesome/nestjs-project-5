@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
-import { SeederOptions, createDatabase, runSeeders } from 'typeorm-extension';
+import { SeederOptions, runSeeders } from 'typeorm-extension';
 
 // package.json에 작성 된 typeorm-extension이 appConfigValidationSchema.module을 읽지 못하기 때문에 최상단에 작성 추가.
 // dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -20,11 +20,9 @@ const options: DataSourceOptions & SeederOptions = {
   synchronize: false,
   logging: configService.get<string>('NODE_ENV') === 'development',
   seeds: ['src/database/seeds/*{.ts,.js}'],
-  seedTracking: true,
+  seedTracking: false,
   factories: ['src/database/factories/*{.ts,.js}'],
 };
-
-createDatabase({ options });
 
 const dataSource = new DataSource(options);
 
