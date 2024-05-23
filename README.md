@@ -193,6 +193,7 @@ $ yarn add @faker-js/faker
 ## https://whyhard.tistory.com/60
 ## https://velog.io/@gkqkehs7/typeorm-extension%EC%9C%BC%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-seeding
 ## https://junyharang.tistory.com/521
+## https://www.testingfly.com/articles/seed-database-using-typeorm-seeding
 
 # create()와 save()를 분리하여 사용하는 이유는 다음과 같습니다.
 # 분리된 생성과 저장 과정: create()는 엔티티 객체를 생성하는 단계이고, save()는 데이터베이스에 엔티티를 저장하는 단계입니다. 이 두 과정을 명확히 분리함으로써 코드의 의도를 명확히 할 수 있습니다.
