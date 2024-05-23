@@ -13,7 +13,8 @@ export class WarehouseV1Service {
   }
 
   async create(createWarehouseV1Dto: CreateWarehouseV1Dto) {
-    return await this.warehouseV1Repository.create(createWarehouseV1Dto);
+    const warehouse = this.warehouseV1Repository.create(createWarehouseV1Dto);
+    return await this.warehouseV1Repository.insert(warehouse);
   }
 
   async findAll() {
