@@ -1,4 +1,13 @@
 services:
+  app:
+    container_name: app
+    build:
+      target: development
+    ports:
+      - '3000:3000'
+    volumes:
+      - './:/srv/app'
+
   mysql:
     image: mysql:latest
     container_name: mysql
