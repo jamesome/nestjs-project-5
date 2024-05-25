@@ -18,10 +18,10 @@ const connectionFactory = {
     // MysqlConnectionCredentialsOptions
     const dataSourceOptions: DataSourceOptions = {
       type: 'mysql',
-      host: configService.get<string>('TENANT_DB_HOST'),
-      port: configService.get<number>('TENANT_DB_PORT'),
-      username: configService.get<string>('TENANT_DB_USERNAME'),
-      password: configService.get<string>('TENANT_DB_PASSWORD'),
+      host: configService.get<string>('DB_HOST'),
+      port: configService.get<number>('DB_PORT'),
+      username: configService.get<string>('DB_USERNAME'),
+      password: configService.get<string>('DB_PASSWORD'),
       database,
       synchronize: false,
       logging: configService.get<string>('NODE_ENV') === 'development',
