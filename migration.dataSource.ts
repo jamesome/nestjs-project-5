@@ -14,7 +14,7 @@ const options: DataSourceOptions = {
   port: configService.getOrThrow<number>('DB_PORT'),
   database: configService.getOrThrow<string>('DB_NAME'),
   // entities: [__dirname + 'src/modules/**/**/**/entities/*.entity{.ts,.js}'],
-  entities: [__dirname + '../entities/*.entity{.ts,.js}'],
+  entities: [__dirname + '/../entities/*.entity{.ts,.js}'],
   username: configService.getOrThrow<string>('DB_USERNAME'),
   password: configService.getOrThrow<string>('DB_PASSWORD'),
   // synchronize: configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
