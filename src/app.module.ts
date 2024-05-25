@@ -40,7 +40,7 @@ import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
       //   process.env.NODE_ENV === 'development'
       //     ? '.env.development'
       //     : '.env.production',
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      // envFilePath: `.env.${process.env.NODE_ENV}`,
       validationSchema: validationSchema,
       validationOptions: {
         abortEarly: false,

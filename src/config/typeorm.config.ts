@@ -16,11 +16,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
     return {
       type: 'mysql',
-      host: this.configService.get<string>('TENANT_DB_HOST'),
-      port: this.configService.get<number>('TENANT_DB_PORT'),
-      username: this.configService.get<string>('TENANT_DB_USERNAME'),
-      password: this.configService.get<string>('TENANT_DB_PASSWORD'),
-      // database: this.configService.get<string>('TENANT_DB_NAME'),
+      host: this.configService.get<string>('DB_HOST'),
+      port: this.configService.get<number>('DB_PORT'),
+      username: this.configService.get<string>('DB_USERNAME'),
+      password: this.configService.get<string>('DB_PASSWORD'),
+      // database: this.configService.get<string>('DB_NAME'),
       database: this.request.domain,
       retryAttempts: 2, // DB connection 시도 횟수
       // synchronize: this.configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
