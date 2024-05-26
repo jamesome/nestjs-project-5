@@ -1,11 +1,21 @@
 // import { Exclude } from 'class-transformer';
 import { IsString } from 'class-validator';
-import { BaseEntity } from 'src/modules/base-entity';
 import { OptionV1 } from 'src/modules/tenant/option/v1/entities/option-v1.entity';
-import { Entity, Column, AfterInsert, OneToMany, Relation } from 'typeorm';
+import { TimestampedEntity } from 'src/modules/timestamped-entity';
+import {
+  Entity,
+  Column,
+  AfterInsert,
+  OneToMany,
+  Relation,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'product' })
-export class ProductV1 extends BaseEntity<ProductV1> {
+export class ProductV1 extends TimestampedEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
   @Column({ name: 'name', comment: '상품명' })
   @IsString()
   name!: string;

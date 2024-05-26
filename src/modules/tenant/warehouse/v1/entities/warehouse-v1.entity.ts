@@ -1,10 +1,20 @@
 // import { Exclude } from 'class-transformer';
-import { BaseEntity } from 'src/modules/base-entity';
 import { ProductV1 } from 'src/modules/tenant/product/v1/entities/productV1.entity';
-import { Entity, Column, OneToOne, Relation, JoinColumn } from 'typeorm';
+import { TimestampedEntity } from 'src/modules/timestamped-entity';
+import {
+  Entity,
+  Column,
+  OneToOne,
+  Relation,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'warehouse' })
-export class WarehouseV1 extends BaseEntity<WarehouseV1> {
+export class WarehouseV1 extends TimestampedEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
   // @Exclude()
   @Column({ name: 'name', comment: '창고명' })
   name!: string;
