@@ -28,6 +28,12 @@ export class CreateProductDto {
   // })
   name!: string;
 
+  brand?: string;
+
+  supply?: string;
+
+  active?: string;
+
   @ValidateNested()
   @Type(() => CreateOptionV1Dto)
   options!: CreateOptionV1Dto[];

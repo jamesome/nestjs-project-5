@@ -3,9 +3,11 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  // Patch,
   Param,
   Delete,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -16,6 +18,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FindProductDto } from './dto/find-product.dto';
 
 @Controller('product')
 @ApiTags('상품v1')
@@ -30,8 +33,8 @@ export class ProductController {
   }
 
   @Get()
-  async findAll() {
-    return await this.productService.findAll();
+  async findAll(@Query() findProductDto: FindProductDto) {
+    return await this.productService.findAll(findProductDto);
   }
 
   @Get(':id')
@@ -42,7 +45,8 @@ export class ProductController {
     return this.productService.findOne(+id);
   }
 
-  @Patch(':id')
+  // @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(+id, updateProductDto);
   }
