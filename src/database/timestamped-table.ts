@@ -1,6 +1,6 @@
 import { Table, TableOptions, TableColumnOptions } from 'typeorm';
 
-export class BaseTable extends Table {
+export class TimestampedTable extends Table {
   constructor(options: TableOptions) {
     const baseColumns: TableColumnOptions[] = [
       {
