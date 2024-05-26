@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Scope,
+  Query,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { WarehouseV1Service } from './warehouse-v1.service';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
@@ -22,8 +24,12 @@ export class WarehouseV1Controller {
   }
 
   @Get()
-  findAll() {
-    return this.warehouseV1Service.findAll();
+  findAll(
+    @Query('page', new ParseIntPipe()) page: number = 1,
+    @Query('limit', new ParseIntPipe()) limit: number = 20,
+  ) {
+    limit = limit > 100 ? 100 : limit; // 최대 페이지 제한
+    return this.warehouseV1Service.findAll(page, limit);
   }
 
   @Get(':id')
