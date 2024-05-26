@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { BaseTable } from '../base-table';
+import { TimestampedTable } from '../timestamped-table';
 
 export class CreateWorkLog1716256304265 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
-      new BaseTable({
+      new TimestampedTable({
         name: 'work_log',
         columns: [
           {

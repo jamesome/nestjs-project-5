@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, TableForeignKey } from 'typeorm';
-import { BaseTable } from '../base-table';
+import { TimestampedTable } from '../timestamped-table';
 
 export class Init1715753180657 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
-      new BaseTable({
+      new TimestampedTable({
         name: 'product',
         columns: [
           {
@@ -22,12 +22,33 @@ export class Init1715753180657 implements MigrationInterface {
             isNullable: false,
             isUnique: true,
           },
+          {
+            name: 'brand',
+            type: 'varchar',
+            length: '50',
+            isNullable: true,
+            isUnique: false,
+          },
+          {
+            name: 'supply',
+            type: 'varchar',
+            length: '50',
+            isNullable: true,
+            isUnique: false,
+          },
+          {
+            name: 'active',
+            type: 'boolean',
+            isNullable: false,
+            isUnique: false,
+            default: true,
+          },
         ],
       }),
     );
 
     await queryRunner.createTable(
-      new BaseTable({
+      new TimestampedTable({
         name: 'options',
         columns: [
           {
@@ -66,7 +87,7 @@ export class Init1715753180657 implements MigrationInterface {
     );
 
     await queryRunner.createTable(
-      new BaseTable({
+      new TimestampedTable({
         name: 'warehouse',
         columns: [
           {
