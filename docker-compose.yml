@@ -4,7 +4,7 @@ services:
   #   build:
   #     target: development
   #   ports:
-  #     - '3000:3000'
+  #     - '${APP_PORT:-3100}:3000'
   #   volumes:
   #     - './:/srv/app'
 
@@ -22,7 +22,7 @@ services:
       - ./db/mysql/data:/var/lib/mysql
     # platform: linux/arm64
 
-  db-edis:
+  db-redis:
     image: redis:7.2.5
     container_name: nestjs-redis
     restart: always
