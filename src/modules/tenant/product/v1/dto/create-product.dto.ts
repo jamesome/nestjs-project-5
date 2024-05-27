@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, Length, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsString, Length, ValidateNested } from 'class-validator';
 import { CreateOptionV1Dto } from 'src/modules/tenant/option/v1/dto/create-option-v1.dto';
 import { i18nValidationMessage } from 'nestjs-i18n';
 // import { IsUnique } from 'src/common/decorators/is-unique.decorator';
@@ -28,8 +28,10 @@ export class CreateProductDto {
   // })
   name!: string;
 
+  @IsString()
   brand?: string;
 
+  @IsString()
   supply?: string;
 
   active?: string;
