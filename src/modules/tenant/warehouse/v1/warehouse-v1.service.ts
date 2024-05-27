@@ -1,11 +1,11 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
 import { DataSource, Repository } from 'typeorm';
 import { WarehouseV1 } from './entities/warehouse-v1.entity';
 import { PaginationResult, paginate } from 'src/common/helpers/pagination';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class WarehouseV1Service {
   private warehouseV1Repository: Repository<WarehouseV1>;
 

@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Scope,
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -14,7 +13,7 @@ import { WarehouseV1Service } from './warehouse-v1.service';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
 
-@Controller({ path: 'warehouse', scope: Scope.REQUEST })
+@Controller({ path: 'warehouse' })
 export class WarehouseV1Controller {
   constructor(private readonly warehouseV1Service: WarehouseV1Service) {}
 
