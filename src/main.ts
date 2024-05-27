@@ -29,7 +29,12 @@ async function bootstrap() {
   );
 
   // Pipe
-  app.useGlobalPipes(new I18nValidationPipe());
+  app.useGlobalPipes(
+    new I18nValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
 
   // Filter
   app.useGlobalFilters(
