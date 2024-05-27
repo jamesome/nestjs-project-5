@@ -25,6 +25,7 @@ export class ProductV1Repository {
     name && queryBuilder.andWhere('product.name = :name', { name });
     brand && queryBuilder.andWhere('product.brand = :brand', { brand });
     supply && queryBuilder.andWhere('product.supply = :supply', { supply });
+    queryBuilder.orderBy('product.name', 'ASC');
 
     return await queryBuilder.getMany();
 
