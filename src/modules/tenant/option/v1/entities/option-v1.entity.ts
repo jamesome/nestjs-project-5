@@ -17,10 +17,10 @@ export class OptionV1 extends BaseEntity<OptionV1> {
   name!: string;
 
   @Column({ name: 'size', comment: '사이즈' })
-  size?: string;
+  size!: string;
 
   @Column({ name: 'color', comment: '색상' })
-  color?: string;
+  color!: string;
 
   @ManyToOne(() => ProductV1, (product) => product.options, { nullable: true })
   @JoinColumn({ name: 'product_id' })

@@ -28,15 +28,19 @@ export class CreateProductDto {
   // })
   name!: string;
 
-  @IsString()
-  brand?: string;
+  @IsString({
+    message: i18nValidationMessage('validation.IS_STRING', {
+      attribute: 'PRODUCT_BRAND',
+    }),
+  })
+  brand!: string;
 
   @IsString()
-  supply?: string;
+  supply!: string;
 
   active?: string;
 
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => CreateOptionV1Dto)
   options!: CreateOptionV1Dto[];
 }

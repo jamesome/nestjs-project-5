@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
+// import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import {
   ApiBadRequestResponse,
@@ -19,6 +19,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { FindProductDto } from './dto/find-product.dto';
+import { ItemProductDto } from './dto/item-product.dto';
 
 @Controller('product')
 @ApiTags('상품v1')
@@ -28,8 +29,8 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  async create(@Body() createProductDto: CreateProductDto) {
-    return await this.productService.create(createProductDto);
+  async create(@Body() itemProductDto: ItemProductDto) {
+    return await this.productService.create(itemProductDto);
   }
 
   @Get()

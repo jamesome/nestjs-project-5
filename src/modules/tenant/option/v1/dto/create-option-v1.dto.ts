@@ -14,12 +14,12 @@ export class CreateOptionV1Dto {
       attribute: 'OPTION_SIZE',
     }),
   })
-  size?: string;
+  size!: string;
 
   @Length(2, 10, {
     message: i18nValidationMessage('validation.LENGTH', {
       attribute: 'OPTION_COLOR',
     }),
   })
-  color?: string;
+  color!: string;
 }
