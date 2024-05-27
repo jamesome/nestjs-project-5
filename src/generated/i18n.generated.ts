@@ -40,6 +40,7 @@ export type I18nTranslations = {
     };
     "validation": {
         "LENGTH": string;
+        "IS_STRING": string;
         "INVALID_EMAIL": string;
         "UNIQUE": string;
     };
