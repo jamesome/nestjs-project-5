@@ -3,7 +3,6 @@ import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
 import { DataSource, Repository } from 'typeorm';
 import { WarehouseV1 } from './entities/warehouse-v1.entity';
-import { PaginationResult, paginate } from 'src/common/helpers/pagination';
 
 @Injectable()
 export class WarehouseV1Service {
@@ -18,15 +17,8 @@ export class WarehouseV1Service {
     return await this.warehouseV1Repository.insert(warehouse);
   }
 
-  // async findAll() {
-  //   return await this.warehouseV1Repository.find();
-  // }
-
-  async findAll(
-    page: number,
-    limit: number,
-  ): Promise<PaginationResult<WarehouseV1>> {
-    return paginate(this.warehouseV1Repository, { page, limit });
+  async findAll() {
+    return await this.warehouseV1Repository.find();
   }
 
   async findOne(id: number) {
