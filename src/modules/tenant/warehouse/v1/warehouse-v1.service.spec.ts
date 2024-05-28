@@ -50,7 +50,7 @@ describe('WarehouseV1Service', () => {
     jest.spyOn(service, 'create').mockResolvedValue(result);
 
     const response = await service.create(newWarehouse);
-    console.log(response);
+
     expect(response).toEqual(result);
     expect(service.create).toHaveBeenCalledWith(newWarehouse);
   });

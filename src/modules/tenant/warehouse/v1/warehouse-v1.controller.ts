@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   Query,
+  DefaultValuePipe,
   ParseIntPipe,
 } from '@nestjs/common';
 import { WarehouseV1Service } from './warehouse-v1.service';
 import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
+// import { FindWarehouseV1Dto } from './dto/find-warehouse-v1.dto';
 
 @Controller({ path: 'warehouse' })
 export class WarehouseV1Controller {
@@ -24,11 +26,15 @@ export class WarehouseV1Controller {
 
   @Get()
   findAll(
-    @Query('page', new ParseIntPipe()) page: number = 1,
-    @Query('limit', new ParseIntPipe()) limit: number = 20,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+    @Query('limit', new DefaultValuePipe(1), ParseIntPipe) limit: number = 1,
   ) {
-    limit = limit > 100 ? 100 : limit; // 최대 페이지 제한
-    return this.warehouseV1Service.findAll(page, limit);
+    limit = limit > 100 ? 100 : limit;
+    return this.warehouseV1Service.findAll({
+      page,
+      limit,
+      route: 'asdasd',
+    });
   }
 
   @Get(':id')

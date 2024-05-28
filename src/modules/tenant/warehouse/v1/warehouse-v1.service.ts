@@ -3,6 +3,12 @@ import { CreateWarehouseV1Dto } from './dto/create-warehouse-v1.dto';
 import { UpdateWarehouseV1Dto } from './dto/update-warehouse-v1.dto';
 import { DataSource, Repository } from 'typeorm';
 import { WarehouseV1 } from './entities/warehouse-v1.entity';
+// import { FindWarehouseV1Dto } from './dto/find-warehouse-v1.dto';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class WarehouseV1Service {
@@ -17,12 +23,24 @@ export class WarehouseV1Service {
     return await this.warehouseV1Repository.insert(warehouse);
   }
 
-  async findAll() {
-    return await this.warehouseV1Repository.find();
+  // async findAll(
+  //   findWarehouseV1Dto: FindWarehouseV1Dto,
+  // ): Promise<Pagination<WarehouseV1>> {
+  //   const paginationOptions: IPaginationOptions = {
+  //     page: findWarehouseV1Dto.page || 1,
+  //     limit: findWarehouseV1Dto.limit || 10,
+  //   };
+
+  //   return await paginate(this.warehouseV1Repository, paginationOptions);
+  //   // return await this.warehouseV1Repository.find();
+  // }
+
+  async findAll(options: IPaginationOptions): Promise<Pagination<WarehouseV1>> {
+    return await paginate<WarehouseV1>(this.warehouseV1Repository, options);
   }
 
   async findOne(id: number) {
-    return await this.warehouseV1Repository.find({
+    return await this.warehouseV1Repository.findOne({
       relations: {
         product: true,
       },
