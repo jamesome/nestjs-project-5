@@ -17,7 +17,9 @@ services:
     ports:
       - '${DB_PORT:-3306}:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-Pa55w0rd}
+      SSQL_COLLATION: 'Korean_Wansung_CI_AS'
+      TZ: 'Asia/Seoul'
     volumes:
       - ./db/mysql/data:/var/lib/mysql
     # platform: linux/arm64
