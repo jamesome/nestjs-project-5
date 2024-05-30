@@ -29,7 +29,7 @@ import { TenantModule } from './modules/tenant/tenant.module';
 import { SystemModule } from './modules/system/system.module';
 import { DomainMiddleware } from './common/middleware/domain.middleware';
 import { TenancyModule } from './modules/tenant/tenancy.module';
-import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 @Module({
   imports: [
