@@ -2,13 +2,12 @@ import { Global, Module, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { Request } from 'express';
-import { ConfigService } from '@nestjs/config';
+import { options } from 'src/database/dataSource';
 
 const connectionFactory = {
   provide: 'CONNECTION',
   scope: Scope.REQUEST,
   useFactory: async (request: Request) => {
-    const configService = new ConfigService();
     const database = request.domain;
 
     if (!database) {
@@ -17,14 +16,7 @@ const connectionFactory = {
 
     // MysqlConnectionCredentialsOptions
     const dataSourceOptions: DataSourceOptions = {
-      type: 'mysql',
-      host: configService.get<string>('DB_HOST'),
-      port: configService.get<number>('DB_PORT'),
-      username: configService.get<string>('DB_USERNAME'),
-      password: configService.get<string>('DB_PASSWORD'),
-      database,
-      synchronize: false,
-      logging: configService.get<string>('NODE_ENV') === 'development',
+      ...options,
       entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
     };
 
