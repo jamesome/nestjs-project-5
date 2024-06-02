@@ -8,7 +8,7 @@ const connectionFactory = {
   provide: 'CONNECTION',
   scope: Scope.REQUEST,
   useFactory: async (request: Request) => {
-    const database = request.domain;
+    const database = request.params.domain;
 
     if (!database) {
       return null;

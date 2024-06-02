@@ -119,10 +119,6 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes('*')
-      .apply(DomainMiddleware)
-      .forRoutes({ path: 'tenant/:domain/*', method: RequestMethod.ALL });
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
