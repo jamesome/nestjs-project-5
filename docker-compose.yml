@@ -11,15 +11,16 @@ services:
   db-tenant:
     image: mysql:8.4.0
     container_name: nestjs-db
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     ports:
       - '${DB_PORT:-3306}:3306'
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-Pa55w0rd}
-      SSQL_COLLATION: 'Korean_Wansung_CI_AS'
-      TZ: 'Asia/Seoul'
+      MYSQL_DATABASE: ${DB_NAME:-wms}
+      MYSQL_USER: ${DB_USERNAME:-wms}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-Pa55w0rd}
     volumes:
       - ./db/mysql/data:/var/lib/mysql
     # platform: linux/arm64
