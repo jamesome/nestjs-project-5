@@ -11,7 +11,7 @@ import { ProductV2Module } from './product/v2/product-v2.module';
   imports: [
     RouterModule.register([
       {
-        path: 'tenant/*',
+        path: 'tenant/:domain',
         children: [
           {
             path: 'v1',
