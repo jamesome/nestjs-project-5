@@ -161,6 +161,9 @@ $ yarn add typeorm-extension
 # faker
 $ yarn add @faker-js/faker
 
+# excel, fs
+$ yarn add xlsx fs
+
 # ts-node
 # TypeScript를 NodeJs 환경에서 실행하기 위한 도구.
 ```
@@ -201,7 +204,10 @@ $ yarn add @faker-js/faker
 # 트랜잭션 관리: create()와 save()는 트랜잭션을 명시적으로 분리하여 관리할 수 있습니다. 예를 들어, 여러 개의 엔티티를 한 번에 생성한 후 일괄적으로 저장하는 경우에 유용합니다.
 
 # Multi Tenancy
-# https://medium.com/@yangcar/multi-tenancy-implementation-with-nestjs-and-postgresql-507c6340269
-# https://resilient-923.tistory.com/409#google_vignette
-# https://gist.github.com/miyu4u/ebbe59e4ed173280ab14d26169242150
+## https://medium.com/@yangcar/multi-tenancy-implementation-with-nestjs-and-postgresql-507c6340269
+## https://resilient-923.tistory.com/409#google_vignette
+## https://gist.github.com/miyu4u/ebbe59e4ed173280ab14d26169242150
+
+# EXCEL
+## https://velog.io/@peter0618/NestJS-excel-%EC%97%85%EB%A1%9C%EB%93%9C%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C
 ```
