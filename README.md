@@ -161,7 +161,7 @@ $ yarn add typeorm-extension
 # faker
 $ yarn add @faker-js/faker
 
-# excel, fs
+# excel, fs, 파일업로드
 $ yarn add xlsx fs
 
 # ts-node
