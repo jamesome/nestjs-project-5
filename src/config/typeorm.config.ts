@@ -12,7 +12,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   ) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    console.log('domain ::: ' + this.request.domain);
+    const database = this.request.params.domain;
+
+    // if (!database) {
+    //   return null;
+    // }
 
     return {
       type: 'mysql',
@@ -20,8 +24,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       port: this.configService.get<number>('DB_PORT'),
       username: this.configService.get<string>('DB_USERNAME'),
       password: this.configService.get<string>('DB_PASSWORD'),
-      // database: this.configService.get<string>('DB_NAME'),
-      database: this.request.domain,
+      database,
       retryAttempts: 2, // DB connection 시도 횟수
       // synchronize: this.configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
       synchronize: false,

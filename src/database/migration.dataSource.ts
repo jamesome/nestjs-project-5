@@ -3,7 +3,7 @@ import { options } from './dataSource';
 
 const dataSourceOptions: DataSourceOptions = {
   ...options,
-  migrations: ['./migration/*{.ts,.js}'],
+  migrations: ['src/database/migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
 };
 
