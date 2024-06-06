@@ -40,21 +40,6 @@ async function bootstrap() {
     new ThrottlerExceptionFilter(),
     new DatabaseExceptionFilter(),
     new I18nValidationExceptionFilter({
-      // errorFormatter(data: ValidationError[]) {
-      //   const customErrors: any[] = [];
-      //   data.forEach((error) => {
-      //     console.log(error);
-      //     const element = {} as any;
-      //     element.field = error.property;
-      //     const errorStringJoin: Array<string> = [];
-      //     for (const type in error.constraints) {
-      //       errorStringJoin.push(error.constraints[type]);
-      //     }
-      //     element.error = errorStringJoin;
-      //     customErrors.push(element);
-      //   });
-      //   return customErrors;
-      // },
       detailedErrors: false,
     }),
   );
