@@ -3,8 +3,9 @@ import { WarehouseService } from './warehouse.service';
 import { Warehouse } from './entities/warehouse.entity';
 import { ObjectLiteral, Repository } from 'typeorm';
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
+import { FindWarehouseDto } from './dto/find-warehouse.dto';
 
-const mockWarehouseRepository = {
+const mockRepository = {
   create: jest.fn(),
   save: jest.fn(),
   find: jest.fn(),
@@ -13,8 +14,14 @@ const mockWarehouseRepository = {
   delete: jest.fn(),
 };
 
+const mockQueryBuilder = {
+  where: jest.fn(),
+  getMany: jest.fn(),
+};
+
 const mockDataSource = {
-  getRepository: jest.fn().mockReturnValue(mockWarehouseRepository),
+  getRepository: jest.fn().mockReturnValue(mockRepository),
+  createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
 };
 
 type MockRepository<T extends ObjectLiteral = any> = Partial<
@@ -24,6 +31,7 @@ type MockRepository<T extends ObjectLiteral = any> = Partial<
 describe('WarehouseService', () => {
   let service: WarehouseService;
   let warehouseRepository: MockRepository<Warehouse>;
+  let warehouseQueryBuilder: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -38,6 +46,10 @@ describe('WarehouseService', () => {
 
     service = module.get<WarehouseService>(WarehouseService);
     warehouseRepository = mockDataSource.getRepository(Warehouse);
+    // warehouseQueryBuilder = module
+    //   .get(getRepositoryToken(Warehouse))
+    //   .createQueryBuilder();
+    warehouseQueryBuilder = mockDataSource.createQueryBuilder('warehouse');
   });
 
   afterEach(() => {
@@ -81,6 +93,38 @@ describe('WarehouseService', () => {
       expect(warehouseRepository.create).toHaveBeenCalledTimes(1);
       expect(result).toBeDefined();
       expect(result).toEqual(createdWarehouse);
+    });
+  });
+
+  describe('findAll()', () => {
+    const findWarehouseDto: FindWarehouseDto = {
+      id: 1,
+      name: '창고-1',
+      code: 'a-00001',
+      address: '서울시 마포구 공덕',
+    };
+    const warehouses = [
+      { id: 1, name: '창고-1', code: null },
+      { id: 2, name: '창고-2', code: 'a-00002' },
+    ];
+
+    it('should return a warehouses', async () => {
+      warehouseQueryBuilder.getMany?.mockReturnValue(findWarehouseDto);
+      const result = await service.findAll(findWarehouseDto);
+
+      expect(await service.findAll(findWarehouseDto)).toBe(warehouses);
+      expect(warehouseQueryBuilder.andWhere).toHaveBeenCalledWith(
+        'user.name = :name',
+        { name: 'John Doe' },
+      );
+      expect(warehouseQueryBuilder.andWhere).toHaveBeenCalledWith(
+        'user.age = :age',
+        { age: 30 },
+      );
+      expect(warehouseQueryBuilder.getMany).toHaveBeenCalled();
+      expect(warehouseRepository.createQueryBuilder).toHaveBeenCalledWith(
+        'user',
+      );
     });
   });
 
