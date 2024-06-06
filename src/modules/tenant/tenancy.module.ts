@@ -15,12 +15,13 @@ const connectionFactory = {
     }
 
     // MysqlConnectionCredentialsOptions
-    const dataSourceOptions: DataSourceOptions = {
+    const dataSourceOptions = {
       ...options,
+      database,
       entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
     };
 
-    const dataSource = new DataSource(dataSourceOptions);
+    const dataSource = new DataSource(dataSourceOptions as DataSourceOptions);
     return await dataSource.initialize();
   },
   inject: [REQUEST],

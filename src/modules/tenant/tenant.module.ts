@@ -3,9 +3,9 @@ import { RouterModule } from '@nestjs/core';
 import { ProductV1Module } from './product/v1/product-v1.module';
 import { OptionV1Module } from './option/v1/option-v1.module';
 import { ProductV2Module } from './product/v2/product-v2.module';
-import { WarehouseModule } from './warehouse/warehouse.module';
-import { ZoneModule } from './zone/zone.module';
-import { LocationModule } from './location/location.module';
+import { WarehouseModule } from './warehouse/v1/warehouse.module';
+import { ZoneModule } from './zone/v1/zone.module';
+import { LocationModule } from './location/v1/location.module';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { LocationModule } from './location/location.module';
               OptionV1Module,
               WarehouseModule,
               ZoneModule,
-              Location,
+              LocationModule,
             ],
           },
           {

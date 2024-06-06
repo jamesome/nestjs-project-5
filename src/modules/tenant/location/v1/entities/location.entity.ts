@@ -7,9 +7,9 @@ import {
   Relation,
 } from 'typeorm';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
-import { Zone } from 'src/modules/zone/entities/zone.entity';
 import { StockStatus } from './enum';
 import { Expose } from 'class-transformer';
+import { Zone } from 'src/modules/tenant/zone/v1/entities/zone.entity';
 
 @Entity({ name: 'location' })
 export class Location extends TimestampedEntity {

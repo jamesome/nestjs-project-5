@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import {
   // BaseEntity as TypeORMBaseEntity,
   CreateDateColumn,
@@ -7,16 +8,19 @@ import {
 } from 'typeorm';
 
 export abstract class TimestampedEntity extends BaseEntity {
+  @Expose({ name: 'created_at' })
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  created_at!: Date;
+  createdAt!: Date;
 
+  @Expose({ name: 'updated_at' })
   @UpdateDateColumn({ name: 'updated_at' })
-  updated_at?: Date | null = null;
+  updatedAt?: Date | null = null;
 
+  @Expose({ name: 'deleted_at' })
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deleted_at?: Date | null = null;
+  deletedAt?: Date | null = null;
 }

@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
+import { Zone } from 'src/modules/tenant/zone/v1/entities/zone.entity';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
-import { Zone } from 'src/modules/zone/entities/zone.entity';
 import {
   Column,
   Entity,

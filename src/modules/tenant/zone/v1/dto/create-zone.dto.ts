@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { TransformEmptyToNull } from 'src/common/decorators/transform-empty-to-null';
 
 export class CreateZoneDto {
   @IsNotEmpty({
@@ -27,7 +26,7 @@ export class CreateZoneDto {
   name!: string;
 
   @IsOptional()
-  @TransformEmptyToNull()
+  // @TransformEmptyToNull()
   @MaxLength(100, {
     message: i18nValidationMessage('validation.MAX_LENGTH'),
   })

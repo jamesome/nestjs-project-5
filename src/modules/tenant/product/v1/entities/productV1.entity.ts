@@ -1,7 +1,6 @@
 // import { Exclude } from 'class-transformer';
 import { IsBoolean, IsString } from 'class-validator';
 import { OptionV1 } from 'src/modules/tenant/option/v1/entities/option-v1.entity';
-import { WarehouseV1 } from 'src/modules/tenant/warehouse/v1/entities/warehouse-v1.entity';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import {
   Entity,
@@ -10,7 +9,6 @@ import {
   OneToMany,
   Relation,
   PrimaryGeneratedColumn,
-  OneToOne,
 } from 'typeorm';
 
 @Entity({ name: 'product' })
