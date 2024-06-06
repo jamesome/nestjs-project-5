@@ -73,6 +73,12 @@ export class CreateTableWarehouse1716768214990 implements MigrationInterface {
             isNullable: false,
             comment: '창고 등록 작업자',
           },
+          {
+            name: 'defauilt',
+            type: 'tinyInt',
+            isNullable: false,
+            comment: '기본 창고 여부',
+          },
         ],
       }),
     );

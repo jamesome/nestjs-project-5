@@ -1,12 +1,11 @@
 import { MigrationInterface, QueryRunner, TableForeignKey } from 'typeorm';
 import { TimestampedTable } from '../timestamped-table';
-import { StockStatus } from 'src/modules/location/entities/enum';
 
-export class CreateTableLocation1716940630213 implements MigrationInterface {
+export class CreateTableZone1716938121173 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new TimestampedTable({
-        name: 'location',
+        name: 'zone',
         columns: [
           {
             name: 'id',
@@ -17,10 +16,10 @@ export class CreateTableLocation1716940630213 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'zone_id',
+            name: 'warehouse_id',
             type: 'int',
             isNullable: false,
-            comment: '(FK) zone 외래키',
+            comment: '(FK) warehouse 외래키',
           },
           {
             name: 'name',
@@ -28,46 +27,40 @@ export class CreateTableLocation1716940630213 implements MigrationInterface {
             length: '100',
             isNullable: false,
             isUnique: true,
-            comment: '로케이션명',
+            comment: '분류(zone)명',
           },
           {
-            name: 'stock_status',
-            type: 'enum',
-            isNullable: false,
-            enum: Object.values(StockStatus),
-            comment: '재고상태. normal(정상), abnormal(비정상), disposed(폐기)',
-          },
-          {
-            name: 'remark',
-            type: 'text',
-            isNullable: true,
-            comment: '비고',
-          },
-          {
-            name: 'create_worker',
+            name: 'code',
             type: 'varchar',
-            length: '50',
+            length: '100',
+            isNullable: true,
+            isUnique: true,
+            comment: '분류(zone)코드',
+          },
+          {
+            name: 'defauilt',
+            type: 'tinyInt',
             isNullable: false,
-            comment: '로케이션 등록 작업자',
+            comment: '기본 분류 여부',
           },
         ],
       }),
     );
 
     await queryRunner.createForeignKey(
-      'location',
+      'zone',
       new TableForeignKey({
-        name: 'FK_location_zone_id', // 외래 키 제약 조건 이름
-        columnNames: ['zone_id'], // 외래 키가 추가될 열
+        name: 'FK_zone_warehouse_id', // 외래 키 제약 조건 이름
+        columnNames: ['warehouse_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
-        referencedTableName: 'zone', // 외래 키가 참조할 테이블
+        referencedTableName: 'warehouse', // 외래 키가 참조할 테이블
         onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('location', 'FK_location_zone_id');
-    await queryRunner.dropTable('location');
+    await queryRunner.dropForeignKey('zone', 'FK_zone_warehouse_id');
+    await queryRunner.dropTable('zone');
   }
 }
