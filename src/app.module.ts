@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { validationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
 import { queueFactory } from './config/queue.config';
@@ -98,7 +97,6 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
   ],
   controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,

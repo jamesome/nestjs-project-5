@@ -9,18 +9,23 @@ describe('ProductController', () => {
   let service: ProductService;
 
   beforeEach(async () => {
+    const mockDataSource = {
+      getRepository: jest.fn().mockReturnValue({
+        create: jest.fn(),
+        find: jest.fn(),
+        findOne: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn(),
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductController],
       providers: [
+        ProductService,
         {
-          provide: ProductService,
-          useValue: {
-            create: jest.fn(),
-            find: jest.fn(),
-            findOne: jest.fn(),
-            update: jest.fn(),
-            remove: jest.fn(),
-          },
+          provide: 'CONNECTION',
+          useValue: mockDataSource,
         },
       ],
     }).compile();

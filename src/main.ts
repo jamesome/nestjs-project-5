@@ -1,6 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ThrottlerExceptionFilter } from './common/filter/throtter-exception.filter';
+import { ThrottlerExceptionFilter } from './common/filters/throtter-exception.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { ClassSerializerInterceptor, VersioningType } from '@nestjs/common';
@@ -9,7 +9,7 @@ import { I18nValidationPipe } from 'nestjs-i18n';
 // import * as compression from 'compression';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 import { useContainer } from 'class-validator';
-import { DatabaseExceptionFilter } from './common/filter/database-exception.filter';
+import { DatabaseExceptionFilter } from './common/filters/database-exception.filter';
 // import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor.spec';
 // import { ValidationError } from 'class-validator';
 declare const module: any;

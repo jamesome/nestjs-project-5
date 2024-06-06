@@ -5,8 +5,24 @@ describe('OptionV1Service', () => {
   let service: OptionV1Service;
 
   beforeEach(async () => {
+    const mockDataSource = {
+      getRepository: jest.fn().mockReturnValue({
+        create: jest.fn(),
+        find: jest.fn(),
+        findOne: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn(),
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OptionV1Service],
+      providers: [
+        OptionV1Service,
+        {
+          provide: 'CONNECTION',
+          useValue: mockDataSource,
+        },
+      ],
     }).compile();
 
     service = module.get<OptionV1Service>(OptionV1Service);
