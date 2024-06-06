@@ -1,9 +1,4 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 // import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,8 +6,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { validationSchema } from './config/app.config';
 import { ThrottlerConfigService } from './config/throttler.config';
-// import { TypeOrmConfigService } from './config/typeorm.config';
-// import { TypeOrmSystemConfigService } from  './config/typeorm.system.config';
 import { queueFactory } from './config/queue.config';
 import {
   AcceptLanguageResolver,
@@ -27,7 +20,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { CustomThrottlerGuard } from './common/guard/custom-throttler/custom-throttler.guard';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { SystemModule } from './modules/system/system.module';
-import { DomainMiddleware } from './common/middleware/domain.middleware';
 import { TenancyModule } from './modules/tenant/tenancy.module';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
