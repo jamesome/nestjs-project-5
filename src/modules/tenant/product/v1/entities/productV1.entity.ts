@@ -39,9 +39,6 @@ export class ProductV1 extends TimestampedEntity {
   })
   options!: Relation<OptionV1>[];
 
-  @OneToOne(() => WarehouseV1, { cascade: true })
-  warehouse!: Relation<WarehouseV1>;
-
   @AfterInsert()
   logInsert() {
     console.log('Product에 insert가 완료되었습니다.');
