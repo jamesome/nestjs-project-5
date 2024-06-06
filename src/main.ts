@@ -10,7 +10,7 @@ import { I18nValidationPipe } from 'nestjs-i18n';
 import { I18nValidationExceptionFilter } from 'nestjs-i18n';
 import { useContainer } from 'class-validator';
 import { DatabaseExceptionFilter } from './common/filter/database-exception.filter';
-import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor.spec';
+// import { TransformResponseInterceptor } from './common/interceptors/transform-response.interceptor.spec';
 // import { ValidationError } from 'class-validator';
 declare const module: any;
 
@@ -24,7 +24,7 @@ async function bootstrap() {
   // Interceptor
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(app.get(Reflector)), // Serializer 글로벌 적용
-    new TransformResponseInterceptor(),
+    // new TransformResponseInterceptor(),
   );
 
   // Pipe
