@@ -211,4 +211,10 @@ $ yarn add xlsx fs
 # EXCEL
 ## https://velog.io/@peter0618/NestJS-excel-%EC%97%85%EB%A1%9C%EB%93%9C%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C
 ## https://4sii.tistory.com/693
+
+# VIRTUAL Column
+# addSelect() 함수를 통해 Entity에 없는 계산된 컬럼을 노출시키려는 경우, getMany()나 getOne()으로는 노출 불가.(Entity에 없기 때문.)
+## https://velog.io/@pk3669/%EA%B0%80%EC%83%81-%EC%BB%AC%EB%9F%BC
+## https://pietrzakadrian.com/blog/virtual-column-solutions-for-typeorm
+## https://seongsu.me/skill/typeorm-virtual-column-2/
 ```
