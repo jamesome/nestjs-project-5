@@ -38,10 +38,11 @@ export class CreateTableZone1716938121173 implements MigrationInterface {
             comment: '분류(zone)코드',
           },
           {
-            name: 'defauilt',
+            name: 'default',
             type: 'tinyInt',
             isNullable: false,
             comment: '기본 분류 여부',
+            default: false,
           },
         ],
       }),

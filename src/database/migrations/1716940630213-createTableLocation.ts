@@ -51,10 +51,11 @@ export class CreateTableLocation1716940630213 implements MigrationInterface {
             comment: '로케이션 등록 작업자',
           },
           {
-            name: 'defauilt',
+            name: 'default',
             type: 'tinyInt',
             isNullable: false,
             comment: '기본 로케이션 여부',
+            default: false,
           },
         ],
       }),

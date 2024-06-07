@@ -74,10 +74,11 @@ export class CreateTableWarehouse1716768214990 implements MigrationInterface {
             comment: '창고 등록 작업자',
           },
           {
-            name: 'defauilt',
+            name: 'default',
             type: 'tinyInt',
             isNullable: false,
             comment: '기본 창고 여부',
+            default: false,
           },
         ],
       }),
