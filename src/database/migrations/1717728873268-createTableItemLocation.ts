@@ -1,4 +1,4 @@
-import { StockStatus } from 'src/modules/location/entities/enum';
+import { StockStatus } from 'src/modules/tenant/location/v1/entities/enum';
 import {
   MigrationInterface,
   QueryRunner,
