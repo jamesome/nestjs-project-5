@@ -19,6 +19,16 @@ export class ItemService {
     return await this.itemRepository.save(warehouse);
   }
 
+  async find(findItemDto: FindItemDto) {
+    const { includeInventory } = findItemDto;
+
+    if (includeInventory) {
+      return await this.getItemMany(findItemDto);
+    }
+
+    return await this.findAll(findItemDto);
+  }
+
   async findAll(findItemDto: FindItemDto) {
     const { name, property, itemCode } = findItemDto;
     const queryBuilder = this.itemRepository.createQueryBuilder('item');

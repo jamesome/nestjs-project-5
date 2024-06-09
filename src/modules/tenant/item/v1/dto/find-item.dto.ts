@@ -12,4 +12,8 @@ export class FindItemDto extends PartialType(CreateItemDto) {
   @IsOptional()
   @Expose({ name: 'item_code' })
   itemLocation!: FindItemLocationDto;
+
+  @IsOptional()
+  @Expose({ name: 'include_inventory' })
+  includeInventory!: boolean;
 }
