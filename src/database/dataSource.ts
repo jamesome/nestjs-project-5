@@ -1,6 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { config as dotenvConfig } from 'dotenv';
+import './query-builders/get-item-many';
 
 // package.json에 작성 된 typeorm-extension이 appConfigValidationSchema.module을 읽지 못하기 때문에 최상단에 작성 추가.
 // dotenvConfig({ path: `.env.${process.env.NODE_ENV}` });
@@ -18,6 +19,7 @@ export const options: DataSourceOptions = {
   // synchronize: configService.get<string>('NODE_ENV') === 'development', // 서버가 구동될 때, 테이블 자동생성
   synchronize: false,
   logging: configService.get<string>('NODE_ENV') === 'development',
+  timezone: 'Z',
 };
 
 export const dataSource = new DataSource(options);
