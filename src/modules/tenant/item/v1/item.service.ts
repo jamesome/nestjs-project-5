@@ -59,7 +59,7 @@ export class ItemService {
         id: supplier.id,
         name: supplier.name,
       })),
-      total_quantity: item.itemLocations.totalQuantity,
+      total_quantity: 123,
     }));
   }
 

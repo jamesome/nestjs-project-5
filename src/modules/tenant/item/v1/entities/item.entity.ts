@@ -1,7 +1,6 @@
 import { Expose } from 'class-transformer';
-import { ItemCode } from 'src/modules/item-code/entities/item-code.entity';
-import { ItemLocation } from 'src/modules/item-location/entities/item-location.entity';
-import { Supplier } from 'src/modules/supplier/entities/supplier.entity';
+import { ItemCode } from 'src/modules/tenant/item-code/v1/entities/item-code.entity';
+import { ItemLocation } from 'src/modules/tenant/item-location/entities/item-location.entity';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import {
   Column,
@@ -39,11 +38,11 @@ export class Item extends TimestampedEntity {
   })
   itemCodes!: Relation<ItemCode>[];
 
-  @OneToMany(() => Supplier, (supplier) => supplier.item, {
-    eager: true,
-    cascade: true,
-  })
-  suppliers!: Relation<Supplier>[];
+  // @OneToMany(() => Supplier, (supplier) => supplier.item, {
+  //   eager: true,
+  //   cascade: true,
+  // })
+  // suppliers!: Relation<Supplier>[];
 
   @OneToMany(() => ItemLocation, (itemLocation) => itemLocation.item, {
     eager: true,

@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Item } from 'src/modules/item/entities/item.entity';
+import { Item } from 'src/modules/tenant/item/v1/entities/item.entity';
 import {
   Column,
   Entity,
