@@ -9,6 +9,7 @@ import { LocationModule } from './location/v1/location.module';
 import { ItemModule } from './item/v1/item.module';
 import { ItemCode } from './item-code/v1/entities/item-code.entity';
 import { ItemLocation } from './item-location/entities/item-location.entity';
+import { SupplierModule } from './supplier/v1/supplier.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ItemLocation } from './item-location/entities/item-location.entity';
               ItemModule,
               ItemCode,
               ItemLocation,
+              SupplierModule,
             ],
           },
           {
@@ -44,6 +46,7 @@ import { ItemLocation } from './item-location/entities/item-location.entity';
     ItemModule,
     ItemCode,
     ItemLocation,
+    SupplierModule,
     ProductV2Module,
   ],
   providers: [],
