@@ -5,11 +5,13 @@ import {
   JoinColumn,
   ManyToOne,
   Relation,
+  OneToMany,
 } from 'typeorm';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import { StockStatus } from './enum';
 import { Expose } from 'class-transformer';
 import { Zone } from 'src/modules/tenant/zone/v1/entities/zone.entity';
+import { ItemLocation } from 'src/modules/tenant/item-location/entities/item-location.entity';
 
 @Entity({ name: 'location' })
 export class Location extends TimestampedEntity {
@@ -58,4 +60,10 @@ export class Location extends TimestampedEntity {
     comment: '창고 등록 작업자',
   })
   createWorker?: string;
+
+  @OneToMany(() => ItemLocation, (itemLocation) => itemLocation.item, {
+    eager: true,
+    cascade: true,
+  })
+  itemLocations!: Relation<ItemLocation>[];
 }

@@ -55,10 +55,10 @@ export class ItemService {
         id: itemCode.id,
         code: itemCode.code,
       })),
-      suppliers: item.suppliers.map((supplier) => ({
-        id: supplier.id,
-        name: supplier.name,
-      })),
+      // suppliers: item.suppliers.map((supplier) => ({
+      //   id: supplier.id,
+      //   name: supplier.name,
+      // })),
       total_quantity: 123,
     }));
   }

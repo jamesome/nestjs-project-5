@@ -7,9 +7,9 @@ import {
   PrimaryColumn,
   Relation,
 } from 'typeorm';
-import { StockStatus } from 'src/modules/location/entities/enum';
-import { Item } from 'src/modules/item/entities/item.entity';
-import { Location } from 'src/modules/location/entities/location.entity';
+import { Item } from '../../item/v1/entities/item.entity';
+import { StockStatus } from '../../location/v1/entities/enum';
+import { Location } from '../../location/v1/entities/location.entity';
 
 @Entity({ name: 'item_location' })
 export class ItemLocation {
@@ -21,7 +21,7 @@ export class ItemLocation {
   @Expose({ name: 'item_id' })
   itemId!: number;
 
-  @ManyToOne(() => Location, (zone) => zone.itemLocations)
+  @ManyToOne(() => Location, (location) => location.itemLocations)
   @JoinColumn({ name: 'location_id' })
   location!: Relation<Location>;
 
