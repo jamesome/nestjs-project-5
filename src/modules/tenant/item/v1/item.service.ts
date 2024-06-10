@@ -150,7 +150,7 @@ export class ItemService {
       name: item.name,
       property: item.property,
       created_at: item.createdAt,
-      item_codes: item.itemCodes.map((itemCode) => ({
+      itemCodes: item.itemCodes.map((itemCode) => ({
         id: itemCode.id,
         code: itemCode.code,
       })),
