@@ -20,7 +20,7 @@ export class ItemService {
     return await this.itemRepository.save(warehouse);
   }
 
-  async findItem(findItemDto: FindItemDto) {
+  async find(findItemDto: FindItemDto) {
     const { includeInventory } = findItemDto;
 
     if (includeInventory) {
@@ -150,7 +150,7 @@ export class ItemService {
       name: item.name,
       property: item.property,
       created_at: item.createdAt,
-      itemCodes: item.itemCodes.map((itemCode) => ({
+      item_codes: item.itemCodes.map((itemCode) => ({
         id: itemCode.id,
         code: itemCode.code,
       })),

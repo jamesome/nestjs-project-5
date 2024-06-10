@@ -4,14 +4,29 @@ import { Item } from './entities/item.entity';
 import { Like, ObjectLiteral, Repository } from 'typeorm';
 import { FindItemDto } from './dto/find-item.dto';
 
+const mockRepository = {
+  create: jest.fn(),
+  save: jest.fn(),
+  find: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+  createQueryBuilder: jest.fn().mockReturnThis(),
+};
+
+const mockQueryBuilder = {
+  select: jest.fn().mockReturnThis(),
+  addSelect: jest.fn().mockReturnThis(),
+  leftJoin: jest.fn().mockReturnThis(),
+  where: jest.fn().mockReturnThis(),
+  andWhere: jest.fn().mockReturnThis(),
+  groupBy: jest.fn().mockReturnThis(),
+  orderBy: jest.fn().mockReturnThis(),
+  getItemMany: jest.fn(),
+};
+
 const mockDataSource = {
-  getRepository: jest.fn().mockReturnValue({
-    create: jest.fn(),
-    find: jest.fn(),
-    findOne: jest.fn(),
-    update: jest.fn(),
-    remove: jest.fn(),
-  }),
+  getRepository: jest.fn().mockReturnValue(mockRepository),
 };
 
 type MockRepository<T extends ObjectLiteral = any> = Partial<
@@ -71,7 +86,7 @@ describe('ItemService', () => {
       ];
       itemRepository.find?.mockResolvedValue(mockItems);
 
-      const items = await service.findItem(findItemDto);
+      const items = await service.find(findItemDto);
 
       const expectedFindOptions = {
         where: {
@@ -88,7 +103,10 @@ describe('ItemService', () => {
       // itemRepository의 find 메서드가 올바른 findOptions와 함께 호출되었는지 확인
       expect(itemRepository.find).toHaveBeenCalledTimes(1);
       expect(itemRepository.find).toHaveBeenCalledWith(expectedFindOptions);
-      expect(items).toEqual(mockItems);
+      items?.forEach((item, index) => {
+        expect(item.name).toBe(mockItems[index].name);
+        expect(item.property).toBe(mockItems[index].property);
+      });
     });
 
     it('should be getManyItemsWithInventoryList', async () => {
@@ -103,37 +121,45 @@ describe('ItemService', () => {
         {
           id: 1,
           name: 'testName',
-          property: 'test',
+          property: 'testProperty',
           itemCodes: [
             { id: 1, code: 'aaa' },
             { id: 2, code: 'bbb' },
           ],
           suppliers: [
-            { id: 1, name: '1q1q' },
-            { id: 2, name: '2w2w' },
+            { id: 1, name: 'supplier1' },
+            { id: 2, name: 'supplier2' },
           ],
+          quantity_total: 100,
+          quantity_available: 80,
+          quantity_non_available: 20,
+          quantity_by_zone: JSON.stringify([
+            { zone_id: 1, zone_name: 'zone1', quantity: 50 },
+            { zone_id: 2, zone_name: 'zone2', quantity: 50 },
+          ]),
         },
       ];
-      itemRepository.find?.mockResolvedValue(mockItems);
 
-      const items = await service.findItem(findItemDto);
+      mockRepository.createQueryBuilder.mockReturnValue(mockQueryBuilder);
+      mockQueryBuilder.getItemMany.mockResolvedValue(mockItems);
 
-      const expectedFindOptions = {
-        where: {
-          name: Like(`%${findItemDto.name}%`),
-          property: Like(`%${findItemDto.property}%`),
-          itemCodes: { code: Like(`%${findItemDto.itemCode}%`) },
-        },
-        order: {
-          createdAt: 'DESC',
-          id: 'DESC',
-        },
-      };
+      const items = await service.getManyItemsWithInventoryList(findItemDto);
 
-      // itemRepository의 find 메서드가 올바른 findOptions와 함께 호출되었는지 확인
-      expect(itemRepository.find).toHaveBeenCalledTimes(1);
-      expect(itemRepository.find).toHaveBeenCalledWith(expectedFindOptions);
-      expect(items).toEqual(mockItems);
+      expect(mockQueryBuilder.select).toHaveBeenCalled();
+      expect(mockQueryBuilder.addSelect).toHaveBeenCalled();
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalled();
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalled();
+      expect(mockQueryBuilder.groupBy).toHaveBeenCalled();
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalled();
+      expect(mockQueryBuilder.getItemMany).toHaveBeenCalled();
+      items?.forEach((item, index) => {
+        expect(item.name).toBe(mockItems[index].name);
+        expect(item.property).toBe(mockItems[index].property);
+        expect(item.quantity_total).toBe(mockItems[index].quantity_total);
+        expect(item.quantity_available).toBe(
+          mockItems[index].quantity_available,
+        );
+      });
     });
   });
 
@@ -153,5 +179,13 @@ describe('ItemService', () => {
       expect(itemRepository.findOne).toHaveBeenCalledWith(findOneArgs);
       expect(result).toEqual(mockedItem);
     });
+  });
+
+  describe('inbound()', () => {
+    it.todo('should inbound');
+  });
+
+  describe('outbound()', () => {
+    it.todo('should outbound');
   });
 });

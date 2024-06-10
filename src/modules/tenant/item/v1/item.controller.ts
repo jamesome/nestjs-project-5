@@ -25,8 +25,8 @@ export class ItemController {
   }
 
   @Get()
-  async findItem(@Query() findItemDto: FindItemDto) {
-    return await this.itemService.findItem(findItemDto);
+  async find(@Query() findItemDto: FindItemDto) {
+    return await this.itemService.find(findItemDto);
   }
 
   @Get(':id')
