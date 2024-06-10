@@ -51,6 +51,9 @@ export class Item extends TimestampedEntity {
   })
   itemLocations!: Relation<ItemLocation>[];
 
-  @Expose({ name: 'total_quantity' })
-  totalQuantity?: number;
+  // Virtual Entities
+  quantity_total?: number;
+  quantity_available?: number;
+  quantity_non_available?: number;
+  quantity_by_zone?: object;
 }

@@ -24,6 +24,7 @@ SelectQueryBuilder.prototype.getItemMany = async function () {
     entity['total_quantity'] = Number(item['total_quantity']);
     entity['available_quantity'] = Number(item['available_quantity']);
     entity['non_available_quantity'] = Number(item['non_available_quantity']);
+    entity['quantity_by_zone'] = Object(item['quantity_by_zone']);
 
     flag = item['item_id'];
     return entity;
