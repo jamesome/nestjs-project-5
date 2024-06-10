@@ -21,6 +21,7 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:create": "npm run typeorm -- migration:create ./src/database/migrations/$npm_config_name",
     "migration:generate": "npm run typeorm -- -d ./src/database/migration.dataSource.ts migration:generate ./src/database/migrations/$npm_config_name",
+    "migration:show": "yarn run typeorm migration:show -d ./src/database/migration.dataSource.ts",
     "migration:run": "npm run typeorm migration:run -- -d ./src/database/migration.dataSource.ts",
     "migration:revert": "npm run typeorm migration:revert -- -d ./src/database/migration.dataSource.ts",
     "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d ./src/database/seed.dataSource.ts -n $npm_config_name"
