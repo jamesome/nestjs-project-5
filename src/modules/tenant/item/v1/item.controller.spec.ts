@@ -6,9 +6,25 @@ describe('ItemController', () => {
   let controller: ItemController;
 
   beforeEach(async () => {
+    const mockDataSource = {
+      getRepository: jest.fn().mockReturnValue({
+        create: jest.fn(),
+        find: jest.fn(),
+        findOne: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn(),
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ItemController],
-      providers: [ItemService],
+      providers: [
+        ItemService,
+        {
+          provide: 'CONNECTION',
+          useValue: mockDataSource,
+        },
+      ],
     }).compile();
 
     controller = module.get<ItemController>(ItemController);

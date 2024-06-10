@@ -6,9 +6,25 @@ describe('SupplierController', () => {
   let controller: SupplierController;
 
   beforeEach(async () => {
+    const mockDataSource = {
+      getRepository: jest.fn().mockReturnValue({
+        create: jest.fn(),
+        find: jest.fn(),
+        findOne: jest.fn(),
+        update: jest.fn(),
+        remove: jest.fn(),
+      }),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SupplierController],
-      providers: [SupplierService],
+      providers: [
+        SupplierService,
+        {
+          provide: 'CONNECTION',
+          useValue: mockDataSource,
+        },
+      ],
     }).compile();
 
     controller = module.get<SupplierController>(SupplierController);

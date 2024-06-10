@@ -15,7 +15,9 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "Sellmate WMS API"', () => {
-      expect(appController.root()).toBe('Sellmate WMS API');
+      const expectResponse = appController.root();
+      const compareValue = { message: 'Sellmate WMS API' };
+      expect(expectResponse).toStrictEqual(compareValue);
     });
   });
 });
