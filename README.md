@@ -222,4 +222,8 @@ $ yarn add xlsx fs
 ## https://velog.io/@pk3669/%EA%B0%80%EC%83%81-%EC%BB%AC%EB%9F%BC
 ## https://pietrzakadrian.com/blog/virtual-column-solutions-for-typeorm
 ## https://seongsu.me/skill/typeorm-virtual-column-2/
+
+# Logger
+## https://orkhan.gitbook.io/typeorm/docs/logging#changing-default-logger
+## https://stackoverflow.com/questions/77677988/configure-colors-for-nestjs-logger
 ```
