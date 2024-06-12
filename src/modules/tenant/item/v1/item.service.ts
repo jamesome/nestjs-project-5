@@ -5,19 +5,79 @@ import { DataSource, Like, Repository } from 'typeorm';
 import { Item } from './entities/item.entity';
 import { FindItemDto } from './dto/find-item.dto';
 import { ItemLocation } from '../../item-location/entities/item-location.entity';
+import { ItemSerial } from '../../item-serial/entities/item-serial.entity';
+import { CreateItemLocationDto } from '../../item-location/dto/create-item-location.dto';
 
 @Injectable()
 export class ItemService {
   private itemRepository: Repository<Item>;
+  private itemLocationRepository: Repository<ItemLocation>;
+  private itemSerialRepository: Repository<ItemSerial>;
 
   constructor(@Inject('CONNECTION') private readonly dataSource: DataSource) {
     this.itemRepository = this.dataSource.getRepository(Item);
+    this.itemLocationRepository = this.dataSource.getRepository(ItemLocation);
+    this.itemSerialRepository = this.dataSource.getRepository(ItemSerial);
   }
 
   async create(createItemDto: CreateItemDto) {
     const warehouse = this.itemRepository.create(createItemDto);
 
     return await this.itemRepository.save(warehouse);
+  }
+
+  async inbound(createItemLocationDto: CreateItemLocationDto[]) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+
+    for (const dto of createItemLocationDto) {
+      const itemLocationRecord = await this.itemLocationRepository.findOne({
+        where: {
+          itemId: dto.itemId,
+          locationId: dto.locationId,
+          status: dto.status,
+          lotNo: dto.lotNo,
+        },
+      });
+
+      await queryRunner.startTransaction();
+
+      try {
+        if (itemLocationRecord) {
+          await queryRunner.manager.update(ItemLocation, itemLocationRecord, {
+            quantity: itemLocationRecord.quantity + dto.quantity,
+          });
+        } else {
+          const newItemLocation = this.itemLocationRepository.create({
+            itemId: dto.itemId,
+            locationId: dto.locationId,
+            quantity: dto.quantity,
+            status: dto.status,
+            lotNo: dto.lotNo,
+            expirationDate: dto.expirationDate,
+          });
+
+          await queryRunner.manager.insert(ItemLocation, newItemLocation);
+        }
+
+        if (dto.itemSerial.serialNo) {
+          const newItemLocation = this.itemSerialRepository.create({
+            itemId: dto.itemId,
+            serialNo: dto.itemSerial.serialNo,
+          });
+
+          await queryRunner.manager.insert(ItemSerial, newItemLocation);
+        }
+
+        await queryRunner.commitTransaction();
+      } catch (error) {
+        await queryRunner.rollbackTransaction();
+      } finally {
+        // await queryRunner.release();
+      }
+    }
+
+    await queryRunner.release();
   }
 
   async find(findItemDto: FindItemDto) {

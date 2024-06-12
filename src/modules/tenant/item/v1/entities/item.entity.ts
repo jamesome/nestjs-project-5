@@ -1,6 +1,6 @@
-import { Expose } from 'class-transformer';
 import { ItemCode } from 'src/modules/tenant/item-code/v1/entities/item-code.entity';
 import { ItemLocation } from 'src/modules/tenant/item-location/entities/item-location.entity';
+import { ItemSerial } from 'src/modules/tenant/item-serial/entities/item-serial.entity';
 import { Supplier } from 'src/modules/tenant/supplier/v1/entities/supplier.entity';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import {
@@ -50,6 +50,12 @@ export class Item extends TimestampedEntity {
     cascade: true,
   })
   itemLocations!: Relation<ItemLocation>[];
+
+  @OneToMany(() => ItemSerial, (ItemSerial) => ItemSerial.item, {
+    eager: true,
+    cascade: true,
+  })
+  itemSerials!: Relation<ItemLocation>[];
 
   // Virtual Entities
   quantity_total?: number;

@@ -46,4 +46,21 @@ export class ItemLocation {
     comment: '재고상태. normal => 정상, abnormal => 비정상, disposed => 폐기',
   })
   status!: StockStatus;
+
+  @Expose({ name: 'lot_no' })
+  @Column('varchar', {
+    name: 'lot_no',
+    length: 50,
+    comment: 'Lot Number',
+  })
+  lotNo?: string;
+
+  @Expose({ name: 'expiration_date' })
+  @Column({
+    type: 'timestamp',
+    name: 'expiration_date',
+    nullable: false,
+    comment: '유통기한',
+  })
+  expirationDate?: Date | null = null;
 }
