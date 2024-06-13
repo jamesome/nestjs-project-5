@@ -45,5 +45,8 @@
         break target1;
       }
     */
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
   }
 }

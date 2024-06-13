@@ -19,11 +19,12 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=development jest --config ./test/jest-e2e.json",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:create": "npm run typeorm -- migration:create ./src/database/migrations/$npm_config_name",
-    "migration:generate": "npm run typeorm -- -d ./src/database/migration.dataSource.ts migration:generate ./src/database/migrations/$npm_config_name",
-    "migration:show": "yarn run typeorm migration:show -d ./src/database/migration.dataSource.ts",
-    "migration:run": "npm run typeorm migration:run -- -d ./src/database/migration.dataSource.ts",
-    "migration:revert": "npm run typeorm migration:revert -- -d ./src/database/migration.dataSource.ts",
+    "typeorm2": "typeorm-ts-node-commonjs",
+    "migration:create": "npm run typeorm2 -- migration:create ./src/database/migrations/$npm_config_name",
+    "migration:generate": "npm run typeorm2 -- -d ./src/database/migration.dataSource.ts migration:generate ./src/database/migrations/$npm_config_name",
+    "migration:show": "yarn run typeorm2 migration:show -d ./src/database/migration.dataSource.ts",
+    "migration:run": "npm run typeorm2 migration:run -- -d ./src/database/migration.dataSource.ts",
+    "migration:revert": "npm run typeorm2 migration:revert -- -d ./src/database/migration.dataSource.ts",
     "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d ./src/database/seed.dataSource.ts -n $npm_config_name"
   },
   "dependencies": {
