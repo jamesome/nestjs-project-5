@@ -3,6 +3,8 @@ import { ItemService } from './item.service';
 import { Item } from './entities/item.entity';
 import { Like, ObjectLiteral, Repository } from 'typeorm';
 import { FindItemDto } from './dto/find-item.dto';
+import { StockStatus } from '../../location/v1/entities/enum';
+import { CreateItemLocationDto } from '../../item-location/dto/create-item-location.dto';
 
 const mockRepository = {
   create: jest.fn(),
@@ -25,8 +27,21 @@ const mockQueryBuilder = {
   getItemMany: jest.fn(),
 };
 
+const mockQueryRunner = {
+  connect: jest.fn().mockReturnThis(),
+  startTransaction: jest.fn().mockReturnThis(),
+  commitTransaction: jest.fn().mockReturnThis(),
+  rollbackTransaction: jest.fn().mockReturnThis(),
+  release: jest.fn().mockReturnThis(),
+  manager: {
+    update: jest.fn(),
+    insert: jest.fn(),
+  },
+};
+
 const mockDataSource = {
   getRepository: jest.fn().mockReturnValue(mockRepository),
+  createQueryRunner: jest.fn().mockReturnValue(mockQueryRunner),
 };
 
 type MockRepository<T extends ObjectLiteral = any> = Partial<
