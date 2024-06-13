@@ -226,4 +226,7 @@ $ yarn add xlsx fs
 # Logger
 ## https://orkhan.gitbook.io/typeorm/docs/logging#changing-default-logger
 ## https://stackoverflow.com/questions/77677988/configure-colors-for-nestjs-logger
+
+# MYSQL2 - wait_timeout
+## https://kim.heejae.info/post/dev/268
 ```
