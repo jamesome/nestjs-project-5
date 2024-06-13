@@ -182,7 +182,83 @@ describe('ItemService', () => {
   });
 
   describe('inbound()', () => {
-    it.todo('should inbound');
+    it('should be inbound', async () => {
+      // const mockItems = [
+      //   {
+      //     item_id: 120,
+      //     location_id: 12,
+      //     supplier_id: 1,
+      //     quantity: 2,
+      //     remark: '',
+      //     lot_no: '',
+      //     expiration_date: '',
+      //     item_serial: {
+      //       serial_no: '',
+      //     },
+      //     status: 'abnormal',
+      //   },
+      // ];
+      const itemId = 1;
+      const locationId = 12;
+      // const lotNo = '';
+      const quantity = 3;
+      const status = StockStatus.ABNORMAL;
+      const createItemLocationDto: CreateItemLocationDto[] = [
+        {
+          itemId: itemId,
+          locationId: locationId,
+          supplierId: 1,
+          quantity: quantity,
+          remark: '',
+          lotNo: '',
+          expirationDate: null,
+          itemSerial: {
+            serialNo: '',
+          },
+          status: status,
+        },
+        {
+          itemId: 2,
+          locationId: locationId,
+          supplierId: 1,
+          quantity: quantity,
+          remark: '',
+          lotNo: '',
+          expirationDate: null,
+          itemSerial: {
+            serialNo: '',
+          },
+          status: status,
+        },
+      ];
+      // const findOneMock = [
+      //   {},
+      //   {
+      //     expirationDate: null,
+      //     itemId: 2,
+      //     locationId: locationId,
+      //     quantity: quantity,
+      //     status: status,
+      //     lotNo: lotNo,
+      //   },
+      // ];
+      const queryRunner = mockDataSource.createQueryRunner();
+
+      await service.inbound(createItemLocationDto);
+      // TODO: 테스트코드 추가 작성
+      // itemLocationRepository.findOne?.mockResolvedValue(null);
+      // expect(queryRunner.manager.insert).toHaveBeenCalledTimes(1);
+
+      // itemLocationRepository.findOne?.mockResolvedValue({
+      //   itemId: 2,
+      //   locationId: locationId,
+      //   status: status,
+      // });
+      expect(queryRunner.manager.update).toHaveBeenCalledTimes(2);
+
+      expect(queryRunner.commitTransaction).toHaveBeenCalledTimes(2);
+      expect(queryRunner.release).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('outbound()', () => {
