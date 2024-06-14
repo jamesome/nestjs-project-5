@@ -5,6 +5,7 @@ import { Like, ObjectLiteral, Repository } from 'typeorm';
 import { FindItemDto } from './dto/find-item.dto';
 import { StockStatus } from '../../location/v1/entities/enum';
 import { CreateItemLocationDto } from '../../item-location/dto/create-item-location.dto';
+import { ItemLocation } from '../../item-location/entities/item-location.entity';
 
 const mockRepository = {
   create: jest.fn(),
@@ -51,6 +52,7 @@ type MockRepository<T extends ObjectLiteral = any> = Partial<
 describe('ItemService', () => {
   let service: ItemService;
   let itemRepository: MockRepository<Item>;
+  let itemLocationRepository: MockRepository<Item>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -65,6 +67,7 @@ describe('ItemService', () => {
 
     service = module.get<ItemService>(ItemService);
     itemRepository = mockDataSource.getRepository(Item);
+    itemLocationRepository = mockDataSource.getRepository(ItemLocation);
   });
 
   afterEach(() => {
@@ -198,29 +201,14 @@ describe('ItemService', () => {
 
   describe('inbound()', () => {
     it('should be inbound', async () => {
-      // const mockItems = [
-      //   {
-      //     item_id: 120,
-      //     location_id: 12,
-      //     supplier_id: 1,
-      //     quantity: 2,
-      //     remark: '',
-      //     lot_no: '',
-      //     expiration_date: '',
-      //     item_serial: {
-      //       serial_no: '',
-      //     },
-      //     status: 'abnormal',
-      //   },
-      // ];
-      const itemId = 1;
+      const itemId1 = 1;
+      const itemId2 = 2;
       const locationId = 12;
-      // const lotNo = '';
       const quantity = 3;
       const status = StockStatus.ABNORMAL;
       const createItemLocationDto: CreateItemLocationDto[] = [
         {
-          itemId: itemId,
+          itemId: itemId1,
           locationId: locationId,
           supplierId: 1,
           quantity: quantity,
@@ -233,7 +221,7 @@ describe('ItemService', () => {
           status: status,
         },
         {
-          itemId: 2,
+          itemId: itemId2,
           locationId: locationId,
           supplierId: 1,
           quantity: quantity,
@@ -246,37 +234,29 @@ describe('ItemService', () => {
           status: status,
         },
       ];
-      // const findOneMock = [
-      //   {},
-      //   {
-      //     expirationDate: null,
-      //     itemId: 2,
-      //     locationId: locationId,
-      //     quantity: quantity,
-      //     status: status,
-      //     lotNo: lotNo,
-      //   },
-      // ];
+
       const queryRunner = mockDataSource.createQueryRunner();
+      queryRunner.manager = {
+        update: jest.fn(),
+        insert: jest.fn(),
+      };
+
+      itemLocationRepository.findOne
+        ?.mockResolvedValueOnce(null)
+        .mockResolvedValueOnce({
+          itemId: itemId2,
+          locationId: locationId,
+          status: status,
+          quantity: quantity,
+        });
 
       await service.inbound(createItemLocationDto);
-      // TODO: 테스트코드 추가 작성
-      // itemLocationRepository.findOne?.mockResolvedValue(null);
-      // expect(queryRunner.manager.insert).toHaveBeenCalledTimes(1);
 
-      // itemLocationRepository.findOne?.mockResolvedValue({
-      //   itemId: 2,
-      //   locationId: locationId,
-      //   status: status,
-      // });
-      expect(queryRunner.manager.update).toHaveBeenCalledTimes(2);
+      expect(queryRunner.manager.insert).toHaveBeenCalledTimes(1);
+      expect(queryRunner.manager.update).toHaveBeenCalledTimes(1);
 
       expect(queryRunner.commitTransaction).toHaveBeenCalledTimes(2);
       expect(queryRunner.release).toHaveBeenCalledTimes(1);
     });
-  });
-
-  describe('outbound()', () => {
-    it.todo('should outbound');
   });
 });
