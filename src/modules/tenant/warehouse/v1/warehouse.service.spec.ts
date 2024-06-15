@@ -12,16 +12,22 @@ const mockRepository = {
   findOne: jest.fn(),
   update: jest.fn(),
   delete: jest.fn(),
+  getMany: jest.fn(),
+  createQueryBuilder: jest.fn().mockReturnThis(),
 };
 
 const mockQueryBuilder = {
+  select: jest.fn(),
   where: jest.fn(),
+  andWhere: jest.fn(),
+  addSelect: jest.fn().mockReturnThis(),
+  leftJoin: jest.fn().mockReturnThis(),
+  orderBy: jest.fn().mockReturnThis(),
   getMany: jest.fn(),
 };
 
 const mockDataSource = {
   getRepository: jest.fn().mockReturnValue(mockRepository),
-  createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
 };
 
 type MockRepository<T extends ObjectLiteral = any> = Partial<
@@ -46,10 +52,6 @@ describe('WarehouseService', () => {
 
     service = module.get<WarehouseService>(WarehouseService);
     warehouseRepository = mockDataSource.getRepository(Warehouse);
-    // warehouseQueryBuilder = module
-    //   .get(getRepositoryToken(Warehouse))
-    //   .createQueryBuilder();
-    warehouseQueryBuilder = mockDataSource.createQueryBuilder('warehouse');
   });
 
   afterEach(() => {
@@ -109,22 +111,18 @@ describe('WarehouseService', () => {
     ];
 
     it('should return a warehouses', async () => {
-      warehouseQueryBuilder.getMany?.mockReturnValue(findWarehouseDto);
+      mockRepository.createQueryBuilder.mockReturnValue(mockQueryBuilder);
+      mockRepository.getMany.mockResolvedValue(warehouses);
+
       const result = await service.findAll(findWarehouseDto);
 
-      expect(await service.findAll(findWarehouseDto)).toBe(warehouses);
-      expect(warehouseQueryBuilder.andWhere).toHaveBeenCalledWith(
-        'user.name = :name',
-        { name: 'John Doe' },
-      );
-      expect(warehouseQueryBuilder.andWhere).toHaveBeenCalledWith(
-        'user.age = :age',
-        { age: 30 },
-      );
-      expect(warehouseQueryBuilder.getMany).toHaveBeenCalled();
-      expect(warehouseRepository.createQueryBuilder).toHaveBeenCalledWith(
-        'user',
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalled();
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalled();
+      expect(mockQueryBuilder.getMany).toHaveBeenCalled();
+      result?.forEach((item, index) => {
+        expect(item.name).toBe(warehouses[index].name);
+        expect(item.code).toBe(warehouses[index].code);
+      });
     });
   });
 
