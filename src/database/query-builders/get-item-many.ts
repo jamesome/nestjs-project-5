@@ -20,7 +20,7 @@ SelectQueryBuilder.prototype.getItemMany = async function () {
     }
 
     const item = raw[idx];
-
+    // TODO: 다양하게 사용할 수 있도록 리팩토링 필요
     entity['total_quantity'] = Number(item['total_quantity']);
     entity['available_quantity'] = Number(item['available_quantity']);
     entity['non_available_quantity'] = Number(item['non_available_quantity']);
