@@ -197,6 +197,9 @@ $ yarn add xlsx fs
 # 스웨거 설정
 ## https://wooserk.tistory.com/105
 
+# 스웨거 및 벨리데이션 설정
+## https://devnm.tistory.com/17
+
 # seeder
 ## https://whyhard.tistory.com/60
 ## https://velog.io/@gkqkehs7/typeorm-extension%EC%9C%BC%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-seeding
