@@ -62,4 +62,5 @@ export class Item extends TimestampedEntity {
   quantity_available?: number;
   quantity_non_available?: number;
   quantity_by_zone?: object;
+  quantity_by_status_in_zone?: object;
 }
