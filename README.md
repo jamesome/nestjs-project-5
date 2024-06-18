@@ -181,6 +181,9 @@ $ yarn add xlsx fs
 ## https://ilikezzi.tistory.com/category/Web/TypeOrm
 ## https://medium.com/zigbang/typeorm-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95-aadd80fe13eb
 
+# NestJS 단위 테스트에서 getConnection().close() 대체하기
+## https://jhyeok.com/typeorm-0.3/
+
 # 오류
 # Property '어쩌구' has no initializer and is not definitely assigned in the constructor.
 ## https://velog.io/@gingaminga/%EB%AC%B8%EC%A0%9C-%ED%95%B4%EA%B2%B0-has-no-initializer-and-is-not-definitely-assigned-in-the-constructor
