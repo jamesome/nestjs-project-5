@@ -167,7 +167,7 @@ export class ItemService {
       .groupBy('item.id, item_code.id, supplier.id')
       .orderBy({ 'item.createdAt': 'DESC', 'item.id': 'DESC' });
 
-    const items = await queryBuilder.getItemMany();
+    const items = await queryBuilder.getManyItem();
 
     return items?.map((item) => ({
       id: item.id,
@@ -182,10 +182,10 @@ export class ItemService {
         id: supplier.id,
         name: supplier.name,
       })),
-      quantity_total: item.quantity_total,
-      quantity_available: item.quantity_available,
-      quantity_non_available: item.quantity_non_available,
-      quantity_by_zone: item.quantity_by_zone,
+      quantity_total: item.quantityTotal,
+      quantity_available: item.quantityAvailable,
+      quantity_non_available: item.quantityNonAvailable,
+      quantity_by_zone: item.quantityByZone,
     }));
   }
 

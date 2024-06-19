@@ -1,3 +1,4 @@
+import { VirtualColumn } from 'src/common/decorators/virtual-column.decorator';
 import { ItemCode } from 'src/modules/tenant/item-code/v1/entities/item-code.entity';
 import { ItemLocation } from 'src/modules/tenant/item-location/entities/item-location.entity';
 import { ItemSerial } from 'src/modules/tenant/item-serial/entities/item-serial.entity';
@@ -58,9 +59,18 @@ export class Item extends TimestampedEntity {
   itemSerials!: Relation<ItemLocation>[];
 
   // Virtual Entities
-  quantity_total?: number;
-  quantity_available?: number;
-  quantity_non_available?: number;
-  quantity_by_zone?: object;
-  quantity_by_status_in_zone?: object;
+  @VirtualColumn({ type: 'number' })
+  quantityTotal?: number;
+
+  @VirtualColumn({ type: 'number' })
+  quantityAvailable?: number;
+
+  @VirtualColumn({ type: 'number' })
+  quantityNonAvailable?: number;
+
+  @VirtualColumn({ type: 'object' })
+  quantityByZone?: object;
+
+  @VirtualColumn({ type: 'object' })
+  quantityByStatusInZone?: object;
 }
