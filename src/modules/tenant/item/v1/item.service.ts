@@ -1,6 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateItemDto } from './dto/create-item.dto';
-import { UpdateItemDto } from './dto/update-item.dto';
 import { DataSource, Like, Repository } from 'typeorm';
 import { Item } from './entities/item.entity';
 import { FindItemDto } from './dto/find-item.dto';
@@ -31,20 +30,39 @@ export class ItemService {
     await queryRunner.connect();
 
     for (const dto of createItemLocationDto) {
+      const whereOptions: any = {
+        itemId: dto.itemId,
+        locationId: dto.locationId,
+        status: dto.status,
+      };
+
+      if (dto.lotNo) {
+        whereOptions.lotId = dto.lotNo;
+      }
+
       const itemLocationRecord = await this.itemLocationRepository.findOne({
-        where: {
-          itemId: dto.itemId,
-          locationId: dto.locationId,
-          status: dto.status,
-          lotNo: dto.lotNo,
-        },
+        where: whereOptions,
       });
 
       await queryRunner.startTransaction();
 
       try {
+        let lot: Lot | null = null;
+
+        if (dto.supplierId && dto.lotNo) {
+          // TODO: 중복 체크
+          const createLotDto: CreateLotDto = {
+            itemId: dto.itemId,
+            supplierId: dto.supplierId,
+            number: dto.lotNo,
+            expirationDate: dto.expirationDate,
+          };
+
+          lot = await this.lotService.create(createLotDto);
+        }
+
         if (itemLocationRecord) {
-          await queryRunner.manager.update(ItemLocation, itemLocationRecord, {
+          await queryRunner.manager.update(ItemLocation, whereOptions, {
             quantity: itemLocationRecord.quantity + dto.quantity,
           });
         } else {
@@ -53,8 +71,7 @@ export class ItemService {
             locationId: dto.locationId,
             quantity: dto.quantity,
             status: dto.status,
-            lotNo: dto.lotNo,
-            expirationDate: dto.expirationDate,
+            lotId: lot?.id ?? null,
           });
 
           await queryRunner.manager.insert(ItemLocation, newItemLocation);
@@ -69,6 +86,8 @@ export class ItemService {
           await queryRunner.manager.insert(ItemSerial, newItemLocation);
         }
 
+        // TODO: 추후 입고 내역 LOG 추가
+
         await queryRunner.commitTransaction();
       } catch (error) {
         await queryRunner.rollbackTransaction();
@@ -78,6 +97,7 @@ export class ItemService {
     }
 
     await queryRunner.release();
+    // TODO: 응답 포맷 필요함
   }
 
   async find(findItemDto: FindItemDto) {
@@ -232,13 +252,5 @@ export class ItemService {
     // }
 
     return await item;
-  }
-
-  async update(id: number, updateItemDto: UpdateItemDto) {
-    return await this.itemRepository.update(id, updateItemDto);
-  }
-
-  async remove(id: number) {
-    return await this.itemRepository.softDelete(id);
   }
 }
