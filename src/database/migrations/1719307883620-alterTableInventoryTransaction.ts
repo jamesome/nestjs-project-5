@@ -1,4 +1,4 @@
-import { InputType } from 'src/modules/enum';
+import { InputType } from 'src/modules/tenant/enum';
 import { TableColumn } from 'typeorm';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 

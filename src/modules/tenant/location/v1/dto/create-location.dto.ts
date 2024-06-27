@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional, Length } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { StockStatus } from '../entities/enum';
 import { Expose } from 'class-transformer';
+import { StockStatus } from 'src/modules/tenant/enum';
 
 export class CreateLocationDto {
   @IsNotEmpty({

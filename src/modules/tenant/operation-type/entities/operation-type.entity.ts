@@ -1,6 +1,4 @@
 import { Expose } from 'class-transformer';
-import { Category } from 'src/modules/enum';
-import { InventoryTransaction } from 'src/modules/inventory-transaction/entities/inventory-transaction.entity';
 import {
   Column,
   Entity,
@@ -9,6 +7,8 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { Category } from '../../enum';
+import { InventoryTransaction } from '../../inventory-transaction/entities/inventory-transaction.entity';
 
 @Entity({ name: 'operation_type' })
 @Index(['category', 'name'], { unique: true }) // 유니크 => [카테고리 + 재고작업구분명]

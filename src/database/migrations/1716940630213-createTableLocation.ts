@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, TableForeignKey } from 'typeorm';
 import { TimestampedTable } from '../timestamped-table';
-import { StockStatus } from 'src/modules/tenant/location/v1/entities/enum';
+import { StockStatus } from 'src/modules/tenant/enum';
 
 export class CreateTableLocation1716940630213 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

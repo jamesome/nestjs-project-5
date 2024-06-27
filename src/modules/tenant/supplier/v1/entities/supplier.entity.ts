@@ -1,10 +1,8 @@
-import { Expose } from 'class-transformer';
-import { Item } from 'src/modules/tenant/item/v1/entities/item.entity';
+import { Lot } from 'src/modules/tenant/lot/entities/lot.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -14,14 +12,6 @@ export class Supplier {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Item, (item) => item.suppliers)
-  @JoinColumn({ name: 'item_id' })
-  item!: Relation<Item>;
-
-  @Column({ name: 'item_id' })
-  @Expose({ name: 'item_id' })
-  itemId!: number;
-
   @Column('varchar', {
     name: 'name',
     length: 100,
@@ -30,4 +20,7 @@ export class Supplier {
     comment: '공급처명',
   })
   name!: string;
+
+  @OneToMany(() => Lot, (lot) => lot.supplier)
+  lots!: Relation<Lot>[];
 }

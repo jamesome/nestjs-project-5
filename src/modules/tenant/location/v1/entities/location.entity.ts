@@ -8,17 +8,18 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
-import { StockStatus } from './enum';
 import { Expose } from 'class-transformer';
 import { Zone } from 'src/modules/tenant/zone/v1/entities/zone.entity';
-import { ItemLocation } from 'src/modules/tenant/item-location/entities/item-location.entity';
+import { StockStatus } from 'src/modules/tenant/enum';
+import { InventoryItem } from 'src/modules/tenant/inventory-item/entities/inventory-item.entity';
+import { InventoryTransaction } from 'src/modules/tenant/inventory-transaction/entities/inventory-transaction.entity';
 
 @Entity({ name: 'location' })
 export class Location extends TimestampedEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Zone, (zone) => zone.locations, { eager: true })
+  @ManyToOne(() => Zone, (zone) => zone.locations)
   @JoinColumn({ name: 'zone_id' })
   zone!: Relation<Zone>;
 
@@ -35,6 +36,7 @@ export class Location extends TimestampedEntity {
   })
   name!: string;
 
+  // TODO: 삭제 예정 재고상태 Location => inventoryItem으로 변동
   @Expose({ name: 'stock_status' })
   @Column({
     type: 'enum',
@@ -53,6 +55,7 @@ export class Location extends TimestampedEntity {
   })
   remark?: string;
 
+  // TODO: 추후, User로 대체
   @Expose({ name: 'create_worker' })
   @Column('varchar', {
     name: 'create_worker',
@@ -61,9 +64,26 @@ export class Location extends TimestampedEntity {
   })
   createWorker?: string;
 
-  @OneToMany(() => ItemLocation, (itemLocation) => itemLocation.item, {
-    eager: true,
-    cascade: true,
+  @Expose({ name: 'is_default' })
+  @Column('tinyint', {
+    name: 'is_default',
+    nullable: true,
+    comment: '기본 창고 여부',
   })
-  itemLocations!: Relation<ItemLocation>[];
+  isDefault!: number;
+
+  @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.location)
+  inventoryItems!: Relation<InventoryItem>[];
+
+  @OneToMany(
+    () => InventoryTransaction,
+    (inventoryTransaction) => inventoryTransaction.locationDeparture,
+  )
+  inventoryTransactions_locationDeparture!: Relation<InventoryTransaction>[];
+
+  @OneToMany(
+    () => InventoryTransaction,
+    (inventoryTransaction) => inventoryTransaction.locationArrival,
+  )
+  inventoryTransactions_locationArrival!: Relation<InventoryTransaction>[];
 }

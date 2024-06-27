@@ -1,8 +1,9 @@
 import { VirtualColumn } from 'src/common/decorators/virtual-column.decorator';
+import { InventoryItem } from 'src/modules/tenant/inventory-item/entities/inventory-item.entity';
+import { InventoryTransaction } from 'src/modules/tenant/inventory-transaction/entities/inventory-transaction.entity';
 import { ItemCode } from 'src/modules/tenant/item-code/v1/entities/item-code.entity';
-import { ItemLocation } from 'src/modules/tenant/item-location/entities/item-location.entity';
 import { ItemSerial } from 'src/modules/tenant/item-serial/entities/item-serial.entity';
-import { Supplier } from 'src/modules/tenant/supplier/v1/entities/supplier.entity';
+import { Lot } from 'src/modules/tenant/lot/entities/lot.entity';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import {
   Column,
@@ -40,23 +41,32 @@ export class Item extends TimestampedEntity {
   })
   itemCodes!: Relation<ItemCode>[];
 
-  @OneToMany(() => Supplier, (supplier) => supplier.item, {
+  @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.item, {
     eager: true,
     cascade: true,
   })
-  suppliers!: Relation<Supplier>[];
+  inventoryItems!: Relation<InventoryItem>[];
 
-  @OneToMany(() => ItemLocation, (itemLocation) => itemLocation.item, {
+  @OneToMany(() => ItemSerial, (itemSerial) => itemSerial.item, {
     eager: true,
     cascade: true,
   })
-  itemLocations!: Relation<ItemLocation>[];
+  itemSerials!: Relation<ItemSerial>[];
 
-  @OneToMany(() => ItemSerial, (ItemSerial) => ItemSerial.item, {
-    eager: true,
+  @OneToMany(() => Lot, (lot) => lot.item, {
+    // eager: true,
     cascade: true,
   })
-  itemSerials!: Relation<ItemLocation>[];
+  lots!: Relation<Lot>[];
+
+  @OneToMany(
+    () => InventoryTransaction,
+    (inventoryTransaction) => inventoryTransaction.item,
+    {
+      cascade: true,
+    },
+  )
+  inventoryTransactions!: Relation<InventoryTransaction>[];
 
   // Virtual Entities
   @VirtualColumn({ type: 'number' })

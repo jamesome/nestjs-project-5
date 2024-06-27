@@ -1,4 +1,4 @@
-import { Category } from 'src/modules/enum';
+import { Category } from 'src/modules/tenant/enum';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateTableOperationType1718752642562

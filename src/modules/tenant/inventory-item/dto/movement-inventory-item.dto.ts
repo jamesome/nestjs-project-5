@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsOptional, Min } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { StockStatus } from 'src/modules/enum';
+import { StockStatus } from '../../enum';
 
 export class MovementInventoryItemDto {
   @Expose({ name: 'item_id' })

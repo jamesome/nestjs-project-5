@@ -10,8 +10,8 @@ import {
   Min,
 } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { CreateItemSerialDto } from 'src/modules/item-serial/dto/create-item-serial.dto';
-import { StockStatus } from 'src/modules/enum';
+import { StockStatus } from '../../enum';
+import { CreateItemSerialDto } from '../../item-serial/dto/create-item-serial.dto';
 
 export class CreateInventoryItemDto {
   @Expose({ name: 'item_id' })

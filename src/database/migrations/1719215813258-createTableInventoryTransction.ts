@@ -1,4 +1,4 @@
-import { Category, InputType } from 'src/modules/enum';
+import { Category } from 'src/modules/tenant/enum';
 import { Table, TableForeignKey } from 'typeorm';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 

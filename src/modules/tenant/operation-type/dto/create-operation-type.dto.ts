@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, MaxLength } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { Category } from 'src/modules/enum';
+import { Category } from '../../enum';
 
 export class CreateOperationTypeDto {
   @IsNotEmpty({

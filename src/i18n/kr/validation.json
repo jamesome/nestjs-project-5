@@ -1,6 +1,71 @@
 {
-  "LENGTH": "{property}({attribute})은(는) '{value}' {constraints.0}자 이상 {constraints.1}자 이하만 입력이 가능합니다. {message}",
-  "IS_STRING": "{property}({attribute})은(는) 문자열이 입력되어야 합니다.",
-  "INVALID_EMAIL": "asd",
-  "UNIQUE": "'{value}' 은(는) 이미 사용중인 {property}({attribute}) 입니다."
+  "EXAMPLE": "[{property}], '{value}'은(는) 예시입니다.{message}",
+  "fields": {
+    "warehouse": {
+      "name": "창고명",
+      "code": "창고코드",
+      "post_code": "우편번호",
+      "address": "주소",
+      "detail_address": "상세주소",
+      "manager": "창고 담당자",
+      "contact": "연락차"
+    },
+    "zone": {
+      "name": "분류명",
+      "code": "분류코드",
+      "remark": "비고",
+      "warehouse_id": "창고 일련번호"
+    },
+    "location": {
+      "name": "로케이션명",
+      "remark": "비고",
+      "zone_id": "분류 일련번호",
+      "warehouse_id": "창고 일련번호"
+    },
+    "item": {
+      "name": "품목명",
+      "property": "품목속성",
+      "zone_id": "분류 일련번호",
+      "warehouse_id": "창고 일련번호"
+    },
+    "item_code": {
+      "code": "품목 코드"
+    },
+    "supplier": {
+      "name": "공급처명"
+    },
+    "inventory_item": {
+      "item_id": "품목 일련번호",
+      "location_id": "로케이션 번호",
+      "quantity": "재고수량",
+      "status": "재고상태",
+      "lot_no": "로트 번호",
+      "expiration_date": "유통기한"
+    },
+    "item_serial": {
+      "serial_no": "시리얼 번호"
+    },
+    "operation_type": {
+      "category": "구분",
+      "name": "재고작업구분명"
+    },
+    "inventory_transaction": {
+      "item_id": "품목 일련번호",
+      "location_departure_id": "출발 로케이션 번호",
+      "location_arrival_id": "도착 로케이션 번호",
+      "quantity": "재고수량"
+    },
+    "quantity": "수량"
+  },
+  "rules": {
+    "IS_NOT_EMPTY": "[$t(validation.fields.{message})] 은(는) 필수로 입력해야 하는 항목입니다.",
+    "IS_STRING": "[$t(validation.fields.{message})] 은(는) 문자열 형태의 데이터만 입력 가능합니다.",
+    "IS_INT": "[$t(validation.fields.{message})] 은(는) 숫자 형태의 데이터만 입력 가능합니다.",
+    "MAX_LENGTH": "[$t(validation.fields.{message})] 은(는) 최대 {constraints.0}자까지 입력이 가능합니다.",
+    "LENGTH": "[$t(validation.fields.{message})] 은(는) {constraints.0}자 이상 {constraints.1}자 이하만 입력이 가능합니다.",
+    "IS_DATE": "[$t(validation.fields.{message})] 은(는) 날짜 데이터만 입력이 가능합니다.",
+    "MIN": "[$t(validation.fields.{message})] 은(는) {constraints.0} 이상만 입력 가능합니다.",
+    "STOCK_STATUS": "[$t(validation.fields.{message})] 은(는) 다음 값 중 하나의 값만 입력 가능합니다.: normal, abnormal, disposed",
+    "CATEGORY": "[$t(validation.fields.{message})] 은(는) 다음 값 중 하나의 값만 입력 가능합니다.: incoming, outgoing, movement"
+  }
 }
