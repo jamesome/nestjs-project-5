@@ -4,9 +4,13 @@ import { WarehouseModule } from './warehouse/v1/warehouse.module';
 import { ZoneModule } from './zone/v1/zone.module';
 import { LocationModule } from './location/v1/location.module';
 import { ItemModule } from './item/v1/item.module';
-import { ItemCode } from './item-code/v1/entities/item-code.entity';
-import { ItemLocation } from './item-location/entities/item-location.entity';
 import { SupplierModule } from './supplier/v1/supplier.module';
+import { InventoryItemModule } from './inventory-item/inventory-item.module';
+import { InventoryTransactionModule } from './inventory-transaction/inventory-transaction.module';
+import { ItemSerialModule } from './item-serial/item-serial.module';
+import { ItemCodeModule } from './item-code/v1/item-code.module';
+import { LotModule } from './lot/lot.module';
+import { OperationTypeModule } from './operation-type/operation-type.module';
 
 @Module({
   imports: [
@@ -21,9 +25,10 @@ import { SupplierModule } from './supplier/v1/supplier.module';
               ZoneModule,
               LocationModule,
               ItemModule,
-              ItemCode,
-              ItemLocation,
               SupplierModule,
+              InventoryItemModule,
+              OperationTypeModule,
+              InventoryTransactionModule,
             ],
           },
           {
@@ -37,9 +42,13 @@ import { SupplierModule } from './supplier/v1/supplier.module';
     ZoneModule,
     LocationModule,
     ItemModule,
-    ItemCode,
-    ItemLocation,
+    ItemCodeModule,
     SupplierModule,
+    InventoryItemModule,
+    ItemSerialModule,
+    LotModule,
+    OperationTypeModule,
+    InventoryTransactionModule,
   ],
   providers: [],
 })
