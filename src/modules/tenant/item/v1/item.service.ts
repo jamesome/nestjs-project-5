@@ -3,101 +3,20 @@ import { CreateItemDto } from './dto/create-item.dto';
 import { DataSource, Like, Repository } from 'typeorm';
 import { Item } from './entities/item.entity';
 import { FindItemDto } from './dto/find-item.dto';
-import { ItemLocation } from '../../item-location/entities/item-location.entity';
-import { ItemSerial } from '../../item-serial/entities/item-serial.entity';
-import { CreateItemLocationDto } from '../../item-location/dto/create-item-location.dto';
+import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
 
 @Injectable()
 export class ItemService {
   private itemRepository: Repository<Item>;
-  private itemLocationRepository: Repository<ItemLocation>;
-  private itemSerialRepository: Repository<ItemSerial>;
 
   constructor(@Inject('CONNECTION') private readonly dataSource: DataSource) {
     this.itemRepository = this.dataSource.getRepository(Item);
-    this.itemLocationRepository = this.dataSource.getRepository(ItemLocation);
-    this.itemSerialRepository = this.dataSource.getRepository(ItemSerial);
   }
 
   async create(createItemDto: CreateItemDto) {
     const warehouse = this.itemRepository.create(createItemDto);
 
     return await this.itemRepository.save(warehouse);
-  }
-
-  async inbound(createItemLocationDto: CreateItemLocationDto[]) {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-
-    for (const dto of createItemLocationDto) {
-      const whereOptions: any = {
-        itemId: dto.itemId,
-        locationId: dto.locationId,
-        status: dto.status,
-      };
-
-      if (dto.lotNo) {
-        whereOptions.lotId = dto.lotNo;
-      }
-
-      const itemLocationRecord = await this.itemLocationRepository.findOne({
-        where: whereOptions,
-      });
-
-      await queryRunner.startTransaction();
-
-      try {
-        let lot: Lot | null = null;
-
-        if (dto.supplierId && dto.lotNo) {
-          // TODO: 중복 체크
-          const createLotDto: CreateLotDto = {
-            itemId: dto.itemId,
-            supplierId: dto.supplierId,
-            number: dto.lotNo,
-            expirationDate: dto.expirationDate,
-          };
-
-          lot = await this.lotService.create(createLotDto);
-        }
-
-        if (itemLocationRecord) {
-          await queryRunner.manager.update(ItemLocation, whereOptions, {
-            quantity: itemLocationRecord.quantity + dto.quantity,
-          });
-        } else {
-          const newItemLocation = this.itemLocationRepository.create({
-            itemId: dto.itemId,
-            locationId: dto.locationId,
-            quantity: dto.quantity,
-            status: dto.status,
-            lotId: lot?.id ?? null,
-          });
-
-          await queryRunner.manager.insert(ItemLocation, newItemLocation);
-        }
-
-        if (dto.itemSerial.serialNo) {
-          const newItemLocation = this.itemSerialRepository.create({
-            itemId: dto.itemId,
-            serialNo: dto.itemSerial.serialNo,
-          });
-
-          await queryRunner.manager.insert(ItemSerial, newItemLocation);
-        }
-
-        // TODO: 추후 입고 내역 LOG 추가
-
-        await queryRunner.commitTransaction();
-      } catch (error) {
-        await queryRunner.rollbackTransaction();
-      } finally {
-        // await queryRunner.release();
-      }
-    }
-
-    await queryRunner.release();
-    // TODO: 응답 포맷 필요함
   }
 
   async find(findItemDto: FindItemDto) {
@@ -114,37 +33,43 @@ export class ItemService {
     const { name, property, itemCode } = findItemDto;
     const queryBuilder = this.itemRepository.createQueryBuilder('item');
 
-    // FIXME: QUERY 정리 필요.
+    // FIXME: DBMS내의 view 정의를 통해 간결하게 정리하거나, Repository 커스텀 방법을 찾아서 구현 이전방법 모색
     queryBuilder
       .select([
         'item.id',
         'item.name',
         'item.property',
+        'item.createdAt',
         'item_code.id',
         'item_code.code',
         'supplier.id',
         'supplier.name',
+        'item_serial.id',
+        'item_serial.serialNo',
+        'lot.id',
+        // 'lot.num',
       ])
       .addSelect((subQuery) => {
         return subQuery
-          .select('SUM(item_location.quantity)', 'quantity_total')
-          .from(ItemLocation, 'item_location')
-          .where('item_location.item_id = item.id');
-      }, 'quantity_total')
+          .select('SUM(inventory_item.quantity)', 'quantityTotal')
+          .from(InventoryItem, 'inventory_item')
+          .where('inventory_item.item_id = item.id')
+          .andWhere('inventory_item.status <> "disposed"');
+      }, 'quantityTotal')
       .addSelect((subQuery) => {
         return subQuery
-          .select('SUM(item_location.quantity)', 'quantity_available')
-          .from(ItemLocation, 'item_location')
-          .where('item_location.item_id = item.id')
-          .andWhere('item_location.status = "normal"');
-      }, 'quantity_available')
+          .select('SUM(inventory_item.quantity)', 'quantityAvailable')
+          .from(InventoryItem, 'inventory_item')
+          .where('inventory_item.item_id = item.id')
+          .andWhere('inventory_item.status = "normal"');
+      }, 'quantityAvailable')
       .addSelect((subQuery) => {
         return subQuery
-          .select('SUM(item_location.quantity)', 'quantity_non_available')
-          .from(ItemLocation, 'item_location')
-          .where('item_location.item_id = item.id')
-          .andWhere('item_location.status <> "normal"');
-      }, 'quantity_non_available')
+          .select('SUM(inventory_item.quantity)', 'quantityNonAvailable')
+          .from(InventoryItem, 'inventory_item')
+          .where('inventory_item.item_id = item.id')
+          .andWhere('inventory_item.status = "abnormal"');
+      }, 'quantityNonAvailable')
       .addSelect((subQuery) => {
         return subQuery
           .select(
@@ -155,22 +80,45 @@ export class ItemService {
             return qb
               .select('location.zone_id', 'zone_id')
               .addSelect('zone.name', 'zone_name')
-              .addSelect('SUM(item_location.quantity)', 'quantity')
-              .from(ItemLocation, 'item_location')
-              .leftJoin('item_location.location', 'location')
+              .addSelect('SUM(inventory_item.quantity)', 'quantity')
+              .from(InventoryItem, 'inventory_item')
+              .leftJoin('inventory_item.location', 'location')
               .leftJoin('location.zone', 'zone')
-              .where('item_location.item_id = item.id')
-              .andWhere('location.deletedAt IS NULL')
+              .where('inventory_item.item_id = item.id')
+              .andWhere('inventory_item.status <> "disposed"')
               .groupBy('location.zone_id')
               .orderBy({ 'location.zone_id': 'ASC' });
           }, 't');
-      }, 'quantity_by_zone');
+      }, 'quantityByZone')
+      .addSelect((subQuery) => {
+        return subQuery
+          .select(
+            "JSON_ARRAYAGG(JSON_OBJECT('zone_id', t.zone_id, 'zone_name', t.zone_name, 'status', t.status, 'quantity', t.quantity))",
+            'quantity_by_status_in_zone',
+          )
+          .from((qb) => {
+            return qb
+              .select('location.zone_id', 'zone_id')
+              .addSelect('zone.name', 'zone_name')
+              .addSelect('SUM(inventory_item.quantity)', 'quantity')
+              .addSelect('inventory_item.status', 'status')
+              .from(InventoryItem, 'inventory_item')
+              .leftJoin('inventory_item.location', 'location')
+              .leftJoin('location.zone', 'zone')
+              .where('inventory_item.item_id = item.id')
+              .andWhere('location.deletedAt IS NULL')
+              .groupBy('location.zone_id, inventory_item.status')
+              .orderBy({ 'location.zone_id': 'ASC' });
+          }, 't');
+      }, 'quantityByStatusInZone');
 
     queryBuilder
       .leftJoin('item.itemCodes', 'item_code')
-      .leftJoin('item.suppliers', 'supplier')
-      .leftJoin('item.itemLocations', 'item_location')
-      .leftJoin('item_location.location', 'location');
+      .leftJoin('item.itemSerials', 'item_serial')
+      .leftJoin('item.lots', 'lot')
+      .leftJoin('lot.supplier', 'supplier')
+      .leftJoin('item.inventoryItems', 'inventory_item')
+      .leftJoin('inventory_item.location', 'location');
 
     name &&
       queryBuilder.andWhere('item.name like :name', { name: `%${name}%` });
@@ -184,11 +132,12 @@ export class ItemService {
       });
 
     queryBuilder
-      .groupBy('item.id, item_code.id, supplier.id')
+      .groupBy('item.id, item_code.id, lot.id, supplier.id, item_serial.id')
       .orderBy({ 'item.createdAt': 'DESC', 'item.id': 'DESC' });
 
     const items = await queryBuilder.getManyItem();
 
+    // FIXME: DTO 활용하는 방향으로 개선.
     return items?.map((item) => ({
       id: item.id,
       name: item.name,
@@ -198,24 +147,32 @@ export class ItemService {
         id: itemCode.id,
         code: itemCode.code,
       })),
-      suppliers: item.suppliers.map((supplier) => ({
-        id: supplier.id,
-        name: supplier.name,
+      item_serials: item.itemSerials.map((itemSerial) => ({
+        id: itemSerial.id,
+        serial_no: itemSerial.serialNo,
+      })),
+      lots: item.lots.map((lot) => ({
+        id: lot.id,
+        number: lot.number,
+        expiration_date: lot.expirationDate,
+        supplier: lot.supplier,
       })),
       quantity_total: item.quantityTotal,
       quantity_available: item.quantityAvailable,
       quantity_non_available: item.quantityNonAvailable,
       quantity_by_zone: item.quantityByZone,
+      quantity_by_status_in_zone: item.quantityByStatusInZone,
     }));
   }
 
   async getManyItemsWithOutInventoryList(findItemDto: FindItemDto) {
-    const { name, property, itemCode } = findItemDto;
-    const findOptions: any = {
+    const { name, property, itemCode, locationId } = findItemDto;
+    const filters: any = {
       where: {
         ...(name && { name: Like(`%${name}%`) }),
         ...(property && { property: Like(`%${property}%`) }),
         ...(itemCode && { itemCodes: { code: Like(`%${itemCode}%`) } }),
+        ...(locationId && { inventoryItems: { locationId } }),
       },
       order: {
         createdAt: 'DESC',
@@ -223,7 +180,7 @@ export class ItemService {
       },
     };
 
-    const items = await this.itemRepository.find(findOptions);
+    const items = await this.itemRepository.find(filters);
 
     return items.map((item) => ({
       id: item.id,
@@ -234,9 +191,16 @@ export class ItemService {
         id: itemCode.id,
         code: itemCode.code,
       })),
-      suppliers: item.suppliers.map((supplier) => ({
-        id: supplier.id,
-        name: supplier.name,
+      item_serials: item.itemSerials.map((itemSerial) => ({
+        id: itemSerial.id,
+        serial_no: itemSerial.serialNo,
+      })),
+      inventory_items: item.inventoryItems.map((inventoryItem) => ({
+        quantity: inventoryItem.quantity,
+        status: inventoryItem.status,
+        lot: {
+          number: inventoryItem?.lot?.number ?? null,
+        },
       })),
     }));
   }
@@ -252,5 +216,13 @@ export class ItemService {
     // }
 
     return await item;
+  }
+
+  async update(id: number, updateItemDto: UpdateItemDto) {
+    return await this.itemRepository.update(id, updateItemDto);
+  }
+
+  async remove(id: number) {
+    return await this.itemRepository.softDelete(id);
   }
 }
