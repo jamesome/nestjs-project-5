@@ -4,6 +4,7 @@ import {
   QueryRunner,
   Table,
   TableForeignKey,
+  TableIndex,
 } from 'typeorm';
 
 export class Init1719579847103 implements MigrationInterface {
@@ -85,13 +86,6 @@ export class Init1719579847103 implements MigrationInterface {
             isNullable: false,
             comment: '창고 등록 작업자',
           },
-          {
-            name: 'default',
-            type: 'tinyInt',
-            isNullable: false,
-            comment: '기본 창고 여부',
-            default: false,
-          },
         ],
       }),
     );
@@ -148,7 +142,7 @@ export class Init1719579847103 implements MigrationInterface {
         columnNames: ['warehouse_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'warehouse', // 외래 키가 참조할 테이블
-        onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
+        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
       }),
     );
 
@@ -209,7 +203,7 @@ export class Init1719579847103 implements MigrationInterface {
         columnNames: ['zone_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'zone', // 외래 키가 참조할 테이블
-        onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
+        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
       }),
     );
 
@@ -433,26 +427,14 @@ export class Init1719579847103 implements MigrationInterface {
       }),
     );
 
-    // TODO: 기본 데이터 값의 국제화
-    // TODO: 마이그레이션 과정이 아닌 별도 기능으로 분리 구현
-    await queryRunner.query(`
-			INSERT INTO
-				operation_type (category, name, is_default, reserved)
-			VALUES
-				('incoming', '생산입고', 0, 1),
-				('incoming', '구매입고', 1, 1),
-				('incoming', '검사후 입고', 0, 1),
-				('incoming', '재조조정 입고', 0, 1),
-
-				('outgoing', '판매출고', 1, 1),
-				('outgoing', '생산출고', 0, 1),
-				('outgoing', '검사후 출고', 0, 1),
-				('outgoing', '재조조정 출고', 0, 1),
-
-				('movement', '창고 간 이동', 0, 1),
-				('movement', '창고 내 이동', 1, 1),
-				('movement', '불량으로 인한 이동', 0, 1);
-		`);
+    await queryRunner.createIndex(
+      'operation_type',
+      new TableIndex({
+        name: 'UQ_operation_type_category_name',
+        columnNames: ['category', 'name'],
+        isUnique: true,
+      }),
+    );
 
     await queryRunner.createTable(
       new Table({
@@ -714,6 +696,11 @@ export class Init1719579847103 implements MigrationInterface {
     await queryRunner.dropTable('supplier');
 
     await queryRunner.dropTable('lot');
+
+    await queryRunner.dropIndex(
+      'operation_type',
+      'UQ_operation_type_category_name',
+    );
 
     await queryRunner.dropTable('operation_type');
 
