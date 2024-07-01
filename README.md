@@ -199,6 +199,8 @@ $ yarn add xlsx fs
 
 # 스웨거 설정
 ## https://wooserk.tistory.com/105
+## https://devnm.tistory.com/21
+## https://devnm.tistory.com/22
 
 # 스웨거 및 벨리데이션 설정
 ## https://devnm.tistory.com/17
