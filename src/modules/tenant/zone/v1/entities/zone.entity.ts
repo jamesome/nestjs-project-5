@@ -7,13 +7,12 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
-import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import { Expose } from 'class-transformer';
 import { Warehouse } from 'src/modules/tenant/warehouse/v1/entities/warehouse.entity';
 import { Location } from 'src/modules/tenant/location/v1/entities/location.entity';
 
 @Entity({ name: 'zone' })
-export class Zone extends TimestampedEntity {
+export class Zone {
   @PrimaryGeneratedColumn()
   id!: number;
 

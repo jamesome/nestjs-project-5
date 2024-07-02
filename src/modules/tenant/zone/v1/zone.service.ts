@@ -24,7 +24,7 @@ export class ZoneService {
       id: zone.id,
       name: zone.name,
       code: zone.code,
-      created_at: zone.createdAt,
+      // created_at: zone.createdAt,
     }));
   }
 
@@ -43,7 +43,7 @@ export class ZoneService {
       id: zone.id,
       name: zone.name,
       code: zone.code,
-      created_at: zone.createdAt,
+      // created_at: zone.createdAt,
     };
   }
 
