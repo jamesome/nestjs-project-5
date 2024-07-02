@@ -1,4 +1,4 @@
-import { Category, InputType } from 'src/modules/tenant/enum';
+import { Category, InputType, StockStatus } from 'src/modules/tenant/enum';
 import {
   MigrationInterface,
   QueryRunner,
@@ -455,12 +455,6 @@ export class Init1719579847103 implements MigrationInterface {
             comment: '(FK) item 외래키',
           },
           {
-            name: 'supplier_id',
-            type: 'int',
-            isNullable: true,
-            comment: '(FK) supplier 외래키',
-          },
-          {
             name: 'number',
             type: 'varchar',
             length: '50',
@@ -478,6 +472,17 @@ export class Init1719579847103 implements MigrationInterface {
       }),
     );
 
+    await queryRunner.createForeignKey(
+      'lot',
+      new TableForeignKey({
+        name: 'FK_lot_item_id', // 외래 키 제약 조건 이름
+        columnNames: ['item_id'], // 외래 키가 추가될 열
+        referencedColumnNames: ['id'], // 외래 키가 참조할 열
+        referencedTableName: 'item', // 외래 키가 참조할 테이블
+        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
+      }),
+    );
+
     await queryRunner.createTable(
       new Table({
         name: 'supplier',
@@ -489,6 +494,12 @@ export class Init1719579847103 implements MigrationInterface {
             isGenerated: true,
             generationStrategy: 'increment',
             isNullable: false,
+          },
+          {
+            name: 'item_id',
+            type: 'int',
+            isNullable: false,
+            comment: '(FK) item 외래키',
           },
           {
             name: 'name',
@@ -503,23 +514,12 @@ export class Init1719579847103 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'lot',
+      'supplier',
       new TableForeignKey({
-        name: 'FK_lot_item_id', // 외래 키 제약 조건 이름
+        name: 'FK_supplier_item_id', // 외래 키 제약 조건 이름
         columnNames: ['item_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'item', // 외래 키가 참조할 테이블
-        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
-      }),
-    );
-
-    await queryRunner.createForeignKey(
-      'lot',
-      new TableForeignKey({
-        name: 'FK_lot_supplier_id', // 외래 키 제약 조건 이름
-        columnNames: ['supplier_id'], // 외래 키가 추가될 열
-        referencedColumnNames: ['id'], // 외래 키가 참조할 열
-        referencedTableName: 'supplier', // 외래 키가 참조할 테이블
         // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
       }),
     );
@@ -559,6 +559,12 @@ export class Init1719579847103 implements MigrationInterface {
             type: 'int',
             isNullable: true,
             comment: '(FK) lot 외래키',
+          },
+          {
+            name: 'supplier_id',
+            type: 'int',
+            isNullable: false,
+            comment: '(FK) supplier 외래키',
           },
           {
             name: 'operation_type_id',
@@ -663,6 +669,17 @@ export class Init1719579847103 implements MigrationInterface {
     await queryRunner.createForeignKey(
       'transaction',
       new TableForeignKey({
+        name: 'FK_transaction_supplier_id', // 외래 키 제약 조건 이름
+        columnNames: ['supplier_id'], // 외래 키가 추가될 열
+        referencedColumnNames: ['id'], // 외래 키가 참조할 열
+        referencedTableName: 'supplier', // 외래 키가 참조할 테이블
+        // onDelete: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'transaction',
+      new TableForeignKey({
         name: 'FK_transaction_operation_type_id', // 외래 키 제약 조건 이름
         columnNames: ['operation_type_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
@@ -677,6 +694,10 @@ export class Init1719579847103 implements MigrationInterface {
       'transaction',
       'FK_transaction_operation_type_id',
     );
+    await queryRunner.dropForeignKey(
+      'transaction',
+      'FK_transaction_supplier_id',
+    );
     await queryRunner.dropForeignKey('transaction', 'FK_transaction_lot_id');
     await queryRunner.dropForeignKey(
       'transaction',
@@ -689,12 +710,10 @@ export class Init1719579847103 implements MigrationInterface {
     await queryRunner.dropForeignKey('transaction', 'FK_transaction_item_id');
     await queryRunner.dropTable('transaction');
 
-    await queryRunner.dropForeignKey('lot', 'FK_lot_supplier_id');
-    await queryRunner.dropForeignKey('lot', 'FK_lot_item_id');
-    await queryRunner.dropIndex('lot', 'UQ_lot_supplier_id_number');
-
+    await queryRunner.dropForeignKey('supplier', 'FK_supplier_item_id');
     await queryRunner.dropTable('supplier');
 
+    await queryRunner.dropForeignKey('lot', 'FK_lot_item_id');
     await queryRunner.dropTable('lot');
 
     await queryRunner.dropIndex(
