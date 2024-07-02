@@ -1,6 +1,5 @@
 import { Expose } from 'class-transformer';
 import { Zone } from 'src/modules/tenant/zone/v1/entities/zone.entity';
-import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import {
   Column,
   Entity,
@@ -10,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity({ name: 'warehouse' })
-export class Warehouse extends TimestampedEntity {
+export class Warehouse {
   @PrimaryGeneratedColumn()
   id!: number;
 

@@ -5,7 +5,9 @@ import { i18nValidationMessage } from 'nestjs-i18n';
 
 export class CreateWarehouseDto {
   @IsNotEmpty({
-    message: i18nValidationMessage('validation.IS_NOT_EMPTY'),
+    message: i18nValidationMessage('validation.IS_NOT_EMPTY', {
+      message: 'warehouse.name',
+    }),
   })
   @MaxLength(100, {
     message: i18nValidationMessage('validation.LENGTH'),
