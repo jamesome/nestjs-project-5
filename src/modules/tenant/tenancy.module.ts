@@ -4,11 +4,11 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { Request } from 'express';
 import { options } from 'src/database/dataSource';
 import { config as dotenvConfig } from 'dotenv';
-import { ConfigService } from '@nestjs/config';
+// import { ConfigService } from '@nestjs/config';
 
 dotenvConfig();
 
-const configService = new ConfigService();
+// const configService = new ConfigService();
 
 const connectionFactory = {
   provide: 'CONNECTION',
@@ -25,10 +25,10 @@ const connectionFactory = {
       ...options,
       database,
       entities: ['dist/modules/**/**/**/entities/*.entity{.ts,.js}'],
-      extra: {
-        maxIdle: configService.getOrThrow<string>('MAXIDLE'),
-        idleTimeout: configService.getOrThrow<string>('IDLETIMEOUT'),
-      },
+      // extra: {
+      //   maxIdle: configService.getOrThrow<string>('MAXIDLE'),
+      //   idleTimeout: configService.getOrThrow<string>('IDLETIMEOUT'),
+      // },
     };
 
     const dataSource = new DataSource(dataSourceOptions as DataSourceOptions);
