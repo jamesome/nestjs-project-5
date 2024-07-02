@@ -10,10 +10,10 @@ export const i18nConfig = async (
     fallbackLanguage: configService.getOrThrow('FALLBACK_LANGUAGE'),
     loaderOptions: {
       path: join(currentDir, 'src/i18n/'),
-      watch: configService.get('NODE_ENV') === 'development',
+      watch: true,
     },
     typesOutputPath: join(currentDir, 'src/generated/i18n.generated.ts'),
-    logging: configService.get('NODE_ENV') === 'development',
+    logging: true,
   };
 
   // console.log('I18n Config:', config); // 디버깅을 위한 로그 추가

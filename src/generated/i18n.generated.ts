@@ -85,7 +85,7 @@ export type I18nTranslations = {
                 "location_id": string;
                 "quantity": string;
                 "status": string;
-                "lot_no": string;
+                "lot_id": string;
                 "expiration_date": string;
             };
             "item_serial": {
@@ -95,7 +95,7 @@ export type I18nTranslations = {
                 "category": string;
                 "name": string;
             };
-            "inventory_transaction": {
+            "transaction": {
                 "item_id": string;
                 "location_departure_id": string;
                 "location_arrival_id": string;

@@ -39,7 +39,7 @@
       "location_id": "로케이션 번호",
       "quantity": "재고수량",
       "status": "재고상태",
-      "lot_no": "로트 번호",
+      "lot_id": "로트 번호",
       "expiration_date": "유통기한"
     },
     "item_serial": {
@@ -49,7 +49,7 @@
       "category": "구분",
       "name": "재고작업구분명"
     },
-    "inventory_transaction": {
+    "transaction": {
       "item_id": "품목 일련번호",
       "location_departure_id": "출발 로케이션 번호",
       "location_arrival_id": "도착 로케이션 번호",
