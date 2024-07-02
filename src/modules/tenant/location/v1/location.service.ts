@@ -45,7 +45,7 @@ export class LocationService {
       stock_status: location.stockStatus,
       remark: location.remark,
       create_worker: location.createWorker,
-      created_at: location.createdAt,
+      // created_at: location.createdAt,
       zone: {
         id: location.zone.id,
         name: location.zone.name,
@@ -70,7 +70,7 @@ export class LocationService {
       stock_status: location.stockStatus,
       remark: location.remark,
       create_worker: location.createWorker,
-      created_at: location.createdAt,
+      // created_at: location.createdAt,
       zone: {
         id: location.zone.id,
         name: location.zone.name,

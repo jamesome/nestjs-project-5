@@ -7,7 +7,6 @@ import {
   Relation,
   OneToMany,
 } from 'typeorm';
-import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import { Expose } from 'class-transformer';
 import { Zone } from 'src/modules/tenant/zone/v1/entities/zone.entity';
 import { StockStatus } from 'src/modules/tenant/enum';
@@ -15,7 +14,7 @@ import { InventoryItem } from 'src/modules/tenant/inventory-item/entities/invent
 import { InventoryTransaction } from 'src/modules/tenant/inventory-transaction/entities/inventory-transaction.entity';
 
 @Entity({ name: 'location' })
-export class Location extends TimestampedEntity {
+export class Location {
   @PrimaryGeneratedColumn()
   id!: number;
 
