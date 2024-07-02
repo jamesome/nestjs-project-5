@@ -4,6 +4,7 @@ import { DataSource, Like, Repository } from 'typeorm';
 import { Item } from './entities/item.entity';
 import { FindItemDto } from './dto/find-item.dto';
 import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
+import { UpdateItemDto } from './dto/update-item.dto';
 
 @Injectable()
 export class ItemService {
@@ -166,13 +167,13 @@ export class ItemService {
   }
 
   async getManyItemsWithOutInventoryList(findItemDto: FindItemDto) {
-    const { name, property, itemCode, locationId } = findItemDto;
+    const { name, property, itemCode } = findItemDto;
     const filters: any = {
       where: {
         ...(name && { name: Like(`%${name}%`) }),
         ...(property && { property: Like(`%${property}%`) }),
         ...(itemCode && { itemCodes: { code: Like(`%${itemCode}%`) } }),
-        ...(locationId && { inventoryItems: { locationId } }),
+        // ...(locationId && { inventoryItems: { locationId } }),
       },
       order: {
         createdAt: 'DESC',

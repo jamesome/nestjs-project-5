@@ -1,9 +1,4 @@
 import { Expose } from 'class-transformer';
-import { Category, InputType } from 'src/modules/enum';
-import { Item } from 'src/modules/item/entities/item.entity';
-import { Location } from 'src/modules/location/entities/location.entity';
-import { Lot } from 'src/modules/lot/entities/lot.entity';
-import { OperationType } from 'src/modules/operation-type/entities/operation-type.entity';
 import {
   Column,
   CreateDateColumn,
@@ -14,6 +9,11 @@ import {
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
+import { Item } from '../../item/v1/entities/item.entity';
+import { Location } from '../../location/v1/entities/location.entity';
+import { Lot } from '../../lot/entities/lot.entity';
+import { OperationType } from '../../operation-type/entities/operation-type.entity';
+import { Category, InputType } from '../../enum';
 
 @Entity('inventory_transaction')
 export class InventoryTransaction {

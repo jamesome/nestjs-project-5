@@ -1,8 +1,4 @@
 import { Expose } from 'class-transformer';
-import { InventoryItem } from 'src/modules/inventory-item/entities/inventory-item.entity';
-import { InventoryTransaction } from 'src/modules/inventory-transaction/entities/inventory-transaction.entity';
-import { Item } from 'src/modules/item/entities/item.entity';
-import { Supplier } from 'src/modules/supplier/entities/supplier.entity';
 import {
   Column,
   Entity,
@@ -13,6 +9,10 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { Item } from '../../item/v1/entities/item.entity';
+import { Supplier } from '../../supplier/v1/entities/supplier.entity';
+import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
+import { InventoryTransaction } from '../../inventory-transaction/entities/inventory-transaction.entity';
 
 @Entity({ name: 'lot' })
 @Index(['supplierId', 'number'], { unique: true }) // 유니크 => [공급처 + 로트넘버]

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, Min } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { Category, InputType } from 'src/modules/enum';
+import { Category, InputType } from '../../enum';
 
 export class CreateInventoryTransactionDto {
   @Expose({ name: 'item_id' })
