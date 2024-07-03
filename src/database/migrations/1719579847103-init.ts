@@ -438,6 +438,30 @@ export class Init1719579847103 implements MigrationInterface {
 
     await queryRunner.createTable(
       new Table({
+        name: 'supplier',
+        columns: [
+          {
+            name: 'id',
+            type: 'int',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
+            isNullable: false,
+          },
+          {
+            name: 'name',
+            type: 'varchar',
+            length: '100',
+            isNullable: false,
+            isUnique: true,
+            comment: '공급처명',
+          },
+        ],
+      }),
+    );
+
+    await queryRunner.createTable(
+      new Table({
         name: 'lot',
         columns: [
           {
@@ -453,6 +477,12 @@ export class Init1719579847103 implements MigrationInterface {
             type: 'int',
             isNullable: false,
             comment: '(FK) item 외래키',
+          },
+          {
+            name: 'supplier_id',
+            type: 'int',
+            isNullable: false,
+            comment: '(FK) supplier 외래키',
           },
           {
             name: 'number',
@@ -483,33 +513,14 @@ export class Init1719579847103 implements MigrationInterface {
       }),
     );
 
-    await queryRunner.createTable(
-      new Table({
-        name: 'supplier',
-        columns: [
-          {
-            name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment',
-            isNullable: false,
-          },
-          {
-            name: 'item_id',
-            type: 'int',
-            isNullable: false,
-            comment: '(FK) item 외래키',
-          },
-          {
-            name: 'name',
-            type: 'varchar',
-            length: '100',
-            isNullable: false,
-            isUnique: true,
-            comment: '공급처명',
-          },
-        ],
+    await queryRunner.createForeignKey(
+      'lot',
+      new TableForeignKey({
+        name: 'FK_lot_supplier_id', // 외래 키 제약 조건 이름
+        columnNames: ['supplier_id'], // 외래 키가 추가될 열
+        referencedColumnNames: ['id'], // 외래 키가 참조할 열
+        referencedTableName: 'supplier', // 외래 키가 참조할 테이블
+        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
       }),
     );
 
