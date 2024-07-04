@@ -213,7 +213,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
@@ -244,7 +244,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
@@ -252,7 +252,7 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'item_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) item 외래키',
           },
@@ -285,7 +285,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'item_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) item 외래키',
           },
@@ -297,7 +297,7 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'lot_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: true,
             comment: '(FK) lot 외래키',
           },
@@ -348,7 +348,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
@@ -356,7 +356,7 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'item_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) item 외래키',
           },
@@ -442,7 +442,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
@@ -466,7 +466,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
@@ -474,13 +474,13 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'item_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) item 외래키',
           },
           {
             name: 'supplier_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) supplier 외래키',
           },
@@ -494,7 +494,7 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'expiration_date',
-            type: 'timestamp',
+            type: 'date',
             isNullable: true,
             comment: '유통기한',
           },
@@ -541,7 +541,7 @@ export class Init1719579847103 implements MigrationInterface {
         columns: [
           {
             name: 'id',
-            type: 'int',
+            type: 'bigint',
             isPrimary: true,
             isGenerated: true,
             generationStrategy: 'increment',
@@ -549,7 +549,7 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'item_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) item 외래키',
           },
@@ -567,13 +567,13 @@ export class Init1719579847103 implements MigrationInterface {
           },
           {
             name: 'lot_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: true,
             comment: '(FK) lot 외래키',
           },
           {
             name: 'supplier_id',
-            type: 'int',
+            type: 'bigint',
             isNullable: false,
             comment: '(FK) supplier 외래키',
           },
