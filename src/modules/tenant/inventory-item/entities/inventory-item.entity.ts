@@ -7,10 +7,10 @@ import {
   PrimaryColumn,
   Relation,
 } from 'typeorm';
-import { StockStatus } from '../../enum';
-import { Item } from '../../item/v1/entities/item.entity';
-import { Location } from '../../location/v1/entities/location.entity';
-import { Lot } from '../../lot/entities/lot.entity';
+import { StockStatus } from 'src/modules/enum';
+import { Item } from 'src/modules/item/entities/item.entity';
+import { Location } from 'src/modules/location/entities/location.entity';
+import { Lot } from 'src/modules/lot/entities/lot.entity';
 
 @Entity({ name: 'inventory_item' })
 export class InventoryItem {

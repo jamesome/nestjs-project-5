@@ -1,9 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
-import { InventoryItemService } from './inventory-item.service';
+import { ItemController } from './item.controller';
+import { ItemService } from './item.service';
+import { LotService } from '../lot/lot.service';
+import { TransactionService } from '../transaction/transaction.service';
+import { I18nService } from 'nestjs-i18n';
 
-describe('InventoryItemService', () => {
-  let service: InventoryItemService;
+describe('ItemController', () => {
+  let controller: ItemController;
 
   beforeEach(async () => {
     const mockDataSource = {
@@ -17,20 +20,24 @@ describe('InventoryItemService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [ItemController],
       providers: [
-        InventoryItemService,
+        ItemService,
+        LotService,
+        TransactionService,
+        I18nService,
+
         {
           provide: 'CONNECTION',
           useValue: mockDataSource,
         },
-        EntityValidationService,
       ],
     }).compile();
 
-    service = module.get<InventoryItemService>(InventoryItemService);
+    controller = module.get<ItemController>(ItemController);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
   });
 });

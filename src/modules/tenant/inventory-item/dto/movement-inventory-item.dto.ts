@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsOptional, Min } from 'class-validator';
 import { i18nValidationMessage } from 'nestjs-i18n';
-import { StockStatus } from '../../enum';
+import { StockStatus } from 'src/modules/enum';
 
 export class MovementInventoryItemDto {
   @Expose({ name: 'item_id' })
@@ -30,7 +30,7 @@ export class MovementInventoryItemDto {
 
   @Expose({ name: 'lot_id' })
   @IsOptional()
-  lotId?: string | null;
+  lotId?: number | null;
 
   @Expose({ name: 'operation_type_id' })
   @IsNotEmpty({
@@ -52,8 +52,16 @@ export class MovementInventoryItemDto {
   })
   status!: StockStatus;
 
-  @IsNotEmpty({ message: 'validation.rules.IS_NOT_EMPTY' })
-  @Min(1, { message: 'validation.rules.MIN' })
+  @IsNotEmpty({
+    message: i18nValidationMessage('validation.rules.IS_NOT_EMPTY', {
+      message: 'inventory_item.quantity',
+    }),
+  })
+  @Min(1, {
+    message: i18nValidationMessage('validation.rules.MIN', {
+      message: 'inventory_item.quantity',
+    }),
+  })
   quantity!: number;
 
   @IsOptional()

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ZoneService } from './zone.service';
 import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
-import { InventoryItemService } from './inventory-item.service';
 
-describe('InventoryItemService', () => {
-  let service: InventoryItemService;
+describe('ZoneService', () => {
+  let service: ZoneService;
 
   beforeEach(async () => {
     const mockDataSource = {
@@ -18,7 +18,7 @@ describe('InventoryItemService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        InventoryItemService,
+        ZoneService,
         {
           provide: 'CONNECTION',
           useValue: mockDataSource,
@@ -27,7 +27,7 @@ describe('InventoryItemService', () => {
       ],
     }).compile();
 
-    service = module.get<InventoryItemService>(InventoryItemService);
+    service = module.get<ZoneService>(ZoneService);
   });
 
   it('should be defined', () => {

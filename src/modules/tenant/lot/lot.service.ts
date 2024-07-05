@@ -13,9 +13,9 @@ export class LotService {
   }
 
   async create(createLotDto: CreateLotDto) {
-    const warehouse = this.lotRepository.create(createLotDto);
+    const lot = this.lotRepository.create(createLotDto);
 
-    return await this.lotRepository.save(warehouse);
+    return await this.lotRepository.save(lot);
   }
 
   async findAll(findLotDto: FindLotDto) {

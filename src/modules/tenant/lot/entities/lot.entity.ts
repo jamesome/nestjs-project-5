@@ -1,21 +1,19 @@
 import { Expose } from 'class-transformer';
+import { InventoryItem } from 'src/modules/inventory-item/entities/inventory-item.entity';
+import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
+import { Item } from 'src/modules/item/entities/item.entity';
+import { Supplier } from 'src/modules/supplier/entities/supplier.entity';
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
-import { Item } from '../../item/v1/entities/item.entity';
-import { Supplier } from '../../supplier/v1/entities/supplier.entity';
-import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
-import { InventoryTransaction } from '../../inventory-transaction/entities/inventory-transaction.entity';
 
 @Entity({ name: 'lot' })
-@Index(['supplierId', 'number'], { unique: true }) // 유니크 => [공급처 + 로트넘버]
 export class Lot {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -53,7 +51,7 @@ export class Lot {
 
   @Expose({ name: 'expiration_date' })
   @Column({
-    type: 'timestamp',
+    type: 'date',
     name: 'expiration_date',
     nullable: true,
     comment: '유통기한',
@@ -63,9 +61,6 @@ export class Lot {
   @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.lot)
   inventoryItems!: Relation<InventoryItem>[];
 
-  @OneToMany(
-    () => InventoryTransaction,
-    (inventoryTransaction) => inventoryTransaction.lot,
-  )
-  inventoryTransactions!: Relation<InventoryTransaction>[];
+  @OneToMany(() => Transaction, (transaction) => transaction.lot)
+  transactions!: Relation<Transaction>[];
 }

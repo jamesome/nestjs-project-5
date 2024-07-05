@@ -1,14 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { LocationController } from './location.controller';
+import { LocationService } from './location.service';
+import { CreateLocationDto } from './dto/create-location.dto';
 import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
-import { InventoryItemService } from './inventory-item.service';
 
-describe('InventoryItemService', () => {
-  let service: InventoryItemService;
+describe('LocationController', () => {
+  let controller: LocationController;
 
   beforeEach(async () => {
     const mockDataSource = {
       getRepository: jest.fn().mockReturnValue({
-        create: jest.fn(),
+        create: jest
+          .fn()
+          .mockReturnValue({ id: 1, ...new CreateLocationDto() }),
         find: jest.fn(),
         findOne: jest.fn(),
         update: jest.fn(),
@@ -17,8 +21,9 @@ describe('InventoryItemService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [LocationController],
       providers: [
-        InventoryItemService,
+        LocationService,
         {
           provide: 'CONNECTION',
           useValue: mockDataSource,
@@ -27,10 +32,10 @@ describe('InventoryItemService', () => {
       ],
     }).compile();
 
-    service = module.get<InventoryItemService>(InventoryItemService);
+    controller = module.get<LocationController>(LocationController);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
   });
 });

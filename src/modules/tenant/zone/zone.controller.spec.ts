@@ -1,14 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { ZoneController } from './zone.controller';
+import { ZoneService } from './zone.service';
+import { CreateZoneDto } from './dto/create-zone.dto';
 import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
-import { InventoryItemService } from './inventory-item.service';
 
-describe('InventoryItemService', () => {
-  let service: InventoryItemService;
+describe('ZoneController', () => {
+  let controller: ZoneController;
 
   beforeEach(async () => {
     const mockDataSource = {
       getRepository: jest.fn().mockReturnValue({
-        create: jest.fn(),
+        create: jest.fn().mockReturnValue({ id: 1, ...new CreateZoneDto() }),
         find: jest.fn(),
         findOne: jest.fn(),
         update: jest.fn(),
@@ -17,8 +19,9 @@ describe('InventoryItemService', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [ZoneController],
       providers: [
-        InventoryItemService,
+        ZoneService,
         {
           provide: 'CONNECTION',
           useValue: mockDataSource,
@@ -27,10 +30,10 @@ describe('InventoryItemService', () => {
       ],
     }).compile();
 
-    service = module.get<InventoryItemService>(InventoryItemService);
+    controller = module.get<ZoneController>(ZoneController);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(controller).toBeDefined();
   });
 });

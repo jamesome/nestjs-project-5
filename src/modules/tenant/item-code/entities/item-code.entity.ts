@@ -7,16 +7,14 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   Relation,
-  Unique,
 } from 'typeorm';
 
-@Entity({ name: 'item_serial' })
-@Unique(['serialNo'])
-export class ItemSerial {
+@Entity({ name: 'item_code' })
+export class ItemCode {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @ManyToOne(() => Item, (item) => item.itemSerials)
+  @ManyToOne(() => Item, (item) => item.itemCodes)
   @JoinColumn({ name: 'item_id' })
   item!: Relation<Item>;
 
@@ -24,13 +22,12 @@ export class ItemSerial {
   @Expose({ name: 'item_id' })
   itemId!: number;
 
-  @Expose({ name: 'serial_no' })
   @Column('varchar', {
-    name: 'serial_no',
+    name: 'code',
     length: 50,
     unique: true,
     nullable: false,
-    comment: 'Serial Number',
+    comment: '바코드1 ~ 3, 글로벌 바코드',
   })
-  serialNo?: string;
+  code!: string;
 }

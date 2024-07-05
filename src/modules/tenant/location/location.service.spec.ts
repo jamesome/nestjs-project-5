@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { LocationService } from './location.service';
 import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
-import { InventoryItemService } from './inventory-item.service';
 
-describe('InventoryItemService', () => {
-  let service: InventoryItemService;
+describe('LocationService', () => {
+  let service: LocationService;
 
   beforeEach(async () => {
     const mockDataSource = {
@@ -18,7 +18,7 @@ describe('InventoryItemService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        InventoryItemService,
+        LocationService,
         {
           provide: 'CONNECTION',
           useValue: mockDataSource,
@@ -27,7 +27,7 @@ describe('InventoryItemService', () => {
       ],
     }).compile();
 
-    service = module.get<InventoryItemService>(InventoryItemService);
+    service = module.get<LocationService>(LocationService);
   });
 
   it('should be defined', () => {

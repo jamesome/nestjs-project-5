@@ -1,4 +1,6 @@
-import { Lot } from 'src/modules/tenant/lot/entities/lot.entity';
+import { Expose } from 'class-transformer';
+import { Lot } from 'src/modules/lot/entities/lot.entity';
+import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
 import {
   Column,
   Entity,
@@ -23,4 +25,8 @@ export class Supplier {
 
   @OneToMany(() => Lot, (lot) => lot.supplier)
   lots!: Relation<Lot>[];
+
+  @Expose()
+  @OneToMany(() => Transaction, (transaction) => transaction.supplier)
+  transactions!: Relation<Transaction>[];
 }

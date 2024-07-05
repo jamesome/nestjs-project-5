@@ -10,8 +10,10 @@ import {
 import { ItemSerialService } from './item-serial.service';
 import { CreateItemSerialDto } from './dto/create-item-serial.dto';
 import { UpdateItemSerialDto } from './dto/update-item-serial.dto';
+import { ApiExcludeController } from '@nestjs/swagger';
 
 @Controller('item-serial')
+@ApiExcludeController()
 export class ItemSerialController {
   constructor(private readonly itemSerialService: ItemSerialService) {}
 
