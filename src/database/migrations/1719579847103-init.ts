@@ -342,6 +342,17 @@ export class Init1719579847103 implements MigrationInterface {
       }),
     );
 
+    await queryRunner.createForeignKey(
+      'inventory_item',
+      new TableForeignKey({
+        name: 'FK_inventory_item_lot_id', // 외래 키 제약 조건 이름
+        columnNames: ['lot_id'], // 외래 키가 추가될 열
+        referencedColumnNames: ['id'], // 외래 키가 참조할 열
+        referencedTableName: 'lot', // 외래 키가 참조할 테이블
+        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
+      }),
+    );
+
     await queryRunner.createTable(
       new Table({
         name: 'item_serial',
@@ -548,42 +559,6 @@ export class Init1719579847103 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'item_id',
-            type: 'bigint',
-            isNullable: false,
-            comment: '(FK) item 외래키',
-          },
-          {
-            name: 'location_departure_id',
-            type: 'int',
-            isNullable: true,
-            comment: '(FK) location 외래키',
-          },
-          {
-            name: 'location_arrival_id',
-            type: 'int',
-            isNullable: true,
-            comment: '(FK) location 외래키',
-          },
-          {
-            name: 'lot_id',
-            type: 'bigint',
-            isNullable: true,
-            comment: '(FK) lot 외래키',
-          },
-          {
-            name: 'supplier_id',
-            type: 'bigint',
-            isNullable: false,
-            comment: '(FK) supplier 외래키',
-          },
-          {
-            name: 'operation_type_id',
-            type: 'int',
-            isNullable: false,
-            comment: '(FK) operation_type 외래키',
-          },
-          {
             name: 'category',
             type: 'enum',
             isNullable: false,
@@ -596,18 +571,6 @@ export class Init1719579847103 implements MigrationInterface {
             enum: Object.values(InputType),
             isNullable: false,
             comment: '작업 유형',
-          },
-          {
-            name: 'quantity',
-            type: 'int',
-            isNullable: false,
-            comment: '수량',
-          },
-          {
-            name: 'remark',
-            type: 'text',
-            isNullable: true,
-            comment: '비고',
           },
           {
             name: 'create_worker',
@@ -633,10 +596,99 @@ export class Init1719579847103 implements MigrationInterface {
       }),
     );
 
+    await queryRunner.createTable(
+      new Table({
+        name: 'transaction_item',
+        columns: [
+          {
+            name: 'id',
+            type: 'int',
+            isPrimary: true,
+            isGenerated: true,
+            generationStrategy: 'increment',
+            isNullable: false,
+          },
+          {
+            name: 'transaction_id',
+            type: 'int',
+            isNullable: false,
+            comment: '(FK) transaction 외래키',
+          },
+          {
+            name: 'item_id',
+            type: 'int',
+            isNullable: false,
+            comment: '(FK) item 외래키',
+          },
+          {
+            name: 'location_departure_id',
+            type: 'int',
+            isNullable: true,
+            comment: '(FK) location 외래키',
+          },
+          {
+            name: 'location_arrival_id',
+            type: 'int',
+            isNullable: true,
+            comment: '(FK) location 외래키',
+          },
+          {
+            name: 'lot_id',
+            type: 'int',
+            isNullable: true,
+            comment: '(FK) lot 외래키',
+          },
+          {
+            name: 'supplier_id',
+            type: 'int',
+            isNullable: true,
+            comment: '(FK) supplier 외래키',
+          },
+          {
+            name: 'operation_type_id',
+            type: 'int',
+            isNullable: false,
+            comment: '(FK) operation_type 외래키',
+          },
+          {
+            name: 'quantity',
+            type: 'int',
+            isNullable: false,
+            comment: '수량',
+          },
+          {
+            name: 'status',
+            type: 'enum',
+            isNullable: false,
+            enum: Object.values(StockStatus),
+            default: StockStatus.NORMAL,
+            comment: '재고상태. normal(정상), abnormal(비정상), disposed(폐기)',
+          },
+          {
+            name: 'remark',
+            type: 'text',
+            isNullable: true,
+            comment: '비고',
+          },
+        ],
+      }),
+    );
+
     await queryRunner.createForeignKey(
-      'transaction',
+      'transaction_item',
       new TableForeignKey({
-        name: 'FK_transaction_item_id', // 외래 키 제약 조건 이름
+        name: 'FK_transaction_item_transaction_id', // 외래 키 제약 조건 이름
+        columnNames: ['transaction_id'], // 외래 키가 추가될 열
+        referencedColumnNames: ['id'], // 외래 키가 참조할 열
+        referencedTableName: 'transaction', // 외래 키가 참조할 테이블
+        // onDelete: 'CASCADE',
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'transaction_item',
+      new TableForeignKey({
+        name: 'FK_transaction_item_item_id', // 외래 키 제약 조건 이름
         columnNames: ['item_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'item', // 외래 키가 참조할 테이블
@@ -645,9 +697,9 @@ export class Init1719579847103 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'transaction',
+      'transaction_item',
       new TableForeignKey({
-        name: 'FK_transaction_location_departure_id', // 외래 키 제약 조건 이름
+        name: 'FK_transaction_item_location_departure_id', // 외래 키 제약 조건 이름
         columnNames: ['location_departure_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'location', // 외래 키가 참조할 테이블
@@ -656,9 +708,9 @@ export class Init1719579847103 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'transaction',
+      'transaction_item',
       new TableForeignKey({
-        name: 'FK_transaction_location_arrival_id', // 외래 키 제약 조건 이름
+        name: 'FK_transaction_item_location_arrival_id', // 외래 키 제약 조건 이름
         columnNames: ['location_arrival_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'location', // 외래 키가 참조할 테이블
@@ -667,9 +719,9 @@ export class Init1719579847103 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'transaction',
+      'transaction_item',
       new TableForeignKey({
-        name: 'FK_transaction_lot_id', // 외래 키 제약 조건 이름
+        name: 'FK_transaction_item_lot_id', // 외래 키 제약 조건 이름
         columnNames: ['lot_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'lot', // 외래 키가 참조할 테이블
@@ -678,20 +730,20 @@ export class Init1719579847103 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      'transaction',
+      'transaction_item',
       new TableForeignKey({
-        name: 'FK_transaction_supplier_id', // 외래 키 제약 조건 이름
+        name: 'FK_transaction_item_supplier_id', // 외래 키 제약 조건 이름
         columnNames: ['supplier_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'supplier', // 외래 키가 참조할 테이블
-        // onDelete: 'CASCADE',
+        // onDelete: 'CASCADE', // 연결된 행이 삭제될 때의 동작
       }),
     );
 
     await queryRunner.createForeignKey(
-      'transaction',
+      'transaction_item',
       new TableForeignKey({
-        name: 'FK_transaction_operation_type_id', // 외래 키 제약 조건 이름
+        name: 'FK_transaction_item_operation_type_id', // 외래 키 제약 조건 이름
         columnNames: ['operation_type_id'], // 외래 키가 추가될 열
         referencedColumnNames: ['id'], // 외래 키가 참조할 열
         referencedTableName: 'operation_type', // 외래 키가 참조할 테이블
@@ -702,28 +754,41 @@ export class Init1719579847103 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey(
-      'transaction',
-      'FK_transaction_operation_type_id',
+      'transaction_item',
+      'FK_transaction_item_operation_type_id',
     );
     await queryRunner.dropForeignKey(
-      'transaction',
-      'FK_transaction_supplier_id',
-    );
-    await queryRunner.dropForeignKey('transaction', 'FK_transaction_lot_id');
-    await queryRunner.dropForeignKey(
-      'transaction',
-      'FK_transaction_location_departure_id',
+      'transaction_item',
+      'FK_transaction_item_supplier_id',
     );
     await queryRunner.dropForeignKey(
-      'transaction',
-      'FK_transaction_location_arrival_id',
+      'transaction_item',
+      'FK_transaction_item_lot_id',
     );
-    await queryRunner.dropForeignKey('transaction', 'FK_transaction_item_id');
+    await queryRunner.dropForeignKey(
+      'transaction_item',
+      'FK_transaction_item_location_arrival_id',
+    );
+    await queryRunner.dropForeignKey(
+      'transaction_item',
+      'FK_transaction_item_location_departure_id',
+    );
+    await queryRunner.dropForeignKey(
+      'transaction_item',
+      'FK_transaction_item_item_id',
+    );
+    await queryRunner.dropForeignKey(
+      'transaction_item',
+      'FK_transaction_item_transaction_id',
+    );
+    await queryRunner.dropTable('transaction_item');
+
     await queryRunner.dropTable('transaction');
 
     await queryRunner.dropForeignKey('supplier', 'FK_supplier_item_id');
     await queryRunner.dropTable('supplier');
 
+    await queryRunner.dropForeignKey('lot', 'FK_lot_supplier_id');
     await queryRunner.dropForeignKey('lot', 'FK_lot_item_id');
     await queryRunner.dropTable('lot');
 
@@ -737,6 +802,10 @@ export class Init1719579847103 implements MigrationInterface {
     await queryRunner.dropForeignKey('item_serial', 'FK_item_serial_item_id');
     await queryRunner.dropTable('item_serial');
 
+    await queryRunner.dropForeignKey(
+      'inventory_item',
+      'FK_inventory_item_lot_id',
+    );
     await queryRunner.dropForeignKey(
       'inventory_item',
       'FK_inventory_item_location_id',
