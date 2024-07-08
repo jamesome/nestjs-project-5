@@ -8,11 +8,11 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
-import { Zone } from 'src/modules/zone/entities/zone.entity';
 import { Expose } from 'class-transformer';
-import { StockStatus } from 'src/modules/enum';
-import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
-import { InventoryItem } from 'src/modules/inventory-item/entities/inventory-item.entity';
+import { Zone } from '../../zone/entities/zone.entity';
+import { StockStatus } from '../../enum';
+import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
+import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 
 @Entity({ name: 'location' })
 export class Location extends TimestampedEntity {
@@ -79,9 +79,15 @@ export class Location extends TimestampedEntity {
   @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.location)
   inventoryItems!: Relation<InventoryItem>[];
 
-  @OneToMany(() => Transaction, (transaction) => transaction.locationDeparture)
-  transactions_locationDeparture!: Relation<Transaction>[];
+  @OneToMany(
+    () => TransactionItem,
+    (transactionItem) => transactionItem.locationDeparture,
+  )
+  transactions_locationDeparture!: Relation<TransactionItem>[];
 
-  @OneToMany(() => Transaction, (transaction) => transaction.locationArrival)
-  transactions_locationArrival!: Relation<Transaction>[];
+  @OneToMany(
+    () => TransactionItem,
+    (transactionItem) => transactionItem.locationArrival,
+  )
+  transactions_locationArrival!: Relation<TransactionItem>[];
 }

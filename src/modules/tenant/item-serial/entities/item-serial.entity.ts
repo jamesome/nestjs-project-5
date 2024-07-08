@@ -1,5 +1,4 @@
 import { Expose } from 'class-transformer';
-import { Item } from 'src/modules/item/entities/item.entity';
 import {
   Column,
   Entity,
@@ -9,6 +8,7 @@ import {
   Relation,
   Unique,
 } from 'typeorm';
+import { Item } from '../../item/entities/item.entity';
 
 @Entity({ name: 'item_serial' })
 @Unique(['serialNo'])

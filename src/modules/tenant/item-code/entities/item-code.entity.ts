@@ -1,5 +1,4 @@
 import { Expose } from 'class-transformer';
-import { Item } from 'src/modules/item/entities/item.entity';
 import {
   Column,
   Entity,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { Item } from '../../item/entities/item.entity';
 
 @Entity({ name: 'item_code' })
 export class ItemCode {

@@ -1,9 +1,4 @@
 import { VirtualColumn } from 'src/common/decorators/virtual-column.decorator';
-import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
-import { ItemCode } from 'src/modules/item-code/entities/item-code.entity';
-import { InventoryItem } from 'src/modules/inventory-item/entities/inventory-item.entity';
-import { ItemSerial } from 'src/modules/item-serial/entities/item-serial.entity';
-import { Lot } from 'src/modules/lot/entities/lot.entity';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
 import {
   Column,
@@ -13,6 +8,11 @@ import {
   Relation,
 } from 'typeorm';
 import { Expose } from 'class-transformer';
+import { ItemCode } from '../../item-code/entities/item-code.entity';
+import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
+import { ItemSerial } from '../../item-serial/entities/item-serial.entity';
+import { Lot } from '../../lot/entities/lot.entity';
+import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 
 @Entity({ name: 'item' })
 export class Item extends TimestampedEntity {
@@ -57,8 +57,8 @@ export class Item extends TimestampedEntity {
   @OneToMany(() => Lot, (lot) => lot.item)
   lots!: Relation<Lot>[];
 
-  @OneToMany(() => Transaction, (transaction) => transaction.item)
-  transactions!: Relation<Transaction>[];
+  @OneToMany(() => TransactionItem, (transactionItem) => transactionItem.item)
+  transactionItems!: Relation<TransactionItem>[];
 
   // Virtual Entities
   @Expose({ name: 'quantity_total' })

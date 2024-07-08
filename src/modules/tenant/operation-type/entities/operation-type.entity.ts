@@ -1,4 +1,3 @@
-import { Expose } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -7,8 +6,9 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { Expose } from 'class-transformer';
 import { Category } from '../../enum';
-import { InventoryTransaction } from '../../inventory-transaction/entities/inventory-transaction.entity';
+import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 
 @Entity({ name: 'operation_type' })
 @Index(['category', 'name'], { unique: true }) // 유니크 => [카테고리 + 재고작업구분명]
@@ -51,8 +51,8 @@ export class OperationType {
   reserved!: number;
 
   @OneToMany(
-    () => InventoryTransaction,
-    (inventoryTransaction) => inventoryTransaction.operationType,
+    () => TransactionItem,
+    (transactionItem) => transactionItem.operationType,
   )
-  inventoryTransactions!: Relation<InventoryTransaction>[];
+  transactions!: Relation<TransactionItem>[];
 }

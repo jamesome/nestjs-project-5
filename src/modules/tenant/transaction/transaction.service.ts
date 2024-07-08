@@ -14,6 +14,8 @@ import { Lot } from '../lot/entities/lot.entity';
 import { LotService } from '../lot/lot.service';
 import { CreateLotDto } from '../lot/dto/create-lot.dto';
 import { ItemSerial } from '../item-serial/entities/item-serial.entity';
+import { CreateTransactionItemDto } from '../transaction-item/dto/create-transaction-item.dto';
+import { TransactionItem } from '../transaction-item/entities/transaction-item.entity';
 
 @Injectable()
 export class TransactionService {
@@ -45,6 +47,18 @@ export class TransactionService {
     }[] = [];
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
+
+    const createTransactionDto: CreateTransactionDto = {
+      category: Category.INCOMING,
+      inputType: InputType.WEB_INCOMING,
+      createWorker: 'create_worker_name', // TODO: 추후, User로 대체
+    };
+
+    const transaction = await queryRunner.manager.insert(
+      Transaction,
+      createTransactionDto,
+    );
+    const transactionId = transaction.identifiers[0].id;
 
     for (const [index, dto] of incomingInventoryItemDto.entries()) {
       const incomingDtoInstance = plainToInstance(
@@ -133,24 +147,24 @@ export class TransactionService {
       await queryRunner.startTransaction();
 
       try {
-        const createTransactionDto: CreateTransactionDto = {
+        const createTransactionItemDto: CreateTransactionItemDto = {
+          transactionId: transactionId,
           itemId: incomingDtoInstance.itemId,
           locationDepartureId: null,
           locationArrivalId: incomingDtoInstance.locationId,
           lotId: lotId,
           supplierId: incomingDtoInstance.supplierId,
           operationTypeId: incomingDtoInstance.operationTypeId,
-          category: Category.INCOMING,
-          inputType: InputType.WEB_INCOMING,
           quantity: incomingDtoInstance.quantity,
+          status: incomingDtoInstance.status,
           remark: incomingDtoInstance.remark,
-          createWorker: 'create_worker_name', // TODO: 추후, User로 대체
         };
 
-        const transactionValidationErrors =
-          await this.i18n.validate(createTransactionDto);
+        const transactionItemValidationErrors = await this.i18n.validate(
+          createTransactionItemDto,
+        );
 
-        if (transactionValidationErrors.length > 0) {
+        if (transactionItemValidationErrors.length > 0) {
           failures.push({
             index,
             children: validationErrors.map((error) => ({
@@ -166,8 +180,10 @@ export class TransactionService {
           continue;
         }
 
-        // await this.create(createTransactionDto);
-        await queryRunner.manager.insert(Transaction, createTransactionDto);
+        await queryRunner.manager.insert(
+          TransactionItem,
+          createTransactionItemDto,
+        );
 
         if (inventoryItemRecord) {
           await queryRunner.manager.update(InventoryItem, filters, {
@@ -256,6 +272,18 @@ export class TransactionService {
     }[] = [];
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
+
+    const createTransactionDto: CreateTransactionDto = {
+      category: Category.MOVEMENT,
+      inputType: InputType.WEB_LOCATION_MOVEMENT,
+      createWorker: 'create_worker_name', // TODO: 추후, User로 대체
+    };
+
+    const transaction = await queryRunner.manager.insert(
+      Transaction,
+      createTransactionDto,
+    );
+    const transactionId = transaction.identifiers[0].id;
 
     for (const [index, dto] of movementInventoryItemDto.entries()) {
       const movementDtoInstance = plainToInstance(
@@ -370,24 +398,24 @@ export class TransactionService {
       await queryRunner.startTransaction();
 
       try {
-        const createTransactionDto: CreateTransactionDto = {
+        const createTransactionItemDto: CreateTransactionItemDto = {
+          transactionId: transactionId,
           itemId: movementDtoInstance.itemId,
-          locationDepartureId: movementDtoInstance.locationDepartureId,
+          locationDepartureId: null,
           locationArrivalId: movementDtoInstance.locationArrivalId,
           lotId: movementDtoInstance?.lotId,
           supplierId: null,
           operationTypeId: movementDtoInstance.operationTypeId,
-          category: Category.MOVEMENT,
-          inputType: InputType.WEB_LOCATION_MOVEMENT,
           quantity: movementDtoInstance.quantity,
+          status: movementDtoInstance.status,
           remark: movementDtoInstance.remark,
-          createWorker: 'create_worker_name', // TODO: 추후, User로 대체
         };
 
-        const transactionValidationErrors =
-          await this.i18n.validate(createTransactionDto);
+        const transactionItemValidationErrors = await this.i18n.validate(
+          createTransactionItemDto,
+        );
 
-        if (transactionValidationErrors.length > 0) {
+        if (transactionItemValidationErrors.length > 0) {
           failures.push({
             index,
             children: validationErrors.map((error) => ({
@@ -403,8 +431,10 @@ export class TransactionService {
           continue;
         }
 
-        // await this.create(createTransactionDto);
-        await queryRunner.manager.insert(Transaction, createTransactionDto);
+        await queryRunner.manager.insert(
+          TransactionItem,
+          createTransactionItemDto,
+        );
 
         const minusQuantity =
           departureRecord.quantity - movementDtoInstance.quantity;
@@ -458,33 +488,31 @@ export class TransactionService {
   // }
 
   async findAll(findTransactionDto: FindTransactionDto) {
-    const { startDate, endDate, operationTypeCategory, itemName } =
-      findTransactionDto;
+    const { startDate, endDate, category, itemName } = findTransactionDto;
     const filters: any = {
       relations: {
-        item: true,
-        lot: true, // TODO: 하위호환위해 유지. Lot는 입출고내역에서 노출되지 않음
-        supplier: true,
-        operationType: true,
-        locationDeparture: { zone: true },
-        locationArrival: { zone: true },
+        transactionItems: {
+          item: true,
+          supplier: true,
+          operationType: true,
+          locationDeparture: { zone: true },
+          locationArrival: { zone: true },
+        },
       },
       where: {
         ...(startDate &&
           endDate && {
             createdAt: Between(new Date(startDate), new Date(endDate)),
           }),
-        ...(operationTypeCategory && {
-          operationTypeCategory: Like(`%${operationTypeCategory}%`),
+        ...(category && { category }),
+        ...(itemName && {
+          transactionItems: { item: { name: Like(`%${itemName}%`) } },
         }),
-        ...(operationTypeCategory && {
-          operationType: { category: operationTypeCategory },
-        }),
-        ...(itemName && { item: { name: Like(`%${itemName}%`) } }),
       },
       order: {
         createdAt: 'DESC',
         id: 'DESC',
+        transactionItems: { id: 'DESC' },
       },
     };
 
@@ -493,6 +521,15 @@ export class TransactionService {
 
   async findOne(id: number) {
     const transaction = this.transactionRepository.findOne({
+      relations: {
+        transactionItems: {
+          item: true,
+          supplier: true,
+          operationType: true,
+          locationDeparture: { zone: true },
+          locationArrival: { zone: true },
+        },
+      },
       where: { id },
     });
 

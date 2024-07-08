@@ -1,6 +1,5 @@
 import { Expose } from 'class-transformer';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
-import { Zone } from 'src/modules/zone/entities/zone.entity';
 import {
   Column,
   Entity,
@@ -8,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { Zone } from '../../zone/entities/zone.entity';
 
 @Entity({ name: 'warehouse' })
 export class Warehouse extends TimestampedEntity {

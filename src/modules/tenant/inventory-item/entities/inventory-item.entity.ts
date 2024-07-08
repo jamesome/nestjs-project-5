@@ -7,11 +7,9 @@ import {
   PrimaryColumn,
   Relation,
 } from 'typeorm';
-import { StockStatus } from 'src/modules/enum';
-import { Item } from 'src/modules/item/entities/item.entity';
-import { Location } from 'src/modules/location/entities/location.entity';
-import { Lot } from 'src/modules/lot/entities/lot.entity';
-
+import { Item } from '../../item/entities/item.entity';
+import { StockStatus } from '../../enum';
+import { Lot } from '../../lot/entities/lot.entity';
 @Entity({ name: 'inventory_item' })
 export class InventoryItem {
   @ManyToOne(() => Item, (item) => item.inventoryItems)

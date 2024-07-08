@@ -1,8 +1,3 @@
-import { Expose } from 'class-transformer';
-import { InventoryItem } from 'src/modules/inventory-item/entities/inventory-item.entity';
-import { Transaction } from 'src/modules/transaction/entities/transaction.entity';
-import { Item } from 'src/modules/item/entities/item.entity';
-import { Supplier } from 'src/modules/supplier/entities/supplier.entity';
 import {
   Column,
   Entity,
@@ -12,6 +7,11 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
+import { Expose } from 'class-transformer';
+import { Item } from '../../item/entities/item.entity';
+import { Supplier } from '../../supplier/v1/entities/supplier.entity';
+import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
+import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 
 @Entity({ name: 'lot' })
 export class Lot {
@@ -61,6 +61,6 @@ export class Lot {
   @OneToMany(() => InventoryItem, (inventoryItem) => inventoryItem.lot)
   inventoryItems!: Relation<InventoryItem>[];
 
-  @OneToMany(() => Transaction, (transaction) => transaction.lot)
-  transactions!: Relation<Transaction>[];
+  @OneToMany(() => TransactionItem, (transactionItem) => transactionItem.lot)
+  transactions!: Relation<TransactionItem>[];
 }

@@ -9,9 +9,9 @@ import {
   Unique,
 } from 'typeorm';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
-import { Warehouse } from 'src/modules/warehouse/entities/warehouse.entity';
-import { Location } from 'src/modules/location/entities/location.entity';
 import { Expose } from 'class-transformer';
+import { Warehouse } from '../../warehouse/entities/warehouse.entity';
+import { Location } from '../../location/entities/location.entity';
 
 @Entity({ name: 'zone' })
 @Unique(['code'])
