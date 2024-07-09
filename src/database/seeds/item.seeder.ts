@@ -1,6 +1,5 @@
-import { ItemCode } from 'src/modules/tenant/item-code/v1/entities/item-code.entity';
-import { Item } from 'src/modules/tenant/item/v1/entities/item.entity';
-// import { Supplier } from 'src/modules/tenant/supplier/v1/entities/supplier.entity';
+import { ItemCode } from 'src/modules/tenant/item-code/entities/item-code.entity';
+import { Item } from 'src/modules/tenant/item/entities/item.entity';
 import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 

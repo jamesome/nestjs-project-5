@@ -4,8 +4,8 @@ import { UpdateZoneDto } from './dto/update-zone.dto';
 import { DataSource, Repository } from 'typeorm';
 import { Zone } from './entities/zone.entity';
 import { FindZoneDto } from './dto/find-zone.dto';
-import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
 import { instanceToPlain } from 'class-transformer';
+import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
 
 @Injectable()
 export class ZoneService {

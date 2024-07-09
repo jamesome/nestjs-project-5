@@ -1,4 +1,4 @@
-import { ItemCode } from 'src/modules/tenant/item-code/v1/entities/item-code.entity';
+import { ItemCode } from 'src/modules/tenant/item-code/entities/item-code.entity';
 import { setSeederFactory } from 'typeorm-extension';
 
 export const ItemCodeFactory = setSeederFactory(ItemCode, (faker) => {
