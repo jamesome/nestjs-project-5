@@ -124,13 +124,6 @@ export class Init1719579847103 implements MigrationInterface {
             isUnique: true,
             comment: '분류(zone)코드',
           },
-          {
-            name: 'is_default',
-            type: 'tinyInt',
-            isNullable: false,
-            default: false,
-            comment: '기본 분류 여부',
-          },
         ],
       }),
     );
@@ -184,13 +177,6 @@ export class Init1719579847103 implements MigrationInterface {
             length: '50',
             isNullable: false,
             comment: '로케이션 등록 작업자',
-          },
-          {
-            name: 'is_default',
-            type: 'tinyInt',
-            isNullable: false,
-            default: false,
-            comment: '기본 로케이션 여부',
           },
         ],
       }),
