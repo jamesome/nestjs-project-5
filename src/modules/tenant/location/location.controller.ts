@@ -13,6 +13,7 @@ import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { FindLocationDto } from './dto/find-location.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller(['locations', 'warehouses/:warehouseId/locations'])
 @ApiTags('Location Api')
@@ -24,17 +25,17 @@ export class LocationController {
     return await this.locationService.create(createLocationDto);
   }
 
-  // @Get()
-  // async findAll(@Query() findLocationDto: FindLocationDto) {
-  //   return await this.locationService.findAll(findLocationDto);
-  // }
-
   @Get()
   async findAll(
+    @Paginate() query: PaginateQuery,
     @Param('warehouseId') warehouseId: number | null,
     @Query() findLocationDto: FindLocationDto,
   ) {
-    return await this.locationService.findAll(warehouseId, findLocationDto);
+    return await this.locationService.findAll(
+      query,
+      warehouseId,
+      findLocationDto,
+    );
   }
 
   @Get(':id')

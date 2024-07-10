@@ -3,9 +3,6 @@ import { ItemService } from './item.service';
 import { ObjectLiteral, Repository, Like } from 'typeorm';
 import { Item } from './entities/item.entity';
 import { FindItemDto } from './dto/find-item.dto';
-import { LotService } from '../lot/lot.service';
-import { TransactionService } from '../transaction/transaction.service';
-import { I18nService } from 'nestjs-i18n';
 
 const mockRepository = {
   create: jest.fn(),
@@ -53,9 +50,6 @@ describe('ItemService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ItemService,
-        LotService,
-        TransactionService,
-        I18nService,
         {
           provide: 'CONNECTION',
           useValue: mockDataSource,

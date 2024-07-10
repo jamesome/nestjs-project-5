@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DataSource, Like, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Location } from './entities/location.entity';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { FindLocationDto } from './dto/find-location.dto';
 import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
-import { instanceToPlain } from 'class-transformer';
+import { InventoryItem } from '../inventory-item/entities/inventory-item.entity';
+import { paginate, PaginateConfig, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class LocationService {
@@ -26,100 +27,57 @@ export class LocationService {
     return await this.locationRepository.save(location);
   }
 
-  // async findAll(findLocationDto: FindLocationDto) {
-  //   const { name, zoneName, warehouseId, warehouseIsDefault } = findLocationDto;
-  //   const filters: any = {
-  //     relations: { zone: true },
-  //     where: {
-  //       ...(name && { name: Like(`%${name}%`) }),
-  //       ...(zoneName && { zone: { name: Like(`%${zoneName}%`) } }),
-  //       ...(warehouseId && { zone: { warehouse: { id: warehouseId } } }),
-  //       ...(warehouseIsDefault && {
-  //         zone: { warehouse: { isDefault: warehouseIsDefault } },
-  //       }),
-  //     },
-  //     order: {
-  //       name: 'ASC',
-  //     },
-  //   };
+  async findAll(
+    query: PaginateQuery,
+    warehouseId: number | null,
+    findLocationDto: FindLocationDto,
+  ) {
+    const { name, zoneName } = findLocationDto;
+    const queryBuilder = this.locationRepository.createQueryBuilder('location');
 
-  //   const locations = await this.locationRepository.find(filters);
+    queryBuilder.select(['location', 'zone']).addSelect((subQuery) => {
+      return subQuery
+        .select('SUM(inventory_item.quantity)', 'quantity')
+        .from(InventoryItem, 'inventory_item')
+        .where('inventory_item.location_id = location.id');
+    }, 'quantity');
 
-  //   // TODO: 스네이크 케이스로 return 하기 위해 정제.
-  //   return locations.map((location) => ({
-  //     id: location.id,
-  //     name: location.name,
-  //     stock_status: location.stockStatus,
-  //     remark: location.remark,
-  //     create_worker: location.createWorker,
-  //     created_at: location.createdAt,
-  //     is_default: location.isDefault,
-  //     zone: {
-  //       id: location.zone.id,
-  //       name: location.zone.name,
-  //       is_default: location.zone.isDefault,
-  //     },
-  //   }));
-  // }
+    queryBuilder.leftJoin('location.zone', 'zone');
+    queryBuilder.leftJoin('zone.warehouse', 'warehouse');
 
-  async findAll(warehouseId: number | null, findLocationDto: FindLocationDto) {
-    console.log(warehouseId);
-    const { name, zoneName, warehouseIsDefault } = findLocationDto;
-    const filters: any = {
-      relations: { zone: true },
-      where: {
-        zone: {
-          warehouse: {
-            id: warehouseId,
-          },
-        },
-        ...(name && { name: Like(`%${name}%`) }),
-        ...(zoneName && { zone: { name: Like(`%${zoneName}%`) } }),
-        ...(warehouseIsDefault && {
-          zone: { warehouse: { isDefault: warehouseIsDefault } },
-        }),
-      },
-      order: {
-        name: 'ASC',
-      },
+    warehouseId &&
+      queryBuilder.andWhere('warehouse.id = :id', { id: warehouseId });
+    name &&
+      queryBuilder.andWhere('location.name like :name', { name: `%${name}%` });
+    zoneName &&
+      queryBuilder.andWhere('zone.name like :zoneName', {
+        name: `%${zoneName}%`,
+      });
+
+    queryBuilder.groupBy('location.id');
+
+    const config: PaginateConfig<Location> = {
+      sortableColumns: ['createdAt', 'name'],
+      defaultSortBy: [['createdAt', 'DESC']],
     };
 
-    const locations = await this.locationRepository.find(filters);
+    const paginatedResult = await paginate(query, queryBuilder, config);
 
-    // strategy: ClassTransformOptions 설명
-    // excludeAll :: Entity에 @Expose() 된 항목만 노출
-    // exposeAll :: Entity 전체 노출
-    return instanceToPlain(locations, { strategy: 'excludeAll' });
+    return {
+      ...paginatedResult,
+      data: await queryBuilder.getMany(),
+    };
   }
 
   async findOne(id: number) {
-    const location = await this.locationRepository.findOne({
+    return await this.locationRepository.findOne({
       relations: { zone: true },
       where: { id },
     });
-
-    // TODO: 추후 응답포맷 확정될 때 같이 수정
-    this.entityValidationService.validateExistence(location);
-
-    // FIXME: DTO 활용하는 방향으로 개선.
-    return {
-      id: location.id,
-      name: location.name,
-      stock_status: location.stockStatus,
-      remark: location.remark,
-      create_worker: location.createWorker,
-      created_at: location.createdAt,
-      is_default: location.isDefault,
-      zone: {
-        id: location.zone.id,
-        name: location.zone.name,
-        is_default: location.isDefault,
-      },
-    };
   }
 
   async update(id: number, updateLocationDto: UpdateLocationDto) {
-    return await this.locationRepository.update(id, updateLocationDto);
+    await this.locationRepository.update(id, updateLocationDto);
   }
 
   async remove(id: number) {

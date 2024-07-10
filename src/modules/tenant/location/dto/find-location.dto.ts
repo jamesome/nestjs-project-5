@@ -22,8 +22,4 @@ export class FindLocationDto extends PartialType(CreateLocationDto) {
   @IsOptional()
   @Expose({ name: 'warehouse_id' })
   warehouseId!: number;
-
-  @IsOptional()
-  @Expose({ name: 'warehouse_is_default' })
-  warehouseIsDefault!: number;
 }

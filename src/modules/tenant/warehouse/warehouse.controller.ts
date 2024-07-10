@@ -13,6 +13,7 @@ import { CreateWarehouseDto } from './dto/create-warehouse.dto';
 import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { FindWarehouseDto } from './dto/find-warehouse.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('warehouses')
 @ApiTags('Warehouse API')
@@ -25,8 +26,11 @@ export class WarehouseController {
   }
 
   @Get()
-  async findAll(@Query() findWarehouseDto: FindWarehouseDto) {
-    return await this.warehouseService.findAll(findWarehouseDto);
+  async findAll(
+    @Paginate() query: PaginateQuery,
+    @Query() findWarehouseDto: FindWarehouseDto,
+  ) {
+    return await this.warehouseService.findAll(query, findWarehouseDto);
   }
 
   @Get(':id')

@@ -2,6 +2,7 @@ import { PartialType } from '@nestjs/swagger';
 import { CreateTransactionDto } from './create-transaction.dto';
 import { IsOptional } from 'class-validator';
 import { Expose } from 'class-transformer';
+import { Category } from 'src/modules/enum';
 
 export class FindTransactionDto extends PartialType(CreateTransactionDto) {
   @IsOptional()
@@ -13,8 +14,8 @@ export class FindTransactionDto extends PartialType(CreateTransactionDto) {
   endDate?: Date;
 
   @IsOptional()
-  @Expose({ name: 'operation_type_category' })
-  operationTypeCategory?: string;
+  @Expose({ name: 'category' })
+  category?: Category;
 
   @IsOptional()
   @Expose({ name: 'item_name' })

@@ -1,10 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ItemController } from './item.controller';
 import { ItemService } from './item.service';
-import { LotService } from '../lot/lot.service';
-import { TransactionService } from '../transaction/transaction.service';
-import { I18nService } from 'nestjs-i18n';
-
 describe('ItemController', () => {
   let controller: ItemController;
 
@@ -23,9 +19,6 @@ describe('ItemController', () => {
       controllers: [ItemController],
       providers: [
         ItemService,
-        LotService,
-        TransactionService,
-        I18nService,
 
         {
           provide: 'CONNECTION',

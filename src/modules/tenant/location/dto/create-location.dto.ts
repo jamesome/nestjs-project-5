@@ -4,10 +4,10 @@ import { i18nValidationMessage } from 'nestjs-i18n';
 import { Expose } from 'class-transformer';
 
 export class CreateLocationDto {
+  @Expose({ name: 'zone_id' })
   @IsNotEmpty({
     message: i18nValidationMessage('validation.rules.IS_NOT_EMPTY'),
   })
-  @Expose({ name: 'zone_id' })
   zoneId!: number;
 
   @IsNotEmpty({
@@ -37,8 +37,8 @@ export class CreateLocationDto {
   })
   remark?: string;
 
-  @IsOptional()
   @Expose({ name: 'is_default' })
+  @IsOptional()
   @ApiProperty({
     required: false,
     description: '기본 로케이션',

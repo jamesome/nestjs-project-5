@@ -17,26 +17,36 @@ export class DatabaseExceptionFilter<T extends QueryFailedError>
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const i18n = I18nContext.current<I18nTranslations>(host);
-    console.log(exception);
+
     // MySQL의 중복 키 오류 코드: ER_DUP_ENTRY
     if (exception.message.includes('Duplicate entry')) {
       response.status(HttpStatus.UNPROCESSABLE_ENTITY).json({
         statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        // 사용예시
-        // message: i18n?.t('database.DUPLICATE_ENTRY', {
-        //   lang: i18n?.lang,
-        //   args: {
-        //     attribute: 'PRODUCT_NAME',
-        //   },
-        // }),
-        message: i18n?.t('database.DUPLICATE_ENTRY'),
-        error: 'UNPROCESSABLE ENTITY',
+        message: 'UNPROCESSABLE_ENTITY',
+        errors: [
+          {
+            children: [
+              {
+                value: '',
+                property: '',
+                children: [],
+                constraints: { error: i18n?.t('database.DUPLICATE_ENTRY') },
+              },
+            ],
+            constraints: {},
+          },
+        ],
       });
     } else {
       response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Internal server error',
-        error: 'Internal Server Error',
+        message: 'INTERNAL_SERVER_ERROR',
+        errors: [
+          {
+            children: [],
+            constraints: { error: exception.message },
+          },
+        ],
       });
     }
   }

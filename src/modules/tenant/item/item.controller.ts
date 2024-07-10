@@ -13,6 +13,7 @@ import { ItemService } from './item.service';
 import { FindItemDto } from './dto/find-item.dto';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
 @Controller('items')
 @ApiTags('Item API')
@@ -24,19 +25,12 @@ export class ItemController {
     return await this.itemService.create(createItemDto);
   }
 
-  @Post('inbound')
-  async inbound(@Body() body: { data: any[] }) {
-    return await this.itemService.inbound(body.data);
-  }
-
-  @Post('movement')
-  async movement(@Body() body: { data: any[] }) {
-    return await this.itemService.movement(body.data);
-  }
-
   @Get()
-  async find(@Query() findItemDto: FindItemDto) {
-    return await this.itemService.find(findItemDto);
+  async find(
+    @Paginate() query: PaginateQuery,
+    @Query() findItemDto: FindItemDto,
+  ) {
+    return await this.itemService.find(query, findItemDto);
   }
 
   @Get(':id')

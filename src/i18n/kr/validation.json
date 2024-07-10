@@ -31,15 +31,23 @@
     "item_code": {
       "code": "품목 코드"
     },
+    "lot": {
+      "item_id": "품목 일련번호",
+      "supplier_id": "공급처 일련번호",
+      "number": "로트넘버"
+    },
     "supplier": {
       "name": "공급처명"
     },
     "inventory_item": {
       "item_id": "품목 일련번호",
       "location_id": "로케이션 번호",
+      "location_departure_id": "출발 로케이션",
+      "location_arrival_id": "도착 로케이션",
+      "operation_type_id": "재고작업구분",
       "quantity": "재고수량",
       "status": "재고상태",
-      "lot_id": "로트 번호",
+      "lot_no": "로트 번호",
       "expiration_date": "유통기한"
     },
     "item_serial": {
@@ -53,6 +61,7 @@
       "item_id": "품목 일련번호",
       "location_departure_id": "출발 로케이션 번호",
       "location_arrival_id": "도착 로케이션 번호",
+      "supplier_id": "공급처 번호",
       "quantity": "재고수량"
     },
     "quantity": "수량"

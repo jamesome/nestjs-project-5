@@ -8,11 +8,12 @@ import {
   OneToMany,
 } from 'typeorm';
 import { TimestampedEntity } from 'src/modules/timestamped-entity';
+import { Zone } from 'src/modules/zone/entities/zone.entity';
 import { Expose } from 'class-transformer';
-import { Zone } from '../../zone/entities/zone.entity';
-import { StockStatus } from '../../enum';
-import { InventoryItem } from '../../inventory-item/entities/inventory-item.entity';
-import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
+import { StockStatus } from 'src/modules/enum';
+import { InventoryItem } from 'src/modules/inventory-item/entities/inventory-item.entity';
+import { TransactionItem } from 'src/modules/transaction-item/entities/transaction-item.entity';
+import { VirtualColumn } from 'src/common/decorators/virtual-column.decorator';
 
 @Entity({ name: 'location' })
 export class Location extends TimestampedEntity {
@@ -90,4 +91,9 @@ export class Location extends TimestampedEntity {
     (transactionItem) => transactionItem.locationArrival,
   )
   transactions_locationArrival!: Relation<TransactionItem>[];
+
+  // Virtual Entities
+  @Expose({ name: 'quantity' })
+  @VirtualColumn({ type: 'number' })
+  quantity!: number;
 }

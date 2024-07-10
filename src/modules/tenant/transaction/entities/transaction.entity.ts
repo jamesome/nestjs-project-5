@@ -1,4 +1,6 @@
 import { Expose } from 'class-transformer';
+import { Category, InputType } from 'src/modules/enum';
+import { TransactionItem } from 'src/modules/transaction-item/entities/transaction-item.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,8 +10,6 @@ import {
   Relation,
   UpdateDateColumn,
 } from 'typeorm';
-import { Category, InputType } from '../../enum';
-import { TransactionItem } from '../../transaction-item/entities/transaction-item.entity';
 
 @Entity('transaction')
 export class Transaction {

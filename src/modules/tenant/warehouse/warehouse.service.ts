@@ -5,6 +5,7 @@ import { UpdateWarehouseDto } from './dto/update-warehouse.dto';
 import { Warehouse } from './entities/warehouse.entity';
 import { FindWarehouseDto } from './dto/find-warehouse.dto';
 import { EntityValidationService } from 'src/common/helpers/entity-validation.service';
+import { paginate, PaginateConfig, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class WarehouseService {
@@ -26,7 +27,7 @@ export class WarehouseService {
     return await this.warehouseRepository.save(warehouse);
   }
 
-  async findAll(findWarehouseDto: FindWarehouseDto) {
+  async findAll(query: PaginateQuery, findWarehouseDto: FindWarehouseDto) {
     // FIXME: Find Option으로 아래쿼리 구현이 안 됨
     // WHERE ( `warehouse`.`id` = ? AND `warehouse`.`code` like ? AND (`warehouse`.`address` like ? or `warehouse`.`detail_address` like ?) )
     // const { id, name, code, address } = findWarehouseDto;
@@ -63,7 +64,7 @@ export class WarehouseService {
     //   created_at: warehouse.createdAt,
     // }));
 
-    const { id, name, code, address } = findWarehouseDto;
+    const { id, name, code, address, isDefault } = findWarehouseDto;
     const queryBuilder =
       this.warehouseRepository.createQueryBuilder('warehouse');
 
@@ -80,24 +81,50 @@ export class WarehouseService {
           detailAddress: `%${address}%`,
         },
       );
-    queryBuilder.orderBy({ 'warehouse.name': 'ASC' });
+    isDefault &&
+      queryBuilder.andWhere('warehouse.is_default = :isDefault', {
+        isDefault,
+      });
 
-    return await queryBuilder.getMany();
+    const config: PaginateConfig<Warehouse> = {
+      sortableColumns: ['createdAt', 'name'],
+      defaultSortBy: [['createdAt', 'DESC']],
+    };
+
+    return paginate(query, queryBuilder, config);
   }
 
   async findOne(id: number) {
-    const warehouse = await this.warehouseRepository.findOne({
+    return await this.warehouseRepository.findOne({
       where: { id },
     });
-
-    // TODO: 추후 응답포맷 확정될 때 같이 수정
-    this.entityValidationService.validateExistence(warehouse);
-
-    return warehouse;
   }
 
   async update(id: number, updateWarehouseDto: UpdateWarehouseDto) {
-    return await this.warehouseRepository.update(id, updateWarehouseDto);
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      if (updateWarehouseDto.isDefault) {
+        // 기존의 isDefault가 true인 레코드를 false로 업데이트
+        await queryRunner.manager.update(
+          Warehouse,
+          { isDefault: 1 },
+          { isDefault: 0 },
+        );
+      }
+
+      await queryRunner.manager.update(Warehouse, id, updateWarehouseDto);
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
   }
 
   async remove(id: number) {

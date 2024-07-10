@@ -16,6 +16,7 @@ import { CreateLotDto } from '../lot/dto/create-lot.dto';
 import { ItemSerial } from '../item-serial/entities/item-serial.entity';
 import { CreateTransactionItemDto } from '../transaction-item/dto/create-transaction-item.dto';
 import { TransactionItem } from '../transaction-item/entities/transaction-item.entity';
+import { paginate, PaginateConfig, PaginateQuery } from 'nestjs-paginate';
 
 @Injectable()
 export class TransactionService {
@@ -232,13 +233,13 @@ export class TransactionService {
             locationId: incomingDtoInstance.locationId,
             quantity: incomingDtoInstance.quantity,
             status: incomingDtoInstance.status,
-            lotId: lot?.id,
+            lotId: lotId,
           });
 
           await queryRunner.manager.insert(InventoryItem, newInventoryItem);
         }
 
-        if (incomingDtoInstance.itemSerial.serialNo) {
+        if (incomingDtoInstance?.itemSerial?.serialNo) {
           const newInventoryItem = this.itemSerialRepository.create({
             itemId: incomingDtoInstance.itemId,
             serialNo: incomingDtoInstance.itemSerial.serialNo,
@@ -254,7 +255,7 @@ export class TransactionService {
         failures.push({
           index,
           children: [],
-          constraints: { error: this.i18n.t('error.SERVER_ERROR') },
+          constraints: { error: this.i18n.t('error.INTERNAL_SERVER_ERROR') },
         });
 
         await queryRunner.rollbackTransaction();
@@ -473,7 +474,7 @@ export class TransactionService {
         failures.push({
           index,
           children: [],
-          constraints: { error: this.i18n.t('error.SERVER_ERROR') },
+          constraints: { error: this.i18n.t('error.INTERNAL_SERVER_ERROR') },
         });
 
         await queryRunner.rollbackTransaction();
@@ -487,36 +488,42 @@ export class TransactionService {
   //   console.log(OutgoingInventoryItemDto);
   // }
 
-  async findAll(findTransactionDto: FindTransactionDto) {
+  async findAll(query: PaginateQuery, findTransactionDto: FindTransactionDto) {
     const { startDate, endDate, category, itemName } = findTransactionDto;
-    const filters: any = {
+    const config: PaginateConfig<Transaction> = {
+      loadEagerRelations: true,
+      sortableColumns: ['id', 'createdAt'],
+      defaultSortBy: [
+        ['createdAt', 'DESC'],
+        ['id', 'DESC'],
+        ['transactionItems.id', 'DESC'],
+      ],
       relations: {
         transactionItems: {
-          item: true,
+          item: { itemCodes: true, itemSerials: true },
           supplier: true,
           operationType: true,
           locationDeparture: { zone: true },
           locationArrival: { zone: true },
         },
       },
-      where: {
-        ...(startDate &&
-          endDate && {
-            createdAt: Between(new Date(startDate), new Date(endDate)),
-          }),
-        ...(category && { category }),
-        ...(itemName && {
-          transactionItems: { item: { name: Like(`%${itemName}%`) } },
+    };
+    const whereFilters = {
+      ...(startDate &&
+        endDate && {
+          createdAt: Between(new Date(startDate), new Date(endDate)),
         }),
-      },
-      order: {
-        createdAt: 'DESC',
-        id: 'DESC',
-        transactionItems: { id: 'DESC' },
-      },
+      ...(category && { category }),
+      ...(itemName && {
+        transactionItems: { item: { name: Like(`%${itemName}%`) } },
+      }),
     };
 
-    return await this.transactionRepository.find(filters);
+    if (Object.keys(whereFilters).length > 0) {
+      config.where = whereFilters;
+    }
+
+    return paginate(query, this.transactionRepository, config);
   }
 
   async findOne(id: number) {

@@ -41,6 +41,7 @@ export class CreateWarehouseDto {
   })
   code?: string | null;
 
+  @Expose({ name: 'post_code' })
   @IsOptional()
   @TransformNumberToString()
   @MaxLength(6, {
@@ -48,7 +49,6 @@ export class CreateWarehouseDto {
       message: 'warehouse.post_code',
     }),
   })
-  @Expose({ name: 'post_code' })
   @ApiProperty({
     required: false,
     description: '우편번호',
@@ -117,12 +117,12 @@ export class CreateWarehouseDto {
   })
   contact?: string;
 
-  @IsOptional()
   @Expose({ name: 'is_default' })
+  @IsOptional()
   @ApiProperty({
     required: false,
     description: '기본 창고',
     example: 1,
   })
-  isDefault!: number;
+  isDefault?: number;
 }

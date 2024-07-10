@@ -15,9 +15,9 @@ import { FindTransactionDto } from './dto/find-transaction.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { PartialResponseInterceptor } from 'src/common/interceptors/partial-response.interceptor';
+import { Paginate, PaginateQuery } from 'nestjs-paginate';
 
-// TODO: 하위호환 유지 inventory-transactions
-@Controller(['inventory-transactions', 'transactions'])
+@Controller('transactions')
 @ApiTags('Transaction API')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
@@ -40,8 +40,11 @@ export class TransactionController {
   }
 
   @Get()
-  async findAll(@Query() findTransactionDto: FindTransactionDto) {
-    return await this.transactionService.findAll(findTransactionDto);
+  async findAll(
+    @Paginate() query: PaginateQuery,
+    @Query() findTransactionDto: FindTransactionDto,
+  ) {
+    return await this.transactionService.findAll(query, findTransactionDto);
   }
 
   @Get(':id')
