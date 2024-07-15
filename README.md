@@ -237,4 +237,7 @@ $ yarn add xlsx fs
 
 # MYSQL2 - wait_timeout
 ## https://kim.heejae.info/post/dev/268
+
+# Winston
+## 하나의 레벨만 파일에 저장 :: https://github.com/winstonjs/winston/issues/614
 ```
