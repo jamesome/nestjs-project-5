@@ -240,4 +240,8 @@ $ yarn add xlsx fs
 
 # Winston
 ## 하나의 레벨만 파일에 저장 :: https://github.com/winstonjs/winston/issues/614
+
+# slack
+## https://surprisecomputer.tistory.com/49
+## https://velog.io/@devand/%EC%8A%AC%EB%9E%99-Web-API-%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4%EB%B3%B4%EC%9E%90-1
 ```
